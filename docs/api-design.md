@@ -24,7 +24,29 @@
       "token": string
     }
     ```
+### LANDING PAGE - USER LOGGED IN
 
+* Endpoint path: /username
+* Endpoint method: GET
+
+* Headers:
+  * Authorization: Bearer token
+
+* Response: User Logged in information
+* Response shape (JSON):
+    ```json 
+    { 
+        "user": { 
+            "username": string,
+            "password": string,
+            "first_name": string,
+            "last_name": string,
+            "email": string,
+            "phone_number": string,
+            "profile_picture": string,
+        }     
+    }
+    ```
 
 ### LOG IN !
 * Endpoint path: /token
@@ -47,7 +69,6 @@
     }
     ```
 
-
 ### LOG OUT!
 * Endpoint path: /token
 * Endpoint method: DELETE
@@ -62,52 +83,28 @@
     ```
 
 
-### LANDING PAGE - USER LOGGED IN
+### User Table Page
 
-* Endpoint path: /users/??????? WHAT WILL THIS BE?
+* Endpoint path: /users/username/table
 * Endpoint method: GET
 
 * Headers:
   * Authorization: Bearer token
 
-* Response: User Logged in information?
-* Response shape (JSON):
-    ```json 
-    { 
-        "user": { 
-            "username": string,
-            "password": string,
-            "first_name": string,
-            "last_name": string,
-            "email": string,
-            "phone_number": string,
-            "profile_picture": string,
-        }     
-    }
-    ```
-
-### SCHEDULE PAGE - USER EVENT OBJECTS
-
-* Endpoint path: /user/<int:pk>/schedule
-* Endpoint method: GET
-
-* Headers:
-  * Authorization: Bearer token
-
-* Response: Displays user logged in schedule
+* Response: Displays user logged in table
 * Response shape (JSON):
     ```json
     {
-        "schedule": {
+        "table": {
             "event_objects": [], 
+        }
     }
-}
     ```
 
 
-### NEW EVENT ON SCHEDULE PAGE - PLEASE REVIEW.. 
+### Create New Event Page
 
-* Endpoint path: /user/<int:pk>/event
+* Endpoint path: /events
 * Endpoint method: POST
 
 * Headers:
@@ -116,10 +113,11 @@
 * Request shape (JSON):
     ```json 
     {
-        "collaboration_ref": number,
-        "collaboration_role": string,
+        "team_ref": number,
+        "team_role": string,
         "start_time": string,
         "end_time": string,
+        "username": string,
     }
 
     ```
@@ -127,16 +125,15 @@
 * Response shape (JSON):
     ```json
     {
-        "collaboration_ref": number,
+        "team_ref": number,
         "start_time": string,
         "end_time": string,
     }
     ```
 
+### Create New Swap Page
 
-### NEW SWAP REQUEST ON SCHEDULE PAGE
-
-* Endpoint path: /user/<int:pk>/swap
+* Endpoint path: /team/events
 * Endpoint method: POST
 
 * Headers:
@@ -144,22 +141,24 @@
 
 * Request shape (JSON):
     ```json
-    «JSON-looking thing that has the
-    keys and types in it»
+    {
+        "event1": {
+        },
+        "event2": {
+        },
+    }
     ```
-
-* Response: «Human-readable description
-            of response»
+* Response: Created a swap request between users
 * Response shape (JSON):
     ```json
-    «JSON-looking thing that has the
-    keys and types in it»
+    {
+        "is_approved": string,
+    }
     ```
 
+### Edit Username Profile Page
 
-### EDIT ACCOUNT PROFILE PAGE
-
-* Endpoint path: /users/<int:pk>
+* Endpoint path: /users/username
 * Endpoint method: PUT
 
 * Headers:
@@ -173,7 +172,7 @@
     * "phone_number": string,
     * "password": string,
    
-* Response: User Logged in information?
+* Response: User Logged in information
 * Response shape (JSON):
     ```json 
     { 
@@ -188,22 +187,49 @@
     }
     ```
 
+### Team Table Page    
 
-### Collaboration Page    
-
-* Endpoint path: /collaboration/<int:pk>/users/
+* Endpoint path: /team/table
 * Endpoint method: GET
 
 * Headers:
   * Authorization: Bearer token
 
-* Response: Collaboration page information
+* Response: Team page information
 * Response shape (JSON):
     ```json
     {
-        {
-            "users": [],
+        "table": {
+            "event_objects": [], 
         }
+    }
+    ```
+### Create New Team Page
 
+* Endpoint path: /teams
+* Endpoint method: POST
+
+* Request shape (form):
+    * "team": string,
+    * "description": string,
+    * "max_users": number,
+    * "is_role_required": boolean,
+    * "is_approved_required": boolean,
+    * "picture_href": string,
+    * "roles": [],
+
+* Response: User created new team 
+* Response shape (JSON):
+    ```json
+    {
+        "team": string,
+        "description": string,
+        "max_users": number,
+        "is_role_required": boolean,
+        "is_approved_required": boolean,
+        "picture_href": string,
+        "roles": [],
+        "events": [],
+        "users": []
     }
     ```
