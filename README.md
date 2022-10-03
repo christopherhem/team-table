@@ -1,92 +1,93 @@
 # Team Table
 
-
+# Module3 Project Gamma
 
 ## Getting started
 
-To make it easy for you to get started with GitLab, here's a list of recommended next steps.
+You have a project repository, now what? The next section
+lists all of the deliverables that are due at the end of the
+week. Below is some guidance for getting started on the
+tasks for this week.
 
-Already a pro? Just edit this README.md and make it your own. Want to make it easy? [Use the template at the bottom](#editing-this-readme)!
+## Deliverables
 
-## Add your files
+- [ ] Wire-frame diagrams
+- [ ] API documentation
+- [ ] Project is deployed to Heroku/GitLab-pages
+- [ ] GitLab issue board is setup and in use
+- [ ] Journals
 
-- [ ] [Create](https://docs.gitlab.com/ee/user/project/repository/web_editor.html#create-a-file) or [upload](https://docs.gitlab.com/ee/user/project/repository/web_editor.html#upload-a-file) files
-- [ ] [Add files using the command line](https://docs.gitlab.com/ee/gitlab-basics/add-file.html#add-a-file-using-the-command-line) or push an existing Git repository with the following command:
+## Project layout
 
-```
-cd existing_repo
-git remote add origin https://gitlab.com/LVermaelen/team-table.git
-git branch -M main
-git push -uf origin main
-```
+The layout of the project is just like all of the projects
+you did with `docker-compose` in module #2. You will create
+a directory in the root of the repository for each service
+that you add to your project just like those previous
+projects were setup.
 
-## Integrate with your tools
+### Directories
 
-- [ ] [Set up project integrations](https://gitlab.com/LVermaelen/team-table/-/settings/integrations)
+Several directories have been added to your project. The
+directories `docs` and `journals` are places for you and
+your team-mates to, respectively, put any documentation
+about your project that you create and to put your
+project-journal entries. See the _README.md_ file in each
+directory for more info.
 
-## Collaborate with your team
+The other directories, `ghi` and `sample_service`, are
+sample services, that you can start building off of or use
+as a reference point.
 
-- [ ] [Invite team members and collaborators](https://docs.gitlab.com/ee/user/project/members/)
-- [ ] [Create a new merge request](https://docs.gitlab.com/ee/user/project/merge_requests/creating_merge_requests.html)
-- [ ] [Automatically close issues from merge requests](https://docs.gitlab.com/ee/user/project/issues/managing_issues.html#closing-issues-automatically)
-- [ ] [Enable merge request approvals](https://docs.gitlab.com/ee/user/project/merge_requests/approvals/)
-- [ ] [Automatically merge when pipeline succeeds](https://docs.gitlab.com/ee/user/project/merge_requests/merge_when_pipeline_succeeds.html)
+Inside of `ghi` is a minimal React app that has an "under
+construction" page. It is setup similarly to all of the
+other React projects that you have worked on.
 
-## Test and Deploy
+Inside of `sample_service` is a minimal FastAPI application.
+"Where are all the files?" you might ask? Well, the
+`main.py` file is the whole thing, and go take look inside
+of it... There's not even much in there..., hmm? That is
+FastAPI, we'll learn more about it in the coming days. Can
+you figure out what this little web-application does even
+though you haven't learned about FastAPI yet?
 
-Use the built-in continuous integration in GitLab.
+Also in `sample_service` is a directory for your migrations.
+If you choose to use PostgreSQL, then you'll want to use
+migrations to control your database. Unlike Django, where
+migrations were automatically created for you, you'll write
+yours by hand using DDL. Don't worry about not knowing what
+DDL means; we have you covered. There's a sample migration
+in there that creates two tables so you can see what they
+look like.
 
-- [ ] [Get started with GitLab CI/CD](https://docs.gitlab.com/ee/ci/quick_start/index.html)
-- [ ] [Analyze your code for known vulnerabilities with Static Application Security Testing(SAST)](https://docs.gitlab.com/ee/user/application_security/sast/)
-- [ ] [Deploy to Kubernetes, Amazon EC2, or Amazon ECS using Auto Deploy](https://docs.gitlab.com/ee/topics/autodevops/requirements.html)
-- [ ] [Use pull-based deployments for improved Kubernetes management](https://docs.gitlab.com/ee/user/clusters/agent/)
-- [ ] [Set up protected environments](https://docs.gitlab.com/ee/ci/environments/protected_environments.html)
+The sample Dockerfile and Dockerfile.dev run your migrations
+for you automatically.
 
-***
+### Other files
 
-# Editing this README
+The following project files have created as a minimal
+starting point. Please follow the guidance for each one for
+a most successful project.
 
-When you're ready to make this README your own, just edit this file and use the handy template below (or feel free to structure it however you want - this is just a starting point!). Thank you to [makeareadme.com](https://www.makeareadme.com/) for this template.
+- `docker-compose.yaml`: there isn't much in here, just a
+  **really** simple UI and FastAPI service. Add services
+  (like a database) to this file as you did with previous
+  projects in module #2.
+- `.gitlab-ci.yml`: This is your "ci/cd" file where you will
+  configure automated unit tests, code quality checks, and
+  the building and deployment of your production system.
+  Currently, all it does is deploy an "under construction"
+  page to your production UI on GitLab and a sample backend
+  to Heroku. We will learn much more about this file.
+- `.gitignore`: This is a file that prevents unwanted files
+  from getting added to your repository, files like
+  `pyc` files, `__pycache__`, etc. We've set it up so that
+  it has a good default configuration for Python projects.
 
-## Suggestions for a good README
-Every project is different, so consider which of these sections apply to yours. The sections used in the template are suggestions for most open source projects. Also keep in mind that while a README can be too long and detailed, too long is better than too short. If you think your README is too long, consider utilizing another form of documentation rather than cutting out information.
+## How to complete the initial deploy
 
-## Name
-Choose a self-explaining name for your project.
+There will be further guidance on completing the initial
+deployment, but it just consists of these steps:
 
-## Description
-Let people know what your project can do specifically. Provide context and add a link to any reference visitors might be unfamiliar with. A list of Features or a Background subsection can also be added here. If there are alternatives to your project, this is a good place to list differentiating factors.
-
-## Badges
-On some READMEs, you may see small images that convey metadata, such as whether or not all the tests are passing for the project. You can use Shields to add some to your README. Many services also have instructions for adding a badge.
-
-## Visuals
-Depending on what you are making, it can be a good idea to include screenshots or even a video (you'll frequently see GIFs rather than actual videos). Tools like ttygif can help, but check out Asciinema for a more sophisticated method.
-
-## Installation
-Within a particular ecosystem, there may be a common way of installing things, such as using Yarn, NuGet, or Homebrew. However, consider the possibility that whoever is reading your README is a novice and would like more guidance. Listing specific steps helps remove ambiguity and gets people to using your project as quickly as possible. If it only runs in a specific context like a particular programming language version or operating system or has dependencies that have to be installed manually, also add a Requirements subsection.
-
-## Usage
-Use examples liberally, and show the expected output if you can. It's helpful to have inline the smallest example of usage that you can demonstrate, while providing links to more sophisticated examples if they are too long to reasonably include in the README.
-
-## Support
-Tell people where they can go to for help. It can be any combination of an issue tracker, a chat room, an email address, etc.
-
-## Roadmap
-If you have ideas for releases in the future, it is a good idea to list them in the README.
-
-## Contributing
-State if you are open to contributions and what your requirements are for accepting them.
-
-For people who want to make changes to your project, it's helpful to have some documentation on how to get started. Perhaps there is a script that they should run or some environment variables that they need to set. Make these steps explicit. These instructions could also be useful to your future self.
-
-You can also document commands to lint the code or run tests. These steps help to ensure high code quality and reduce the likelihood that the changes inadvertently break something. Having instructions for running tests is especially helpful if it requires external setup, such as starting a Selenium server for testing in a browser.
-
-## Authors and acknowledgment
-Show your appreciation to those who have contributed to the project.
-
-## License
-For open source projects, say how it is licensed.
-
-## Project status
-If you have run out of energy or time for your project, put a note at the top of the README saying that development has slowed down or stopped completely. Someone may choose to fork your project or volunteer to step in as a maintainer or owner, allowing your project to keep going. You can also make an explicit request for maintainers.
+- setup Heroku account and app
+- setup 2 CI/CD variables in GitLab
+- push to main
