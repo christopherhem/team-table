@@ -14,3 +14,7 @@ Afterwards we then divided and tried to conquer some issues on the git board. I 
 
 I will have to continue to reference back to the explorations when building this Postgres database. However, I feel confident enough to get it started and tackle this issue. Also, I have a very supportive and knowledgeable team to help me as well. 
 
+
+## October 4, 2022
+
+A slightly stressful day for me. I had some family medical emergencies come up and was having a difficult time focusing. Luckily I was able to re-gain focus and take care Users microservice database connecting it to the rest of the application. I will still need to review all about Postgres once more, it's still a bit cloudy in my mind and having trouble seeing the flow of all things and how they will come together. A bit nervous about learning MongoDB soon because I'm barely getting a grasp on Postgres. Until then... code on. 
