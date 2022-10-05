@@ -1,3 +1,9 @@
+## 10/05/2021
+
+* I fixed my tables and created the routers and queries.
+
+I spent my day modify my tables and getting my routers and queries setup. I had a blocker with getting my FastAPI docs page to show up but Curtis and Jaylon helped me figure it out. Curtis also told me we should not be using multiple FastAPI projects because our project is one bounded context. I talked with part of my team about it, but we weren't all available so I will bring it up tomorrow morning.
+
 ## 10/04/2022
 
 * I created the tables for the events microservice in the postgres database
