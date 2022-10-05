@@ -2,6 +2,8 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 import os
 
+from routers import users
+
 app = FastAPI()
 
 app.add_middleware(
@@ -14,7 +16,21 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+app.include_router(users.router)
+
 
 @app.get("/api/users")
 def get_users():
-    pass 
+    return {
+        "users": {
+            "id": int,
+            "username": str,
+            "password": str,
+            "first_name": str,
+            "last_name": str,
+            "email": str,
+            "phone_number": str,
+            "profile_picture_href": str,
+    }
+}
+    

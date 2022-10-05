@@ -39,12 +39,12 @@ services:
             - 15432:5432
   fastapi:
     build:
-      context: sample_service
+      context: users_api
       dockerfile: Dockerfile.dev
     ports:
       - 8000:8000
     volumes:
-      - ./sample_service:/app
+      - ./users_api:/app
     environment:
       DATABASE_URL: postgresql://fastapi:password@postgres/fastapi
       WAIT_HOSTS: postgres:5432
