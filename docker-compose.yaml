@@ -27,7 +27,11 @@ services:
       PGADMIN_DISABLE_POSTFIX: 1
   events:
     build:
+<<<<<<< HEAD
       context: events_api
+=======
+      context: users_api
+>>>>>>> update-journal
       dockerfile: Dockerfile.dev
     ports:
       - "8080:8000"

@@ -1,6 +1,13 @@
+## October 5, 2022
+
+Today I worked on:
+* Paired-programming with Christopher on users_api
+
+Yesterday I got as far as I could on researching and planning how to implement JWTdown into our backend for authentication. The greatest hurdle today was getting our tables to work properly with FastAPI. After writing the files for our queries and routers, we made changes to the docker-compose.yml file to get the tables to finally show up at port 8090. Seeing how the user_api was set up, I think setting up authentication will be simple barring any errors to work through.
+
 ## October 4, 2022
 
-Today i worked on:
+Today I worked on:
 * Going over foodies.sql example to better understand the file structure
 * Researched authentication with JWTdown for FastAPI
 
