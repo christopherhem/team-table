@@ -4,14 +4,14 @@ from typing import Literal
 class EventIn(BaseModel):
     shift_start: str
     shift_end: str
-    event_type: Literal("shift")
+    event_type: Literal["shift"]
     user_href: str
     team_href: str
 
 class EventOut(BaseModel):
     shift_start: str
     shift_end: str
-    event_type: Literal("shift")
+    event_type: Literal["shift"]
     user_href: str
     team_href: str
 

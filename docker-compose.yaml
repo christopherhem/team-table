@@ -30,12 +30,15 @@ services:
       context: events_api
       dockerfile: Dockerfile.dev
     ports:
-      - 8080:8080
+      - "8080:8000"
     volumes:
       - ./events_api:/app
+    depends_on:
+      - postgres
     environment:
       DATABASE_URL: postgresql://events:password@postgres/events
       WAIT_HOSTS: postgres:5432
+      PGDATABASE: events
   users:
     build:
       context: users_api
