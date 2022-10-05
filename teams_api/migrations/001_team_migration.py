@@ -4,7 +4,7 @@ steps = [
         """
         CREATE TABLE team_types(
             id SERIAL PRIMARY KEY NOT NULL,
-            name STR NOT NULL
+            name VARCHAR(50) NOT NULL
         );
         """,
         # "Down" SQL statement
@@ -14,11 +14,10 @@ steps = [
     ],
     [
         """
-        
         CREATE TABLE event_types(
             id SERIAL PRIMARY KEY NOT NULL,
-            name STR NOT NULL UNIQUE,
-            event_type_href STR UNIQUE,
+            name VARCHAR(50) NOT NULL UNIQUE,
+            event_type_href VARCHAR(200) UNIQUE
         );
         """,
         """
@@ -41,15 +40,15 @@ steps = [
         """
         CREATE TABLE pay_levels(
             id SERIAL PRIMARY KEY NOT NULL,
-            name STR NOT NULL,
-            max_members INT NOT NULL
+            name VARCHAR(50) NOT NULL,
+            max_members INT NOT NULL,
             max_roles INT NOT NULL
         );
         """,
         """
         DROP TABLE pay_levels;
         """
-    ]
+    ],
     [
         # "Up" SQL statement
         """
@@ -58,7 +57,6 @@ steps = [
             type INT NOT NULL REFERENCES team_types(id),
             pay_level INT NOT NULL REFERENCES pay_levels(id) 
         );
-
         """,
         # "Down" SQL statement
         """
@@ -69,8 +67,8 @@ steps = [
         """
         CREATE TABLE user_vos(
             id SERIAL PRIMARY KEY NOT NULL,
-            name STR NOT NULL,
-            user_href STR NOT NULL UNIQUE
+            name VARCHAR(50) NOT NULL,
+            user_href VARCHAR(200) NOT NULL UNIQUE
         );
         """,
         """
@@ -81,8 +79,8 @@ steps = [
         """
         CREATE TABLE roles(
             id SERIAL PRIMARY KEY NOT NULL,
-            name STR NOT NULL,
-            team INT NOT NULL REFERENCES teams(id),
+            name VARCHAR(50) NOT NULL,
+            team INT NOT NULL REFERENCES teams(id)
         );
         """,
         """
@@ -95,8 +93,7 @@ steps = [
             id SERIAL PRIMARY KEY NOT NULL,
             role INT NOT NULL REFERENCES roles(id),
             approve_swaps BOOL NOT NULL,
-            invite_members BOOL NOT NULL,
-            
+            invite_members BOOL NOT NULL    
         );
         """,
         """
@@ -107,7 +104,7 @@ steps = [
         """
         CREATE TABLE members(
             id SERIAL PRIMARY KEY NOT NULL,
-            user INT NOT NULL REFERENCES user_vos(id),
+            member INT NOT NULL REFERENCES user_vos(id),
             team INT NOT NULL REFERENCES teams(id),
             role INT NOT NULL REFERENCES roles(id)
         );
@@ -120,8 +117,8 @@ steps = [
         """
         CREATE TABLE user_event_vos(
             id SERIAL PRIMARY KEY NOT NULL,
-            event_href STR NOT NULL,
-            user INT NOT NULL REFERENCES user_vos(id),
+            event_href VARCHAR(200) NOT NULL,
+            owner INT NOT NULL REFERENCES user_vos(id),
             team INT NOT NULL REFERENCES teams(id),
             event_start TIMESTAMP NOT NULL,
             event_end TIMESTAMP NOT NULL
