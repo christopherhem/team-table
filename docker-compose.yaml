@@ -11,7 +11,7 @@ services:
       volumes:
           - postgres-data:/var/lib/postgresql/data
       environment:
-          - POSTGRES_MULTIPLE_DATABASES=events,users,teams
+          - POSTGRES_MULTIPLE_DATABASES=monoservice,teams
           - POSTGRES_PASSWORD=test-databases
       ports:
           - 15432:5432
@@ -20,12 +20,15 @@ services:
       context: teams_api
       dockerfile: Dockerfile.dev
     ports:
-      - 8100:8100
+      - 8100:8000
     volumes:
       - ./teams_api:/app
+    depends on:
+      - postgres
     environment:
       DATABASE_URL: postgresql://teams:password@postgres/teams
       WAIT_HOSTS: postgres:5432
+      PGDATABASE: teams
   pg-admin:
     image: dpage/pgadmin4
     volumes:
@@ -36,34 +39,20 @@ services:
       PGADMIN_DEFAULT_EMAIL: table@table.com
       PGADMIN_DEFAULT_PASSWORD: table
       PGADMIN_DISABLE_POSTFIX: 1
-  events:
+  monoservice:
     build:
-      context: users_api
+      context: monoservice
       dockerfile: Dockerfile.dev
     ports:
       - "8080:8000"
     volumes:
-      - ./events_api:/app
+      - ./monoservice:/app
     depends_on:
       - postgres
     environment:
-      DATABASE_URL: postgresql://events:password@postgres/events
+      DATABASE_URL: postgresql://monoservice:password@postgres/monoservice
       WAIT_HOSTS: postgres:5432
-      PGDATABASE: events
-  users:
-    build:
-      context: users_api
-      dockerfile: Dockerfile.dev
-    ports:
-      - 8090:8000
-    volumes:
-      - ./users_api:/app
-    depends_on:
-      - postgres
-    environment:
-      DATABASE_URL: postgresql://users:password@postgres/users
-      WAIT_HOSTS: postgres:5432
-      PGDATABASE: users
+      PGDATABASE: monoservice
   ghi:
     image: node:lts-bullseye
     command: /bin/bash run.sh
