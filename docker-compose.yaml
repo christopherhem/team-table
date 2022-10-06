@@ -23,7 +23,7 @@ services:
       - 8100:8000
     volumes:
       - ./teams_api:/app
-    depends on:
+    depends_on:
       - postgres
     environment:
       DATABASE_URL: postgresql://teams:password@postgres/teams
