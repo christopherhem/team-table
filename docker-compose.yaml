@@ -4,28 +4,29 @@ volumes:
   pg-admin:
     external: true
 services:
-  events:
-    build:
-      context: events_api
-      dockerfile: Dockerfile.dev
-    ports:
-      - 8080:8080
-    volumes:
-      - ./events_api:/app
-    environment:
-      DATABASE_URL: postgresql://events:password@postgres/events
-      WAIT_HOSTS: postgres:5432
-  users:
-    build:
-      context: users_api
-      dockerfile: Dockerfile.dev
-    ports:
-      - 8090:8090
-    volumes:
-      - ./users_api:/app
-    environment:
-      DATABASE_URL: postgresql://users:password@postgres/users
-      WAIT_HOSTS: postgres:5432
+  ghi:
+      image: node:lts-bullseye
+      command: /bin/bash run.sh
+      working_dir: /app
+      volumes:
+        - ./ghi:/app
+      ports:
+        - "3000:3000"
+      environment:
+        HOST_OS: ${OS}
+        NODE_ENV: development
+        HOST: "0.0.0.0"
+        REACT_APP_API_HOST: http://localhost:8000
+  pg-admin:
+      image: dpage/pgadmin4
+      volumes:
+        - pg-admin:/var/lib/pgadmin
+      ports:
+        - 8082:80
+      environment:
+        PGADMIN_DEFAULT_EMAIL: table@table.com
+        PGADMIN_DEFAULT_PASSWORD: table
+        PGADMIN_DISABLE_POSTFIX: 1
   postgres:
         build:
             context: ./relational-data
@@ -36,39 +37,33 @@ services:
             - POSTGRES_MULTIPLE_DATABASES=events,fastapi,users
             - POSTGRES_PASSWORD=test-databases
         ports:
-            - 15432:5432
-  fastapi:
+            - 15432:5432      
+  events:
     build:
-      context: sample_service
+      context: events_api
       dockerfile: Dockerfile.dev
     ports:
-      - 8000:8000
+      - 8080:8000
     volumes:
-      - ./sample_service:/app
+      - ./events_api:/app
     environment:
-      DATABASE_URL: postgresql://fastapi:password@postgres/fastapi
+      DATABASE_URL: postgresql://events:password@postgres/events
       WAIT_HOSTS: postgres:5432
+  users:
+    build:
+      context: users_api
+      dockerfile: Dockerfile.dev
+    ports:
+      - 8090:8000
+    volumes:
+      - ./users_api:/app
+    depends_on:
+      - postgres
+    environment:
+      DATABASE_URL: postgresql://users:password@postgres/users
+      WAIT_HOSTS: postgres:5432
+      PGDATABASE: users
 
-  ghi:
-    image: node:lts-bullseye
-    command: /bin/bash run.sh
-    working_dir: /app
-    volumes:
-      - ./ghi:/app
-    ports:
-      - "3000:3000"
-    environment:
-      HOST_OS: ${OS}
-      NODE_ENV: development
-      HOST: "0.0.0.0"
-      REACT_APP_API_HOST: http://localhost:8000
-  pg-admin:
-    image: dpage/pgadmin4
-    volumes:
-      - pg-admin:/var/lib/pgadmin
-    ports:
-      - 8082:80
-    environment:
-      PGADMIN_DEFAULT_EMAIL: table@table.com
-      PGADMIN_DEFAULT_PASSWORD: table
-      PGADMIN_DISABLE_POSTFIX: 1
+
+  
+  
