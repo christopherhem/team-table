@@ -1,12 +1,15 @@
-from fastapi import APIRouter
+from fastapi import APIRouter, Depends, Response
 from models import *
+from typing import Union, List as l
 from queries.teams_queries import TeamRepository
 
 router = APIRouter()
 
-@router.get("/api/teams")
-def get_teams():
-    pass
+@router.get("/api/teams", response_model = l[TeamOut])
+def get_teams(
+    repo:TeamRepository = Depends()
+):
+    return repo.get_all()
 
 @router.get("/api/teams/INT:PK")
 def get_team():
@@ -24,11 +27,13 @@ def get_members():
 def get_events():
     pass
 
-@router.post("/api/teams", response_model = TeamOut)
+@router.post("/api/teams", response_model = Union[TeamOut,Error])
 def add_team(
     team : TeamIn, 
+    response : Response,
     repo : TeamRepository = Depends()
     ):
+    response.status_code = 400
     return repo.create(team)
 
 @router.post("/api/teams/INT:PK/roles")

@@ -5,7 +5,7 @@ from queries.users import (
     Error,
     UserIn,
     UserOut,
-    UserPut,
+    UserPatch,
     UserQueries,
 )
 
@@ -39,12 +39,12 @@ def create_user(
     return queries.create(user)
 
 
-@router.put("/users/{user_id}", response_model=Union[UserPut, Error])
+@router.patch("/users/{user_id}", response_model=Union[UserPatch, Error])
 def update_user(
     user_id: int,
     user: UserIn,
     query: UserQueries = Depends(),
-) -> Union[Error, UserPut]:
+) -> Union[Error, UserPatch]:
     return query.update(user_id, user)
 
 @router.delete("/users/{user_id}", response_model=bool)
