@@ -1,34 +1,16 @@
 from pydantic import BaseModel
 from typing import  List, Optional, Union
 from queries.pool import pool 
-import os
-from psycopg_pool import ConnectionPool
 
-pool = ConnectionPool(conninfo=os.environ["DATABASE_URL"])
-
-# Conflicting UserQueries
-
-# class UserQueries:
-#     def get_all_users(self):
-#         with pool.connection() as conn:
-#             with conn.cursor() as cur:
-#                 cur.execute(
-#                     """
-#                     SELECT id, username, password, first_name, last_name, email, phone_number, profile_picture_href
-#                     FROM users;
-#                     """
-#                 )
-
-#                 users = []
-#                 for row in cur.fetchall():
-#                     record = {}
-#                     for i, column in enumerate(cur.description):
-#                         record[column.username] = row[i]
-#                     users.append(record)
-            
-#                 return users
 class Error(BaseModel):
     message: str
+
+class User(BaseModel):
+    id: int
+    email: str
+    hashed_password: str
+    first_name: str
+    last_name: str
 
 class UserIn(BaseModel):
     username: str
@@ -49,13 +31,13 @@ class UserOut(BaseModel):
     phone_number: str
     profile_picture_href: str
 
-class UserPut(BaseModel):
-    password: str
-    first_name: str
-    last_name: str
-    email: str
-    phone_number: str
-    profile_picture_href: str
+class UserPatch(BaseModel):
+    password: Optional[str]
+    first_name: Optional[str]
+    last_name: Optional[str]
+    email: Optional[str]
+    phone_number: Optional[str]
+    profile_picture_href: Optional[str]
 
 class UserQueries:
     def get_all(self) -> Union[Error, List[UserOut]]:
@@ -149,7 +131,7 @@ class UserQueries:
                 id = result.fetchone()[0]
                 return self.user_in_to_out(id, user)
 
-    def update(self, user_id: int, user: UserPut, password, first_name, last_name, email, phone_number, profile_picture_href):
+    def update(self, user_id: int, user: UserIn) -> Union[UserPatch, Error]:
         try:
             # connect the database
             with pool.connection() as conn:
@@ -174,16 +156,16 @@ class UserQueries:
                             , profile_picture_href
                         """,
                         [
-                            password,
-                            first_name,
-                            last_name,
-                            email,
-                            phone_number,
-                            profile_picture_href,
-                            user_id
+                            user.password,
+                            user.first_name,
+                            user.last_name,
+                            user.email,
+                            user.phone_number,
+                            user.profile_picture_href,
+                            user.user_id
                         ]
                     )
-                    return self.user_in_to_out(user_id, user)
+                    return self.patch_user_in_to_out(user_id, user)
         except Exception as e:
             print(e)
             return {"message": "Could not update user"}
@@ -206,11 +188,13 @@ class UserQueries:
             print(e)
             return False
 
-    def user_in_to_out(self, id: int, user: UserPut):
-        old_data = user.dict(exclude_unset=True)
-        print(old_data)
-        print("HELLLLLLLOOOOOOOOO")
+    def user_in_to_out(self, id: int, user: UserIn):
+        old_data = user.dict()
         return UserOut(id=id, **old_data)
+
+    def patch_user_in_to_out(self, id: int, user: UserIn):
+        old_data = user.dict(exclude_unset=True)
+        return UserPatch(id=id, **old_data)
 
     def record_to_user_out(self, record):
         return UserOut(
