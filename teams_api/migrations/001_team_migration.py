@@ -95,7 +95,9 @@ steps = [
             id SERIAL PRIMARY KEY NOT NULL,
             role INT NOT NULL REFERENCES roles(id),
             approve_swaps BOOL NOT NULL,
-            invite_members BOOL NOT NULL    
+            invite_members BOOL NOT NULL,
+            add_roles BOOL NOT NULL
+            
         );
         """,
         """
@@ -124,6 +126,7 @@ steps = [
             team INT NOT NULL REFERENCES teams(id),
             event_start TIMESTAMP NOT NULL,
             event_end TIMESTAMP NOT NULL
+            event_type INT REFERENCES event_type(id)
         );
         """,
         """

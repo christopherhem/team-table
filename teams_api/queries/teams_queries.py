@@ -39,7 +39,15 @@ class TeamRepository:
             with pool.connection() as conn:
                 with conn.cursor() as db:
                     result = db.execute(
-
+                        """
+                        SELECT teams(
+                            id,
+                            name,
+                            type,
+                            descripton,
+                            pay_level
+                        )
+                        """
                     )
         except:
             return{"message" : "Error in team_queries TeamRepository.get_all"}
