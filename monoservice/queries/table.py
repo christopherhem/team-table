@@ -16,7 +16,7 @@ class EventQueries:
                     LEFT JOIN team_vo AS tm
                         ON (tm.href=e.team_href)
                     GROUP BY
-                        u.href, e.id, e.shift_start, e.shift_end,
+                        u.id, e.id, e.shift_start, e.shift_end,
                         e.event_type, u.first_name, tm.name
                     ORDER BY e.shift_start
                     """,

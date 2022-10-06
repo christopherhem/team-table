@@ -5,42 +5,69 @@ from queries.teams_queries import TeamRepository
 
 router = APIRouter()
 
-@router.get("/api/teams", response_model = l[TeamOut])
+@router.get("/api/teams", response_model = TeamsOut)
 def get_teams(
-    repo:TeamRepository = Depends()
+    repo: TeamRepository = Depends()
 ):
-    return repo.get_all()
+    return {"teams": [repo.get_all()]}
 
-@router.get("/api/teams/INT:PK")
-def get_team():
-    pass
+@router.get("/api/teams/{id}")
+def get_team(id: int,
+    response: Response,
+    repo: TeamRepository = Depends(),
+    ):
+    record = repo.get_team(id)
+    if record is None:
+        response.status_code = 404
+    else:
+        return record
 
-@router.get("/api/teams/INT:PK/roles")
+@router.delete("/api/teams/{id}", response_model = bool)
+def delete_team(id: int,
+repo: TeamRepository = Depends()):
+    repo.delete_team(id)
+    return True
+
+@router.put("/api/teams/{id}", response_model = TeamOut)
+def update_team(
+    id: int,
+    team_in: TeamIn,
+    response: Response,
+    repo: TeamRepository = Depends()
+):
+    record = repo.update_team(id, team_in)
+    if record is None:
+        response.status_code = 404
+    else:
+        return record
+
+
+@router.get("/api/teams/{id}/roles")
 def get_roles():
     pass
 
-@router.get("/api/teams/INT:PK/members")
+@router.get("/api/teams/{id}/members")
 def get_members():
     pass
 
-@router.get("/api/teams/INT:PK/events")
+@router.get("/api/teams/{id}/events")
 def get_events():
     pass
 
 @router.post("/api/teams", response_model = Union[TeamOut,Error])
 def add_team(
-    team : TeamIn, 
+    team : TeamIn,
     response : Response,
     repo : TeamRepository = Depends()
     ):
     response.status_code = 400
     return repo.create(team)
 
-@router.post("/api/teams/INT:PK/roles")
+@router.post("/api/teams/{id}/roles")
 def add_role():
     pass
 
-@router.post("/api/teams/INT:PK/members")
+@router.post("/api/teams/{id}/members")
 def add_member():
     pass
 
@@ -49,6 +76,6 @@ def add_member():
 def add_team_type():
     pass
 
-@router.put("/api/teams/INT:PK/events/swap")
+@router.put("/api/teams/{id}/events/swap")
 def event_swap():
     pass

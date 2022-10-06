@@ -30,16 +30,14 @@ class EventTypeTeamTypeOut(BaseModel):
     team_type:TeamTypeOut
     event_type:EventTypeOut
 
-class PayLevelIn(BaseModel):
-    name : str
-    max_members: int
-    max_roles : int
-
 class PayLevelOut(BaseModel):
     id : int
     name : str
     max_members : int
     max_roles : int
+
+class PayLevelsOut(BaseModel):
+    pay_levels: list[PayLevelOut]
 
 class TeamIn(BaseModel):
     name : str
@@ -51,6 +49,9 @@ class TeamOut(BaseModel):
     type : TeamTypeOut
     description : Optional[str]
     pay_level : PayLevelOut
+
+class TeamsOut(BaseModel):
+    teams: list[TeamOut]
 
 class UserVoIn(BaseModel):
     user_href : str
@@ -73,7 +74,7 @@ class UserEventVoOut(BaseModel):
 class RolesIn(BaseModel):
     name: str
     team: TeamOut
-    
+
 class RolesOut(BaseModel):
     id : int
     name : str
@@ -102,11 +103,3 @@ class MemberOut(BaseModel):
     user: UserVoOut
     team: TeamOut
     role: RolesOut
-
-
-
-
-
-
-
-
