@@ -1,6 +1,7 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 import os
+from routers import table
 
 app = FastAPI()
 
@@ -14,6 +15,5 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-@app.get("/api/events")
-def get_events():
-    pass
+
+app.include_router(table.router)

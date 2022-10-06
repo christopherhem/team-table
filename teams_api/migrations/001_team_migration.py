@@ -54,8 +54,10 @@ steps = [
         """
         CREATE TABLE teams (
             id SERIAL PRIMARY KEY NOT NULL,
+            name VARCHAR(50) NOT NULL,
             type INT NOT NULL REFERENCES team_types(id),
-            pay_level INT NOT NULL REFERENCES pay_levels(id) 
+            description TEXT,
+            pay_level INT REFERENCES pay_levels(id) 
         );
         """,
         # "Down" SQL statement

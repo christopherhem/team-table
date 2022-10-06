@@ -1,19 +1,6 @@
 from fastapi import FastAPI
-from fastapi.middleware.cors import CORSMiddleware
-import os
+from routers import teams_router
 
-app = FastAPI()
+app = FastApi()
+app.include_router(teams_router.router)
 
-app.add_middleware(
-    CORSMiddleware,
-    allow_origins=[
-        os.environ.get("CORS_HOST", "http://localhost:3000")
-    ],
-    allow_credentials=True,
-    allow_methods=["*"],
-    allow_headers=["*"],
-)
-
-@app.get("/api/teams")
-def get_teams():
-    pass
