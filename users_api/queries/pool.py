@@ -3,6 +3,8 @@ from psycopg_pool import ConnectionPool
 
 pool = ConnectionPool(conninfo=os.environ["DATABASE_URL"])
 
+
+# Another User Query?
 class UserQueries:
     def get_all_users(self):
         with pool.connection() as conn:

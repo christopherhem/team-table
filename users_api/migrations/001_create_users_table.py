@@ -9,8 +9,8 @@ steps = [
             first_name VARCHAR(30) NOT NULL,
             last_name VARCHAR(30) NOT NULL,
             email VARCHAR(30) NOT NULL,
-            phone_number VARCHAR(30) NOT NULL,
-            profile_picture_href VARCHAR(500) NOT NULL
+            phone_number VARCHAR(30),
+            profile_picture_href VARCHAR(500)
         );
         """,
         # "Down" SQL statement
