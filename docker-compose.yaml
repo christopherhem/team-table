@@ -5,17 +5,16 @@ volumes:
     external: true
 services:
   postgres:
-        build:
-            context: ./relational-data
-            dockerfile: ./Dockerfile.dev
-        volumes:
-            - postgres-data:/var/lib/postgresql/data
-        environment:
-<<<<<<< HEAD
-            - POSTGRES_MULTIPLE_DATABASES=events,fastapi,users,teams
-            - POSTGRES_PASSWORD=test-databases
-        ports:
-            - 15432:5432
+      build:
+          context: ./relational-data
+          dockerfile: ./Dockerfile.dev
+      volumes:
+          - postgres-data:/var/lib/postgresql/data
+      environment:
+          - POSTGRES_MULTIPLE_DATABASES=events,fastapi,users,teams
+          - POSTGRES_PASSWORD=test-databases
+      ports:
+          - 15432:5432
   teams:
     build:
       context: teams_api
@@ -27,34 +26,6 @@ services:
     environment:
       DATABASE_URL: postgresql://teams:password@postgres/teams
       WAIT_HOSTS: postgres:5432
-  events:
-    build:
-      context: events_api
-      dockerfile: Dockerfile.dev
-    ports:
-      - 8080:8080
-    volumes:
-      - ./events_api:/app
-    environment:
-      DATABASE_URL: postgresql://events:password@postgres/events
-      WAIT_HOSTS: postgres:5432
-  users:
-    build:
-      context: users_api
-      dockerfile: Dockerfile.dev
-    ports:
-      - 8090:8090
-    volumes:
-      - ./users_api:/app
-    environment:
-      DATABASE_URL: postgresql://users:password@postgres/users
-      WAIT_HOSTS: postgres:5432
-  fastapi:
-=======
-            - POSTGRES_MULTIPLE_DATABASES=events,fastapi,users
-            - POSTGRES_PASSWORD=test-databases
-        ports:
-            - 15432:5432
   pg-admin:
     image: dpage/pgadmin4
     volumes:
@@ -66,7 +37,6 @@ services:
       PGADMIN_DEFAULT_PASSWORD: table
       PGADMIN_DISABLE_POSTFIX: 1
   events:
->>>>>>> 5449f9af2cd1dfbe56ca92c9b73fd23137e1ed02
     build:
       context: users_api
       dockerfile: Dockerfile.dev
