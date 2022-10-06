@@ -1,3 +1,4 @@
+from typing import List, Union
 from models import *
 import os
 from psycopg_pool import ConnectionPool
@@ -33,3 +34,22 @@ class TeamRepository:
         paid = result.fetchone()[4]
         data = team.dict()
         return TeamOut(id=id, pay_level = paid, **data)
+    def get_all(self)->Union[Error,List[TeamOut]]:
+        try:
+            with pool.connection() as conn:
+                with conn.cursor() as db:
+                    result = db.execute(
+                        """
+                        SELECT teams(
+                            id,
+                            name,
+                            type,
+                            descripton,
+                            pay_level
+                        )
+                        """
+                    )
+        except:
+            return{"message" : "Error in team_queries TeamRepository.get_all"}
+
+
