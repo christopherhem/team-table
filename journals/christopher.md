@@ -23,3 +23,12 @@ A slightly stressful day for me. I had some family medical emergencies come up a
 ## October 5, 2022
 
 I was able to connect the databases and access them through FastAPI. Luckily it wasn't a long fix. We had to modify the ports in our docker compose file and it did the job. I was able to complete a majority of the CRUD except for a specific part when updating a particular entry for the user profile... I was able to get very close but will let this one rest for the night. My brain is fried. I will have to wake up a bit early to tackle this problem again. 
+
+## October 6, 2022
+
+I had a very interesting experience while implementing the JWT OAUTH for User accounts. The frustrating part was having to perform multiple migrations and rebuild with Docker... I was getting different errors that were stating that it was expecting an integer instead of the created email from the user and hash issue with the password. I will let this issue win for tonight... will continue tomorrow. 
+
+## October 7, 2022
+
+No class today. But I was able to solve last night's problem. Hoorah.
+
