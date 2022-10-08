@@ -1,10 +1,18 @@
 from pydantic import BaseModel
 from typing import  List, Optional, Union
 from queries.pool import pool
-import os
-
 class Error(BaseModel):
     message: str
+
+class User(BaseModel):
+    id: int
+    username: str
+    hashed_password: str
+    first_name: str
+    last_name: str
+    email: str
+    phone_number: str
+    profile_picture_href: str
 
 class UserIn(BaseModel):
     username: str
@@ -18,7 +26,6 @@ class UserIn(BaseModel):
 class UserOut(BaseModel):
     id: int
     username: str
-    password: str
     first_name: str
     last_name: str
     email: str
@@ -26,15 +33,16 @@ class UserOut(BaseModel):
     profile_picture_href: str
 
 class UserPut(BaseModel):
-    password: str
-    first_name: str
-    last_name: str
-    email: str
-    phone_number: str
-    profile_picture_href: str
+    id: int
+    hashed_password: Optional[str]
+    first_name: Optional[str]
+    last_name: Optional[str]
+    email: Optional[str]
+    phone_number: Optional[str]
+    profile_picture_href: Optional[str]
 
 class UserQueries:
-    def get_all(self) -> Union[Error, List[UserOut]]:
+    def get_all(self) -> Union[Error, List[User]]:
         try:
             # connect the database
             with pool.connection() as conn:
@@ -45,7 +53,7 @@ class UserQueries:
                         """
                         SELECT id
                             , username
-                            , password
+                            , hashed_password
                             , first_name
                             , last_name
                             , email
@@ -72,13 +80,13 @@ class UserQueries:
                 result = db.execute(
                     """
                     SELECT id
-                            , username
-                            , password
-                            , first_name
-                            , last_name
-                            , email
-                            , phone_number
-                            , profile_picture_href
+                        , username
+                        , hashed_password
+                        , first_name
+                        , last_name
+                        , email
+                        , phone_number
+                        , profile_picture_href
                     FROM users
                     WHERE id = %s
                     """,
@@ -90,7 +98,34 @@ class UserQueries:
                     return None
                 return self.record_to_user_out(record)
 
-    def create(self, user: UserIn) -> Union[UserOut, Error]:
+    def get_user(self, email: str) -> Optional[User]:
+        # connect the database
+        with pool.connection() as conn:
+            # get a cursor (something to run SQL with)
+            with conn.cursor() as db:
+                # Run our SELECT statement
+                result = db.execute(
+                    """
+                    SELECT id
+                        , username
+                        , hashed_password
+                        , first_name
+                        , last_name
+                        , email
+                        , phone_number
+                        , profile_picture_href
+                    FROM users
+                    WHERE email = %s
+                    """,
+                    [email]
+                )
+                # We're only trying to get one
+                record = result.fetchone()
+                if record is None:
+                    return None
+                return self.record_to_user_out(record)
+
+    def create(self, user: UserIn, hashed_password: str) -> Union[User, Error]:
         # connect the database
         with pool.connection() as conn:
             # get a cursor (something to run SQL with)
@@ -100,7 +135,7 @@ class UserQueries:
                     """
                     INSERT INTO users (
                         username,
-                        password,
+                        hashed_password,
                         first_name,
                         last_name,
                         email,
@@ -113,7 +148,7 @@ class UserQueries:
                     """,
                     [
                         user.username,
-                        user.password,
+                        hashed_password,
                         user.first_name,
                         user.last_name,
                         user.email,
@@ -123,9 +158,18 @@ class UserQueries:
                     ]
                 )
                 id = result.fetchone()[0]
-                return self.user_in_to_out(id, user)
+                return User(
+                    id=id, 
+                    email=user.email,
+                    hashed_password=hashed_password,
+                    username=user.username,
+                    first_name=user.first_name,
+                    last_name=user.last_name,
+                    phone_number=user.phone_number,
+                    profile_picture_href=user.profile_picture_href,
+                )
 
-    def update(self, user_id: int, user: UserPut, password, first_name, last_name, email, phone_number, profile_picture_href):
+    def update(self, user_id: int, user: UserPut) -> Union[User, Error]:
         try:
             # connect the database
             with pool.connection() as conn:
@@ -150,12 +194,12 @@ class UserQueries:
                             , profile_picture_href
                         """,
                         [
-                            password,
-                            first_name,
-                            last_name,
-                            email,
-                            phone_number,
-                            profile_picture_href,
+                            user.hashed_password,
+                            user.first_name,
+                            user.last_name,
+                            user.email,
+                            user.phone_number,
+                            user.profile_picture_href,
                             user_id
                         ]
                     )
@@ -182,17 +226,19 @@ class UserQueries:
             print(e)
             return False
 
-    def user_in_to_out(self, id: int, user: UserPut):
+    def user_in_to_out(self, id: int, user: UserIn):
         old_data = user.dict(exclude_unset=True)
-        print(old_data)
-        print("HELLLLLLLOOOOOOOOO")
+        return UserOut(id=id, **old_data)
+
+    def put_user_in_to_out(self, id: int, user: UserIn):
+        old_data = user.dict(exclude_unset=True)
         return UserOut(id=id, **old_data)
 
     def record_to_user_out(self, record):
-        return UserOut(
+        return User(
             id=record[0],
             username=record[1],
-            password=record[2],
+            hashed_password=record[2],
             first_name=record[3],
             last_name=record[4],
             email=record[5],
