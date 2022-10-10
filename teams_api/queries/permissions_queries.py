@@ -1,12 +1,9 @@
-from typing import List, Union
+from pydantic import BaseModel
+from typing import List, Optional, Union
 from queries.pool import pool
-from models import (
-    RolesIn, 
-    RolesOut, 
-    Error
-)
+from models import *
 
-class RolesQueries:
+class PermissionsQueries:
     def create(self, role: RolesIn) -> Union[RolesOut, Error]:
         try:
             with pool.connection() as conn:

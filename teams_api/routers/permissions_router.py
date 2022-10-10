@@ -1,15 +1,15 @@
 from fastapi import APIRouter, Depends, Response, HTTPException
 from typing import List, Optional, Union
 from models import *
-from queries.roles_queries import RolesQueries
+from queries.permissions_queries import PermissionsQueries
 
 router = APIRouter()
 
-@router.post("/api/teams/{team_id}/roles", response_model=Union[RolesOut, Error])
-def add_role(
+@router.post("/api/teams/{team_id}/roles", response_model=Union[PermissionsOut, Error])
+def add_permission(
     team_id: int,
     role: RolesIn,
-    q: RolesQueries = Depends(),
+    q: PermissionsQueries = Depends(),
 ):
     roles = q.get_all()
     for r in roles:
@@ -17,19 +17,19 @@ def add_role(
             raise HTTPException(status_code=409, detail=f'Role name duplicate error: {role.name} already exists...')
     return q.create(role)
 
-@router.get("/api/teams/{team_id}/roles", response_model=RolesOut)
-def get_roles(
+@router.get("/api/teams/{team_id}/roles", response_model=PermissionsOut)
+def get_permissions(
     team_id: int,
-    q: RolesQueries = Depends()
+    q: PermissionsQueries = Depends()
 ):
     return {"roles": [q.get_all()]}
 
-@router.get("/api/teams/{team_id}/roles/{role_id}", response_model=Optional[RolesOut])
-def get_role(
+@router.get("/api/teams/{team_id}/roles/{role_id}", response_model=Optional[PermissionsOut])
+def get_permission(
     team_id: int,
     role_id: int,
     response: Response,
-    repo: RolesQueries = Depends(),
+    repo: PermissionsQueries = Depends(),
     ):
     record = repo.get_one(role_id)
     if record is None:
@@ -37,13 +37,13 @@ def get_role(
     else:
         return record
 
-@router.put("/api/teams/{team_id}/roles/{role_id}", response_model = RolesOut)
-def update_role(
+@router.put("/api/teams/{team_id}/roles/{role_id}", response_model = PermissionsOut)
+def update_permission(
     role_id: int,
     team_id: int,
     role: RolesIn,
     response: Response,
-    repo: RolesQueries = Depends()
+    repo: PermissionsQueries = Depends()
 ):
     record = repo.update(role_id, role)
     if record is None:
@@ -52,10 +52,10 @@ def update_role(
         return record
 
 @router.delete("/api/teams/{team_id}/roles/{role_id}", response_model = bool)
-def delete_role(
+def delete_permission(
     team_id: int,
     role_id: int,
-    repo: RolesQueries = Depends()):
+    repo: PermissionsQueries = Depends()):
     repo.delete(id)
     return True
 
