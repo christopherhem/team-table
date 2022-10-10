@@ -7,7 +7,7 @@ from models import (
     )
 
 class TeamTypeRepository:
-    def create(self, team_type:TeamTypeIn):
+    def create(self, team_type:TeamTypeIn, event_types:List[int]):
         with pool.connection() as conn:
             with conn.cursor() as db:
 
@@ -25,8 +25,26 @@ class TeamTypeRepository:
                         team_type.name,
                     ]
                 )
-        id = result.fetchone()[0]
+
+        team_type_id = result.fetchone()[0]
         row = result.fetchone()
+        with pool.connection() as conn:
+            with conn.cursor() as db:
+                for event_type in event_types:
+                            many_to_many = db.execute(
+                                """
+                                INSERT INTO event_types_team_types(
+                                    team_type,
+                                    event_type
+                                )
+                                VALUES(
+                                    %s,
+                                    %s
+                                )
+                                RETURNING id, team_type, event_type
+                                """,
+                                [team_type_id, event_type]
+                            )
         return self.team_type_record_to_dict(row, result.description)
 
     def get_all(self)->Union[Error, List[TeamTypeOut]]:
