@@ -1,3 +1,8 @@
+## 10/10/2022
+* I worked on the queries and routers for event_types and teams_types
+
+I worked on these queries today and had to get some help from Josh and Chris to figure out to how do the many-to-many relationship between them. I was not able to get to redoing the event migration file so I will have to work on that tomorrow with my teammates to get it set up correctly. Right now it is not set up for the teams microservice to use and definitely needs to be modified
+
 ## 10/06/2022
 
 * I pair coded with Josh to work on the the queries and routers for the teams service

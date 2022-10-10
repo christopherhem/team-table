@@ -134,7 +134,7 @@ class TeamRepository:
                 if row is not None:
                     team = {}
                     for i, column in enumerate(result.description):
-                        team[column.nam] = row[i]
+                        team[column.name] = row[i]
                 return team
 
 
