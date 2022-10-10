@@ -1,4 +1,10 @@
-## 10/05/2021
+## 10/06/2022
+
+* I pair coded with Josh to work on the the queries and routers for the teams service
+
+The beginning of the day was spent refactering our file structure on the advice of Curtis to bring our user and event services together and leaving the teams service as its own microservice. Me and Josh spent the rest of the day working on the quries and routers. We figured out that we would need to separate these into individual files for each base table because the files were getting pretty long.
+
+## 10/05/2022
 
 * I fixed my tables and created the routers and queries.
 
