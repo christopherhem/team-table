@@ -27,7 +27,7 @@ def get_team_type(
     else:
         return record
 
-@router.post("api/team_types", response_model = Union[Error, TeamTypeOut])
+@router.post("/api/team_types", response_model = Union[Error, TeamTypeOut])
 def create_team_type(
     team_type: TeamTypeIn,
     response: Response,
@@ -39,14 +39,14 @@ def create_team_type(
     else:
         return record
 
-@router.put("/api/team_types/{id}", response_mode = Union[Error, TeamTypeOut])
+@router.put("/api/team_types/{id}", response_model = Union[Error, TeamTypeOut])
 def update_team_type(
     id: int,
     team_type: TeamTypeIn,
     response: Response,
     repo: TeamTypeRepository = Depends()
 ):
-    record = repo.update_team_type(id, team_type):
+    record = repo.update_team_type(id, team_type)
     if record is None:
         response.status_code = 404
     else:

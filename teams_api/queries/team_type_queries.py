@@ -6,7 +6,7 @@ from models import (
     TeamTypeOut,
     )
 
-class TeamTypeRepository():
+class TeamTypeRepository:
     def create(self, team_type:TeamTypeIn):
         with pool.connection() as conn:
             with conn.cursor() as db:
