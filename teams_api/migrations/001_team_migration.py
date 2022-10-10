@@ -109,7 +109,6 @@ steps = [
         CREATE TABLE members(
             id SERIAL PRIMARY KEY NOT NULL,
             member INT NOT NULL REFERENCES user_vos(id),
-            team INT NOT NULL REFERENCES teams(id),
             role INT NOT NULL REFERENCES roles(id)
         );
         """,
@@ -125,8 +124,8 @@ steps = [
             owner INT NOT NULL REFERENCES user_vos(id),
             team INT NOT NULL REFERENCES teams(id),
             event_start TIMESTAMP NOT NULL,
-            event_end TIMESTAMP NOT NULL
-            event_type INT REFERENCES event_type(id)
+            event_end TIMESTAMP NOT NULL,
+            event_type INT REFERENCES event_types(id)
         );
         """,
         """

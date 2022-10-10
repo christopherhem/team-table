@@ -41,10 +41,6 @@ def update_team(
     else:
         return record
 
-@router.get("/api/teams/{id}/members")
-def get_members():
-    pass
-
 @router.get("/api/teams/{id}/events")
 def get_events():
     pass
@@ -57,10 +53,6 @@ def add_team(
     ):
     response.status_code = 400
     return repo.create(team)
-
-@router.post("/api/teams/{id}/members")
-def add_member():
-    pass
 
 #this would probably be an internal call
 @router.post("/api/teams/types")
