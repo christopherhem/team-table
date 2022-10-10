@@ -3,36 +3,36 @@ from models import PayLevelOut, PayLevelsOut, Error
 from queries.pool import pool
 
 class PayLevelRepository:
-    def create_pay_level(self, pay_level):
-        id = None
-        with pool.connection() as conn:
-            with conn.cursor() as db:
+    # def create_pay_level(self, pay_level):
+    #     id = None
+    #     with pool.connection() as conn:
+    #         with conn.cursor() as db:
 
-                result = db.execute(
-                    """
-                    INSERT INTO pay_levels(
-                        p.name,
-                        p.max_members,
-                        p.max_roles,
-                    )
-                    VALUES(
-                        %s,
-                        %s,
-                        %s,
-                    )
-                    RETURNING id;
-                    """,
-                    [
-                        pay_level.name,
-                        pay_level.type,
-                        pay_level.description
-                        #need to set pay_level to a default value
-                    ]
-                )
-                row = result.fetchone()
-                id = row[0]
-        if id is not None:
-            return self.get_pay_level(id)
+    #             result = db.execute(
+    #                 """
+    #                 INSERT INTO pay_levels(
+    #                     p.name,
+    #                     p.max_members,
+    #                     p.max_roles,
+    #                 )
+    #                 VALUES(
+    #                     %s,
+    #                     %s,
+    #                     %s,
+    #                 )
+    #                 RETURNING id;
+    #                 """,
+    #                 [
+    #                     pay_level.name,
+    #                     pay_level.type,
+    #                     pay_level.description
+    #                     #need to set pay_level to a default value
+    #                 ]
+    #             )
+    #             row = result.fetchone()
+    #             id = row[0]
+    #     if id is not None:
+    #         return self.get_pay_level(id)
 
 
     def get_pay_level(self, id)->Union[Error, PayLevelOut]:

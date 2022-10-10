@@ -46,10 +46,6 @@ def update_team(
 def get_roles():
     pass
 
-@router.get("/api/teams/{id}/members")
-def get_members():
-    pass
-
 @router.get("/api/teams/{id}/events")
 def get_events():
     pass
@@ -65,10 +61,6 @@ def add_team(
 
 @router.post("/api/teams/{id}/roles")
 def add_role():
-    pass
-
-@router.post("/api/teams/{id}/members")
-def add_member():
     pass
 
 #this would probably be an internal call

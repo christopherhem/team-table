@@ -59,6 +59,7 @@ class UserVoIn(BaseModel):
 class UserVoOut(BaseModel):
     id : int
     name: str
+    user_href: str
 
 class UserEventVoIn(BaseModel):
     event_href:str
@@ -94,12 +95,11 @@ class PermissionsOut(BaseModel):
     add_roles:bool
 
 class MemberIn(BaseModel):
-    user: UserVoOut
-    team: TeamOut
+    member: UserVoOut
     role: RolesOut
 
 class MemberOut(BaseModel):
     id : int
-    user: UserVoOut
+    member: UserVoOut
     team: TeamOut
     role: RolesOut
