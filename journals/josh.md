@@ -13,3 +13,6 @@ I spent a lot of time re watching the fasapi videos because I have felt lost. I 
 
 ## 10/6/2022
 We went over our bounded contexts with curtis, then I pair programmed with Louise to finish all the models for teams and get started on the routes and endpoints for the teams database
+
+## 10/10/2022
+We continued working on endpoints, queries, and models for the teams microservice. We reconsidered some of the variables and removed unneccessary data for some of the models as we worked. We should finish the endpoints and queries tomorrow for the teams microservice and then we will decide how to do the pub/sub for events-> eventsVO

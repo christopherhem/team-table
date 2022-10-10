@@ -12,7 +12,6 @@ class MemberRepository:
                         SELECT members(
                             m.id,
                             m.member,
-                            m.team,
                             m.role
                         )
                         FROM members AS m
@@ -20,8 +19,6 @@ class MemberRepository:
                             ON (role=r.id)
                         LEFT JOIN user_vos AS u
                             ON (member=u.id)
-                        LEFT JOIN teams AS t
-                            ON (team = t.id)
                         GROUP BY
                             m.id
                         WHERE id=%s;
@@ -46,16 +43,13 @@ class MemberRepository:
                         SELECT members(
                             m.id,
                             m.member,
-                            m.team,
                             m.role
                         )
                         FROM members AS m
                         LEFT JOIN roles AS r
-                            ON (role=r.id)
+                            ON (role = r.id)
                         LEFT JOIN user_vos AS u
-                            ON (member=u.id)
-                        LEFT JOIN teams AS t
-                            ON (team = t.id)
+                            ON (member = u.id)
                         GROUP BY
                             m.id
                         WHERE id=%s;
@@ -66,7 +60,7 @@ class MemberRepository:
                     return self.record_to_dict(row, result.description)
         except:
             return{"message" : "Error in member_queries get_one"}
-    def create(member:MemberIn, team):
+    def create(self, member:MemberIn):
         with pool.connection() as conn:
             with conn.cursor() as db:
 
@@ -74,11 +68,9 @@ class MemberRepository:
                     """
                     INSERT INTO members(
                         member,
-                        team,
                         role
                     )
                     VALUES(
-                        %s,
                         %s,
                         %s
                     )
@@ -86,7 +78,6 @@ class MemberRepository:
                     """,
                     [
                         member.member.id,
-                        team,
                         member.role.id
                     ]
                 )
@@ -110,16 +101,13 @@ class MemberRepository:
             with pool.connection as conn:
                 with conn.cursor as db:
                     params = [
-                        data.member.id,
                         data.role.id,
                         id
                     ]
                     result = db.execute(
                         """
                         UPDATE teams
-                        SET member = %s,
-                            team = %s,
-                            role = %s
+                        SET role = %s
                         WHERE id = %s
                         RETURNING id, member, team, role
                         """,
@@ -142,7 +130,6 @@ class MemberRepository:
             member_fields = [
                 "id",
                 "member",
-                "team",
                 "role"
             ]
             for i, column in enumerate(description):
@@ -162,45 +149,43 @@ class MemberRepository:
 
         member["member"] = member_var
         
-        team = {}
-        team_fields = [
-            "id",
-            "name",
-            "type",
-            "description",
-            "pay_level"
-        ]
-        for i, column in enumerate(description):
-            if column.name in team_fields:
-                team[column.name] = row[i]
-        team["id"] = team["id"]
+        # team = {}
+        # team_fields = [
+        #     "id",
+        #     "name",
+        #     "type",
+        #     "description",
+        #     "pay_level"
+        # ]
+        # for i, column in enumerate(description):
+        #     if column.name in team_fields:
+        #         team[column.name] = row[i]
+        # team["id"] = team["id"]
 
-        type = {}
-        type_fields = [
-            "id",
-            "name"
-        ]
-        for i, column in enumerate(description):
-            if column.name in type_fields:
-                type[column.name] = row[i]
-        type["id"] = type["id"]
+        # type = {}
+        # type_fields = [
+        #     "id",
+        #     "name"
+        # ]
+        # for i, column in enumerate(description):
+        #     if column.name in type_fields:
+        #         type[column.name] = row[i]
+        # type["id"] = type["id"]
 
-        team["type"] = type
-        pay_level = {}
-        pay_level_fields = [
-            "id",
-            "name",
-            "max_members",
-            "max_roles"
-        ]
-        for i, column in enumerate(description):
-            if column.name in pay_level_fields:
-                pay_level[column.name] = row[i]
-        pay_level["id"] = pay_level["id"]
+        # team["type"] = type
+        # pay_level = {}
+        # pay_level_fields = [
+        #     "id",
+        #     "name",
+        #     "max_members",
+        #     "max_roles"
+        # ]
+        # for i, column in enumerate(description):
+        #     if column.name in pay_level_fields:
+        #         pay_level[column.name] = row[i]
+        # pay_level["id"] = pay_level["id"]
 
-        team["pay_level"] = pay_level
-
-        member["team"] = team
+        # team["pay_level"] = pay_level
 
         role = {}
         role_fields = [
@@ -212,7 +197,6 @@ class MemberRepository:
             if column.name in role_fields:
                 role[column.name] = row[i]
         role["id"] = role["id"]
-        role["team"]=team #maybe consider reorganizing these models so team isn't referenced twice in member
 
         member["role"] = role
 

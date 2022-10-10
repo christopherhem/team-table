@@ -7,16 +7,16 @@ router = APIRouter()
 
 
 @router.post("/api/teams/{id}/members")
-def add_member(id: int,
+def add_member(
     member:MemberIn,
     response: Response,
     repo: MemberRepository = Depends(),
     ):
     response.status_code = 400
-    return repo.create(member, id)
+    return repo.create(member)
     
 
-@router.get("/api/teams/{id}/members", reponse_model = Union[Error, l[MemberOut]])
+@router.get("/api/teams/{id}/members", response_model = Union[Error, l[MemberOut]])
 def get_members(
     repo : MemberRepository = Depends(),
 ):
@@ -24,9 +24,9 @@ def get_members(
 
 @router.get("/api/teams/{id}/members/{uid}", response_model = Union[Error, MemberOut])
 def get_member(
-    uid:int,
-    response:Response,
-    repo:MemberRepository = Depends()
+    uid : int,
+    response : Response,
+    repo : MemberRepository = Depends()
 ):
     record = repo.get_one(uid)
     if record is None:
@@ -37,16 +37,17 @@ def get_member(
 @router.delete("/api/teams/{id}/members/{uid}", response_model = bool)
 def delete_member(
     uid:int,
-    repo:MemberRepository
+    repo:MemberRepository = Depends()
 ):
     repo.delete(uid)
     return True
 
-@router.put("/api/teams/{}/members/{uid}", response_model = Union[Error, MemberOut])
+@router.put("/api/teams/{id}/members/{uid}", response_model = Union[Error, MemberOut])
 def edit_member(
     uid:int,
-    repo:MemberRepository,
-    member:MemberIn
+    member:MemberIn,
+    repo: MemberRepository = Depends()
+    
 ):
     return repo.update(uid,member)
 

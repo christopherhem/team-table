@@ -101,5 +101,4 @@ class MemberIn(BaseModel):
 class MemberOut(BaseModel):
     id : int
     member: UserVoOut
-    team: TeamOut
     role: RolesOut
