@@ -2,6 +2,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 import os
 from routers import table, users
+from authenticator import authenticator
 
 app = FastAPI()
 
@@ -15,6 +16,6 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-
 app.include_router(table.router)
 app.include_router(users.router)
+app.include_router(authenticator.router)

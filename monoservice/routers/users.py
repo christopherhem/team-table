@@ -1,13 +1,32 @@
-from fastapi import APIRouter, Depends, Response, HTTPException
-from typing import List, Optional, Union
-from fastapi.encoders import jsonable_encoder
+from fastapi import (
+    APIRouter, 
+    Depends, 
+    Response, 
+    HTTPException,
+    Request,
+)
+from typing import (
+    List, 
+    Optional, 
+    Union
+)
 from queries.users import (
     Error,
+    User,
     UserIn,
     UserOut,
     UserPut,
     UserQueries,
 )
+from jwtdown_fastapi.authentication import Token
+from authenticator import authenticator
+from pydantic import BaseModel
+
+class UserForm(BaseModel):
+    username: str
+    password: str 
+class UserToken(Token):
+    user: UserOut
 
 router = APIRouter()
 
@@ -25,18 +44,24 @@ def get_one_user(
         raise HTTPException(status_code=404, detail=f'Username error: User not found.')
     return user
 
-@router.post("/users", response_model=Union[UserOut, Error])
-def create_user(
-    user: UserIn,
+@router.post("/users", response_model=Union[UserToken, Error])
+async def create_user(
+    info: UserIn,
+    request: Request,
+    response: Response,
     queries: UserQueries = Depends(),
 ):
     users = queries.get_all() 
     for u in users:
-        if user.username == u.username:
-            raise HTTPException(status_code=409, detail=f'Username error: {user.username} already exists...')
-        if user.email == u.email:
-            raise HTTPException(status_code=409, detail=f'Email error: {user.email} has already been used...')
-    return queries.create(user)
+        if info.username == u.username:
+            raise HTTPException(status_code=409, detail=f'Username error: {info.username} already exists...')
+        if info.email == u.email:
+            raise HTTPException(status_code=409, detail=f'Email error: {info.email} has already been used...')
+    hashed_password = authenticator.hash_password(info.password)
+    user = queries.create(info, hashed_password)
+    form = UserForm(username=info.email, password=info.password)
+    token = await authenticator.login(response, request, form, queries)
+    return UserToken(user=user, **token.dict())
 
 
 @router.put("/users/{user_id}", response_model=Union[UserPut, Error])
