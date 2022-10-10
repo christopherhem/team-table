@@ -1,76 +1,89 @@
-from pydantic import BaseModel
 from typing import List, Optional, Union
 from queries.pool import pool
 from models import *
 
 class PermissionsQueries:
-    def create(self, role: RolesIn) -> Union[RolesOut, Error]:
+    def create(self, perm: PermissionsIn) -> Union[PermissionsOut, Error]:
         try:
             with pool.connection() as conn:
                 with conn.cursor() as db:
                     result = db.execute(
                         """
-                        INSERT INTO roles
-                            (name, teams)
+                        INSERT INTO permissions (
+                            role, 
+                            approve_swaps,
+                            invite_members,
+                            add_roles
+                        )
                         VALUES
-                            (%s, %s)
+                            (%s, %b, %b, %b)
                         RETURNING id;
                         """,
                         [
-                            role.name,
-                            role.team
+                            perm.role,
+                            perm.approve_swaps,
+                            perm.invite_members,
+                            perm.add_roles
                         ]
                     )
                     id = result.fetchone()[0]
-                    return self.role_in_to_out(id,role)
+                    return self.perm_in_to_out(id, perm)
         except Exception:
-            return {"message": "Unable to create"}
+            return {"message": "Unable to create permission"}
 
-    def get_all(self) -> Union[Error, List[RolesOut]]:
+    def get_all(self) -> Union[Error, List[PermissionsOut]]:
         try:
             with pool.connection() as conn:
                 with conn.cursor() as db:
                     result = db.execute(
                         """
-                        SELECT roles(
-                            r.id,
-                            r.name,
+                        SELECT permissions(
+                            p.id,
+                            p.role,
+                            p.approve_swaps,
+                            p.invite_members,
+                            p.add_roles
                         )
-                        FROM roles as r
-                        LEFT JOIN teams as t
-                            ON (team=t.id)
-                        ORDER BY r.id;
+                        FROM permissions as p
+                        LEFT JOIN roles as r
+                            ON (role=r.id)
+                        ORDER BY p.id;
                         """
                     )
-                    roles = []
+                    permissions = []
                     rows = result.fetchall()
                     for row in rows:
-                        role = self.role_record_to_dict
+                        permission = self.perm_record_to_dict(row, result.description)
+                        permissions.append(permission)
+                    return permissions
         except Exception:
-            return {"message": "Could not get all roles"}
+            return {"message": "Could not get all permissions"}
 
-    def get_one(self, id)-> Union[Error, RolesOut]:
+    def get_one(self, id)-> Union[Error, PermissionsOut]:
         try:
             with pool.connection() as conn:
                 with conn.cursor() as db:
                     result = db.execute(
                         """
-                        SELECT roles(
-                            r.id,
-                            r.name,
+                        SELECT permissions (
+                            p.id,
+                            p.role,
+                            p.approve_swaps,
+                            p.invite_members,
+                            p.add_roles
                         )
-                        FROM roles as r
-                        LEFT JOIN teams as t
-                            ON (team=t.id)
-                        ORDER BY r.id
+                        FROM permissions as p
+                        LEFT JOIN roles as r
+                            ON (role=r.id)
+                        ORDER BY p.id
                         WHERE id=%s;
                         """
                         [id]
                     )
                     row = result.fetchone()
-                    return self.role_record_to_dict(row, result.description)
+                    return self.perm_record_to_dict(row, result.description)
         except:
-            return{"message" : "Error in roles RolesQueries.get_one"}
+            return{"message" : "Error in permissions PermissionsQueries.get_one"}
     
     def update(self, id, data):
         with pool.connection as conn:
@@ -81,38 +94,43 @@ class PermissionsQueries:
                 ]
                 result = db.execute(
                     """
-                    UPDATE roles
-                    SET name = %s,
+                    UPDATE permissions
+                    SET role = %s, approve_swaps = %b, invite_members = %b, add_roles = %b
                     WHERE id = %s
-                    RETURNING id, name
+                    RETURNING 
+                        id, 
+                        role,
+                        approve_swaps,
+                        invite_members,
+                        add_roles
                     """,
                     params,
                 )
                 row = result.fetchone()
-                return self.role_record_to_dict(row, result.description)
+                return self.perm_record_to_dict(row, result.description)
 
     def delete(self, id):
         with pool.connection as conn:
             with conn.cursor as db:
                 result = db.execute(
                     """
-                    DELETE FROM roles
+                    DELETE FROM permissions
                     WHERE id = %s
                     """,
                     [id]
                 )
 
-    def role_in_to_out(self, id: int, role: RolesIn):
-        old_data = role.dict()
-        return RolesOut(id=id, **old_data)
+    def perm_in_to_out(self, id: int, perm: PermissionsIn):
+        old_data = perm.dict()
+        return PermissionsOut(id=id, **old_data)
     
-    def role_record_to_dict(self, row, description):
-        role = None
+    def perm_record_to_dict(self, row, description):
+        perm = None
         if row is not None:
-            role = {}
-            role_fields = ["id", "name"]
+            perm = {}
+            perm_fields = ["id", "role", "approve_swaps", "invite_members", "add_roles"]
             for i, column in enumerate(description):
-                if column.name in role_fields:
-                    role[column.name] = row[i]
-            role["id"] = role["id"]
-        return role
+                if column.role in perm_fields:
+                    perm[column.role] = row[i]
+            perm["id"] = perm["id"]
+        return perm

@@ -56,7 +56,7 @@ def delete_role(
     team_id: int,
     role_id: int,
     repo: RolesQueries = Depends()):
-    repo.delete(id)
+    repo.delete(role_id)
     return True
 
 

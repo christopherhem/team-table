@@ -1,62 +1,63 @@
 from fastapi import APIRouter, Depends, Response, HTTPException
-from typing import List, Optional, Union
+from typing import Optional, Union
 from models import *
 from queries.permissions_queries import PermissionsQueries
 
 router = APIRouter()
 
-@router.post("/api/teams/{team_id}/roles", response_model=Union[PermissionsOut, Error])
+@router.post("/api/teams/{team_id}/roles/{role_id}/permissions", response_model=Union[PermissionsOut, Error])
 def add_permission(
     team_id: int,
-    role: RolesIn,
+    role_id: int,
+    permission: PermissionsIn,
     q: PermissionsQueries = Depends(),
 ):
-    roles = q.get_all()
-    for r in roles:
-        if role.name == r.name:
-            raise HTTPException(status_code=409, detail=f'Role name duplicate error: {role.name} already exists...')
-    return q.create(role)
+    return q.create(permission)
 
-@router.get("/api/teams/{team_id}/roles", response_model=PermissionsOut)
+@router.get("/api/teams/{team_id}/roles/{role_id}/permissions", response_model=PermissionsOut)
 def get_permissions(
     team_id: int,
+    role_id: int,
     q: PermissionsQueries = Depends()
 ):
-    return {"roles": [q.get_all()]}
+    return {"permissions": [q.get_all()]}
 
-@router.get("/api/teams/{team_id}/roles/{role_id}", response_model=Optional[PermissionsOut])
+@router.get("/api/teams/{team_id}/roles/{role_id}/permissions/{perm_id}", response_model=Optional[PermissionsOut])
 def get_permission(
     team_id: int,
     role_id: int,
+    perm_id: int,
     response: Response,
     repo: PermissionsQueries = Depends(),
     ):
-    record = repo.get_one(role_id)
+    record = repo.get_one(perm_id)
     if record is None:
         response.status_code = 404
     else:
         return record
 
-@router.put("/api/teams/{team_id}/roles/{role_id}", response_model = PermissionsOut)
+@router.put("/api/teams/{team_id}/roles/{role_id}/permissions/{perm_id}", response_model = PermissionsOut)
 def update_permission(
-    role_id: int,
     team_id: int,
-    role: RolesIn,
+    role_id: int,
+    perm_id: int,
+    permission: PermissionsIn,
     response: Response,
     repo: PermissionsQueries = Depends()
 ):
-    record = repo.update(role_id, role)
+    record = repo.update(perm_id, permission)
     if record is None:
         response.status_code = 404
     else:
         return record
 
-@router.delete("/api/teams/{team_id}/roles/{role_id}", response_model = bool)
+@router.delete("/api/teams/{team_id}/roles/{role_id}/permissions/{perm_id}", response_model = bool)
 def delete_permission(
     team_id: int,
     role_id: int,
+    perm_id: int,
     repo: PermissionsQueries = Depends()):
-    repo.delete(id)
+    repo.delete(perm_id)
     return True
 
 

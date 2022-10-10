@@ -1,12 +1,16 @@
 from fastapi import FastAPI
-<<<<<<< HEAD
-from routers import teams_router, pay_level_router, roles_router, permissions_router, team_type_router, event_types_router
+from routers import (
+    event_types_router, 
+    members_router,
+    pay_level_router, 
+    permissions_router,    
+    roles_router, 
+    teams_router, 
+    team_type_router
+)
 
-=======
 from fastapi.middleware.cors import CORSMiddleware
 import os
-from routers import teams_router, pay_level_router, members_router
->>>>>>> Josh
 
 app = FastAPI()
 
@@ -20,13 +24,10 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-app.include_router(teams_router.router)
-app.include_router(pay_level_router.router)
-<<<<<<< HEAD
-app.include_router(roles_router.router)
-app.include_router(permissions_router.router)
-app.include_router(team_type_router.router)
 app.include_router(event_types_router.router)
-=======
 app.include_router(members_router.router)
->>>>>>> Josh
+app.include_router(pay_level_router.router)
+app.include_router(permissions_router.router)
+app.include_router(roles_router.router)
+app.include_router(teams_router.router)
+app.include_router(team_type_router.router)

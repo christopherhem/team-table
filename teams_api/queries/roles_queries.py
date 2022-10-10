@@ -1,10 +1,6 @@
 from typing import List, Union
 from queries.pool import pool
-from models import (
-    RolesIn, 
-    RolesOut, 
-    Error
-)
+from models import *
 
 class RolesQueries:
     def create(self, role: RolesIn) -> Union[RolesOut, Error]:
@@ -48,7 +44,9 @@ class RolesQueries:
                     roles = []
                     rows = result.fetchall()
                     for row in rows:
-                        role = self.role_record_to_dict
+                        role = self.role_record_to_dict(row, result.description)
+                        roles.append(role)
+                    return roles
         except Exception:
             return {"message": "Could not get all roles"}
 

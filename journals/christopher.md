@@ -32,3 +32,7 @@ I had a very interesting experience while implementing the JWT OAUTH for User ac
 
 No class today. But I was able to solve last night's problem. Hoorah.
 
+## October 10, 2022
+
+Today I was able to provide some back-end support for the Team's Microservice and worked on the Roles and Permission routers and endpoints. We had a discussion on the complexity of all of these models referencing each other and if implementing a NoSQL database for this situation were a better solution. Despite how tedious setting up the routers/queries with Postgres, we're hoping that in the long run it'll pay off and be beneficial for our application. Nonetheless, it's definitely giving us some repetitions for SQL coding. We all agreed that we're ready for the back-end portion of this application to be done *crosses-fingers*. Definitely ready to start on the front-end with React. 
+
