@@ -1,22 +1,42 @@
 from pydantic import BaseModel
 from typing import Literal
 
-class EventIn(BaseModel):
-    shift_start: str
-    shift_end: str
-    event_type: Literal["shift"]
-    user_href: str
+class CoverEventIn(BaseModel):
+    availability_start: str
+    availability_end: str
+    user_id: int
     team_href: str
 
-class EventOut(BaseModel):
+class CoverEventOut(BaseModel):
+    id: int
+    availability_start: str
+    availability_end: str
+    user_id: int
+    team_href: str
+
+class ShiftSwapEventIn(BaseModel):
     shift_start: str
     shift_end: str
-    event_type: Literal["shift"]
-    user_href: str
+    availability_start: str
+    availability_end: str
+    user_id: int
+    team_href: str
+
+class ShiftSwapEventOut(BaseModel):
+    id: int
+    shift_start: str
+    shift_end: str
+    availability_start: str
+    availability_end: str
+    user_id: int
     team_href: str
 
 class TableOut(BaseModel):
-    events: list[EventOut]
+    events: list[ShiftSwapEventOut]
+
+class EventTypeOut(BaseModel):
+    id: int
+    name: str
 
 class UserVoOut(BaseModel):
     href: str
