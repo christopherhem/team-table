@@ -1,3 +1,9 @@
+## 10/11/2022
+
+* I worked on refactoring the events migration, queries, and routers
+
+I worked with Josh and Christoher today to modify the events service to be fit our needs. We had a small blocker on how to list all of the different events together because they don't have the same fields. We won't know if it works until we have the pub/sub set up to get the teamVO from the teams service.
+
 ## 10/10/2022
 * I worked on the queries and routers for event_types and teams_types
 
