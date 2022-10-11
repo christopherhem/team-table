@@ -3,8 +3,10 @@ steps = [
         # "Up" SQL statement
         """
         CREATE TABLE team_vo (
+            id SERIAL PRIMARY KEY NOT NULL,
             href VARCHAR(50) NOT NULL UNIQUE,
-            name VARCHAR(50) NOT NULL UNIQUE
+            name VARCHAR(50) NOT NULL UNIQUE,
+            user_id INTEGER REFERENCES users("id") NOT NULL
         );
 
         """,
