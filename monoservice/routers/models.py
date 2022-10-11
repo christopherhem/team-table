@@ -45,3 +45,4 @@ class UserVoOut(BaseModel):
 class TeamVoOut(BaseModel):
     href: str
     name: str
+    user_id: int

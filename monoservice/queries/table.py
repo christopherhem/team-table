@@ -21,7 +21,7 @@ class EventQueries:
                     GROUP BY
                         u.id,
                         u.first_name, tm.name,
-                    ORDER BY e.shift_start
+                    ORDER BY tm.name
                     """,
                 )
                 table = []
@@ -230,7 +230,7 @@ class EventQueries:
         if row is not None:
             event = {}
             event_fields = [
-                "event_id",
+                "id",
                 "availability_start",
                 "availability_end",
                 "user_id",
@@ -239,19 +239,32 @@ class EventQueries:
             for i, column in enumerate(description):
                 if column.name in event_fields:
                     event[column.name] = row[i]
-            event["id"] = event["event_id"]
+            event["id"] = event["id"]
 
             user = {}
             user_fields = [
-                "user_id",
+                "id",
                 "first_name"
             ]
             for i, column in enumerate(description):
                 if column.name in user_fields:
                     user[column.name] = row[i]
-            user["id"] = user["user_id"]
+            user["id"] = user["id"]
 
-            event["user"] = user
+            event["user_id"] = user
+
+            team = {}
+            team_fields = [
+                "id",
+                "href",
+                "name"
+            ]
+            for i, column in enumerate(description):
+                if column.name in team_fields:
+                    team[column.name] = row[i]
+            team["id"] = team["id"]
+
+            event["team_href"] = team
         return event
 
     def shift_swap_event_record_to_dict(self, row, description):
@@ -259,7 +272,7 @@ class EventQueries:
         if row is not None:
             event = {}
             event_fields = [
-                "event_id",
+                "id",
                 "shift_start",
                 "shift_end"
                 "availability_start",
@@ -270,17 +283,30 @@ class EventQueries:
             for i, column in enumerate(description):
                 if column.name in event_fields:
                     event[column.name] = row[i]
-            event["id"] = event["event_id"]
+            event["id"] = event["id"]
 
             user = {}
             user_fields = [
-                "user_id",
+                "id",
                 "first_name"
             ]
             for i, column in enumerate(description):
                 if column.name in user_fields:
                     user[column.name] = row[i]
-            user["id"] = user["user_id"]
+            user["id"] = user["id"]
 
-            event["user"] = user
+            event["user_id"] = user
+
+            team = {}
+            team_fields = [
+                "id",
+                "href",
+                "name"
+            ]
+            for i, column in enumerate(description):
+                if column.name in team_fields:
+                    team[column.name] = row[i]
+            team["id"] = team["id"]
+
+            event["team_href"] = team
         return event
