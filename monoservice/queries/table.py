@@ -1,4 +1,5 @@
 from queries.pool import pool
+import requests
 
 class EventQueries:
     def get_table(self):
@@ -125,6 +126,7 @@ class EventQueries:
                 row = db.fetchone()
                 id = row[0]
                 if id is not None:
+                    requests.post('localhost:8000/api/seps', data = self.get_shift_swap_event(id))
                     return self.get_shift_swap_event(id)
 
     def delete_cover_event(self, id):

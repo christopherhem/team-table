@@ -9,5 +9,13 @@ steps = [
         """
         DROP TABLE sub_urls;
         """
+     ],
+     [
+        """
+        INSERT INTO sub_urls (url)
+        VALUES (localhost:8000/api/)
+        """,
+        """
+        """
      ]
 ]
