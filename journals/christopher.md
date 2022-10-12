@@ -39,3 +39,9 @@ Today I was able to provide some back-end support for the Team's Microservice an
 ## October 11, 2022
 
 Worked with Louise and Josh to do some tri-programming for our back-end portion for events and teams. I'm currently stuck on figuring out how to use the JWT for the teams microservice to connect with it. I was able to find a couple of documentation to support this issue but difficulty making those connections. I ended up giving it a rest and started to begin the front-end portion of user forms, specifically signup. 
+
+## October 12, 2022
+
+ It's been nearly 15+ hours invested in this JWT/Teams connection problem... I was able to implement code from the FastAPI/Triaglo docs still couldn't get it to work... So we finally threw in the towel and reached out to Curtis to provide some life-support. Because I was defeated and my team was out brain-power as well. Curtis came in and helped us solve the issue within 30 minutes with probably three lines of code! Amazing. Overall, glad I was on the right track.
+
+ 
