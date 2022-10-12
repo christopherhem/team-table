@@ -1,8 +1,10 @@
 from fastapi import (
     APIRouter, 
-    Depends, 
+    Depends,
+    Cookie, 
     Response, 
     HTTPException,
+    status,
     Request,
 )
 from typing import (
@@ -10,25 +12,65 @@ from typing import (
     Optional, 
     Union
 )
-from queries.users import (
-    Error,
-    User,
-    UserIn,
-    UserOut,
-    UserPut,
-    UserQueries,
-)
+from queries.users import *
+
+import os
+
+from fastapi.security import OAuth2PasswordBearer
+from jose import JWTError, jwt
 from jwtdown_fastapi.authentication import Token
 from authenticator import authenticator
 from pydantic import BaseModel
-
 class UserForm(BaseModel):
     username: str
     password: str 
 class UserToken(Token):
     user: UserOut
+class UserInDB(User):
+    hashed_password: str
+class Token(BaseModel):
+    access_token: str
+    token_type: str
+
+SIGNING_KEY = os.environ["SIGNING_KEY"]
+ALGORITHM = "HS256"
+COOKIE_NAME = "users_access_token"
 
 router = APIRouter()
+
+oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token", auto_error=False)
+
+async def get_current_user(
+    bearer_token: Optional[str] = Depends(oauth2_scheme),
+    cookie_token: Optional[str] | None = (
+        Cookie(default=None, alias=COOKIE_NAME)
+    ),
+    repo: UserQueries = Depends(),
+):
+    credentials_exception = HTTPException(
+        status_code=status.HTTP_401_UNAUTHORIZED,
+        detail="Invalid authentication credentials",
+        headers={"WWW-Authenticate": "Bearer"},
+    )
+    token = bearer_token
+    if not token and cookie_token:
+        token = cookie_token
+    try:
+        payload = jwt.decode(token, SIGNING_KEY, algorithms=[ALGORITHM])
+        email = payload.get("email")
+        if email is None:
+            raise credentials_exception
+    except JWTError:
+        raise credentials_exception
+    user = repo.get_user(email)
+    if user is None:
+        raise credentials_exception
+    return user 
+
+async def get_current_active_user(
+    current_user: User = Depends(get_current_user),
+):
+    return current_user
 
 @router.get("/users", response_model=Union[List[UserOut], Error])
 def get_all_users(queries: UserQueries = Depends(),):
@@ -62,7 +104,6 @@ async def create_user(
     form = UserForm(username=info.email, password=info.password)
     token = await authenticator.login(response, request, form, queries)
     return UserToken(user=user, **token.dict())
-
 
 @router.put("/users/{user_id}", response_model=Union[UserPut, Error])
 def update_user(

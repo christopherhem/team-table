@@ -4,10 +4,10 @@
 // import './App.css';
 
 import { Routes, Route } from 'react-router-dom';
+import NavBar from './components/navbar/index.js';
 import SignUp from './users_components/signup.js';
 
 function App() {
-
   // +++++++++++++++++Should remove this?+++++++++++++++++++++++
 
   // const [launch_info, setLaunchInfo] = useState([]);
@@ -34,6 +34,7 @@ function App() {
 
   return (
     <>
+      <NavBar />
       <Routes>
         <Route path="signup" element={<SignUp />} /> 
       </Routes>
