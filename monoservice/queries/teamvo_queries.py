@@ -1,3 +1,4 @@
+from routers.models import TeamVoOut, TeamVoIn
 from queries.pool import pool
 
 class TeamVORepository:
@@ -21,6 +22,17 @@ class TeamVORepository:
                     team = self.team_record_to_dict(row, result.description)
                     teams.append(team)
                 return teams
+
+    #unfinished, need create function for pub/sub to work
+    def create(self, team:TeamVoIn)->TeamVoOut:
+        with pool.connection as conn:
+            with conn.cursor as db:
+                result = db.execute(
+                    """
+                    INSERT INTO team_vo ()
+                    """
+                )
+            
 
     def get_team(self, id):
         with pool.connection as conn:
