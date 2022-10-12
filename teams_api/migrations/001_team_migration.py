@@ -121,11 +121,11 @@ steps = [
         """
         CREATE TABLE cover_event_vos(
             id SERIAL PRIMARY KEY NOT NULL,
-            href VARCHAR(100) NOT NULL
+            event_href VARCHAR(100) NOT NULL
+            owner INTEGER REFERENCES users("id") ON DELETE CASCADE,
+            team VARCHAR(50) REFERENCES team_vo("href") ON DELETE CASCADE
             availability_start TIMESTAMP NOT NULL,
             availability_end TIMESTAMP NOT NULL,
-            user_id INTEGER REFERENCES users("id") ON DELETE CASCADE,
-            team_href VARCHAR(50) REFERENCES team_vo("href") ON DELETE CASCADE
         );
         """,
         # "Down" SQL statement
@@ -138,13 +138,13 @@ steps = [
         """
         CREATE TABLE shift_swap_event_vos(
             id SERIAL PRIMARY KEY NOT NULL,
-            href VARCHAR(100) NOT NULL
+            event_href VARCHAR(100) NOT NULL
+            owner INTEGER REFERENCES users("id") ON DELETE CASCADE,
+            team VARCHAR(50) REFERENCES team_vo("href") ON DELETE CASCADE,
             shift_start TIMESTAMP NOT NULL,
             shift_end TIMESTAMP NOT NULL,
             availability_start TIMESTAMP NOT NULL,
-            availability_end TIMESTAMP NOT NULL,
-            user_id INTEGER REFERENCES users("id") ON DELETE CASCADE,
-            team_href VARCHAR(50) REFERENCES team_vo("href") ON DELETE CASCADE
+            availability_end TIMESTAMP NOT NULL
         );
         """,
         # "Down" SQL statement
