@@ -108,7 +108,7 @@ steps = [
         """
         CREATE TABLE members(
             id SERIAL PRIMARY KEY NOT NULL,
-            member INT NOT NULL REFERENCES user_vos(id),
+            user INT NOT NULL,
             role INT NOT NULL REFERENCES roles(id)
         );
         """,

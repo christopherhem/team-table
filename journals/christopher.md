@@ -36,3 +36,6 @@ No class today. But I was able to solve last night's problem. Hoorah.
 
 Today I was able to provide some back-end support for the Team's Microservice and worked on the Roles and Permission routers and endpoints. We had a discussion on the complexity of all of these models referencing each other and if implementing a NoSQL database for this situation were a better solution. Despite how tedious setting up the routers/queries with Postgres, we're hoping that in the long run it'll pay off and be beneficial for our application. Nonetheless, it's definitely giving us some repetitions for SQL coding. We all agreed that we're ready for the back-end portion of this application to be done *crosses-fingers*. Definitely ready to start on the front-end with React. 
 
+## October 11, 2022
+
+Worked with Louise and Josh to do some tri-programming for our back-end portion for events and teams. I'm currently stuck on figuring out how to use the JWT for the teams microservice to connect with it. I was able to find a couple of documentation to support this issue but difficulty making those connections. I ended up giving it a rest and started to begin the front-end portion of user forms, specifically signup. 
