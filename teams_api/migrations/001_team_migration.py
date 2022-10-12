@@ -57,7 +57,7 @@ steps = [
             name VARCHAR(50) NOT NULL,
             type INT NOT NULL REFERENCES team_types(id),
             description TEXT,
-            pay_level INT REFERENCES pay_levels(id) 
+            pay_level INT REFERENCES pay_levels(id)
         );
         """,
         # "Down" SQL statement
@@ -97,7 +97,7 @@ steps = [
             approve_swaps BOOL NOT NULL,
             invite_members BOOL NOT NULL,
             add_roles BOOL NOT NULL
-            
+
         );
         """,
         """
@@ -117,19 +117,39 @@ steps = [
         """
     ],
     [
+        # "Up" SQL statement
         """
-        CREATE TABLE user_event_vos(
+        CREATE TABLE cover_event_vos(
             id SERIAL PRIMARY KEY NOT NULL,
-            event_href VARCHAR(200) NOT NULL,
-            owner INT NOT NULL REFERENCES user_vos(id),
-            team INT NOT NULL REFERENCES teams(id),
-            event_start TIMESTAMP NOT NULL,
-            event_end TIMESTAMP NOT NULL,
-            event_type INT REFERENCES event_types(id)
+            href VARCHAR(100) NOT NULL
+            availability_start TIMESTAMP NOT NULL,
+            availability_end TIMESTAMP NOT NULL,
+            user_id INTEGER REFERENCES users("id") ON DELETE CASCADE,
+            team_href VARCHAR(50) REFERENCES team_vo("href") ON DELETE CASCADE
         );
         """,
+        # "Down" SQL statement
         """
-        DROP TABLE user_event_vos;
+        DROP TABLE cover_events;
         """
     ],
+    [
+        # "Up" SQL statement
+        """
+        CREATE TABLE shift_swap_event_vos(
+            id SERIAL PRIMARY KEY NOT NULL,
+            href VARCHAR(100) NOT NULL
+            shift_start TIMESTAMP NOT NULL,
+            shift_end TIMESTAMP NOT NULL,
+            availability_start TIMESTAMP NOT NULL,
+            availability_end TIMESTAMP NOT NULL,
+            user_id INTEGER REFERENCES users("id") ON DELETE CASCADE,
+            team_href VARCHAR(50) REFERENCES team_vo("href") ON DELETE CASCADE
+        );
+        """,
+        # "Down" SQL statement
+        """
+        DROP TABLE shift_swap_events;
+        """
+    ]
 ]
