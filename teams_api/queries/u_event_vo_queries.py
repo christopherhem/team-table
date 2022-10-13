@@ -1,10 +1,10 @@
 from typing import List, Union
-from models import SwapEventVoIn, Error, SwapEventVoOut, CoverEventVoIn, CoverEventVoOut
+from models import Error, SwapEventVoOut, EventVoIn, CoverEventVoOut
 from queries.pool import pool
 import requests
 
 class SwapEventVoRepository:
-    def create(self, event:SwapEventVoIn):
+    def create(self, event:EventVoIn, user):
 
         href = f"localhost:8000/api/table/events/{event.id}"
         team = requests.get(event.team_href)
@@ -34,7 +34,7 @@ class SwapEventVoRepository:
                     """,
                     [
                         href,
-                        #jwt user id somehow,
+                        user.account.username,
                         team.id,
                         event.shift_start,
                         event.shift_end,
@@ -75,7 +75,7 @@ class SwapEventVoRepository:
 
 
 class CoverEventVoRepository:
-    def create(self, event:CoverEventVoIn):
+    def create(self, event:EventVoIn, user):
 
         href = f"localhost:8000/api/table/events/{event.id}"
         team = requests.get(event.team_href)
@@ -101,7 +101,7 @@ class CoverEventVoRepository:
                     """,
                     [
                         href,
-                        #jwt user id somehow,
+                        user.account.username,
                         team.id,
                         event.availability_start,
                         event.availability_end

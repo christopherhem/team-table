@@ -9,13 +9,13 @@ from queries.team_type_queries import TeamTypeRepository
 
 router = APIRouter()
 
-@router.get("/api/teams/team_types", response_model = Union[Error, l[TeamTypeOut]])
+@router.get("/api/teams/types", response_model = Union[Error, l[TeamTypeOut]])
 def get_team_types(
     repo: TeamTypeRepository = Depends()
 ):
     return {"team_types": repo.get_all()}
 
-@router.get("/api/teams/team_types/{id}", response_model = Union[Error, TeamTypeOut])
+@router.get("/api/teams/types/{id}", response_model = Union[Error, TeamTypeOut])
 def get_team_type(
     id: int,
     response: Response,
@@ -27,19 +27,20 @@ def get_team_type(
     else:
         return record
 
-@router.post("/api/teams/team_types", response_model = Union[Error, TeamTypeOut])
+@router.post("/api/teams/types", response_model = Union[Error, TeamTypeOut])
 def create_team_type(
     team_type: TeamTypeIn,
+    event_types:l[int],
     response: Response,
     repo: TeamTypeRepository = Depends()
 ):
-    record = repo.create(team_type)
+    record = repo.create(team_type,event_types)
     if record in None:
         response.status_code = 400
     else:
         return record
 
-@router.put("/api/teams/team_types/{id}", response_model = Union[Error, TeamTypeOut])
+@router.put("/api/teams/types/{id}", response_model = Union[Error, TeamTypeOut])
 def update_team_type(
     id: int,
     team_type: TeamTypeIn,
@@ -52,7 +53,7 @@ def update_team_type(
     else:
         return record
 
-@router.delete("/api/teams/team_types/{id}", response_model = bool)
+@router.delete("/api/teams/types/{id}", response_model = bool)
 def delete_team_type(
     id: int,
     repo: TeamTypeRepository = Depends()

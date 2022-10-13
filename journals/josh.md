@@ -19,3 +19,6 @@ We continued working on endpoints, queries, and models for the teams microservic
 
 ## 10/11/2022
 I made a pub sub from scratch that should be able to handle pub sub for events->eventVO's and Teams->teamVOs. I had to review the docs for requests and do a little bit of research into how pub sub works but it should be effective after we test it and get rid of any small bugs.
+
+## 10/12/2022
+I finished the pub sub and related endpoints, set up endpoints to use the new get user functionality chris made so we can create models correctly. 
