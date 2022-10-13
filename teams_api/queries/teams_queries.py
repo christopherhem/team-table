@@ -97,8 +97,8 @@ class TeamRepository:
             return{"message" : "Error in team_queries TeamRepository.get_team"}
 
     def delete_team(self, id):
-        with pool.connection as conn:
-            with conn.cursor as db:
+        with pool.connection() as conn:
+            with conn.cursor() as db:
                 result = db.execute(
                     """
                     DELETE FROM teams
@@ -108,8 +108,8 @@ class TeamRepository:
                 )
 
     def update_team(self, id, data):
-        with pool.connection as conn:
-            with conn.cursor as db:
+        with pool.connection() as conn:
+            with conn.cursor() as db:
                 params = [
                     data.name,
                     data.type,

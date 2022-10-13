@@ -72,10 +72,10 @@ class RolesQueries:
                     return self.role_record_to_dict(row, result.description)
         except:
             return{"message" : "Error in roles RolesQueries.get_one"}
-    
+
     def update(self, id, data):
-        with pool.connection as conn:
-            with conn.cursor as db:
+        with pool.connection() as conn:
+            with conn.cursor() as db:
                 params = [
                     data.name,
                     id
@@ -93,8 +93,8 @@ class RolesQueries:
                 return self.role_record_to_dict(row, result.description)
 
     def delete(self, id):
-        with pool.connection as conn:
-            with conn.cursor as db:
+        with pool.connection() as conn:
+            with conn.cursor() as db:
                 result = db.execute(
                     """
                     DELETE FROM roles
@@ -106,7 +106,7 @@ class RolesQueries:
     def role_in_to_out(self, id: int, role: RolesIn):
         old_data = role.dict()
         return RolesOut(id=id, **old_data)
-    
+
     def role_record_to_dict(self, row, description):
         role = None
         if row is not None:

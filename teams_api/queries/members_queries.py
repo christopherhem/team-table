@@ -84,10 +84,10 @@ class MemberRepository:
         id = result.fetchone()[0]
         data = member.dict()
         return MemberOut(id=id, **data)
-    
+
     def delete(self, id):
-        with pool.connection as conn:
-            with conn.cursor as db:
+        with pool.connection() as conn:
+            with conn.cursor() as db:
                 result = db.execute(
                     """
                     DELETE FROM members
@@ -98,8 +98,8 @@ class MemberRepository:
 
     def update(self, id:int, data:MemberIn)->Union[Error,MemberOut]:
         try:
-            with pool.connection as conn:
-                with conn.cursor as db:
+            with pool.connection() as conn:
+                with conn.cursor() as db:
                     params = [
                         data.role.id,
                         id
@@ -148,7 +148,7 @@ class MemberRepository:
         member_var["id"] = member_var["id"]
 
         member["member"] = member_var
-        
+
         # team = {}
         # team_fields = [
         #     "id",

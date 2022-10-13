@@ -88,8 +88,8 @@ class PayLevelRepository:
                 )
 
     def update_pay_level(self, id, data)->Union[Error, PayLevelOut]:
-        with pool.connection as conn:
-            with conn.cursor as db:
+        with pool.connection() as conn:
+            with conn.cursor() as db:
                 params = [
                     data.name,
                     data.max_members,

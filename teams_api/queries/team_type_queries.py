@@ -90,8 +90,8 @@ class TeamTypeRepository:
             return{"message" : "Error in team_type_queries TeamRepository.get_team_type"}
 
     def delete_team_type(self, id):
-        with pool.connection as conn:
-            with conn.cursor as db:
+        with pool.connection() as conn:
+            with conn.cursor() as db:
                 result = db.execute(
                     """
                     DELETE FROM teams
@@ -101,8 +101,8 @@ class TeamTypeRepository:
                 )
 
     def update_team_type(self, id, data):
-        with pool.connection as conn:
-            with conn.cursor as db:
+        with pool.connection() as conn:
+            with conn.cursor() as db:
                 params = [
                     data.name,
                     id
