@@ -4,8 +4,10 @@
 // import './App.css';
 
 import { Routes, Route } from 'react-router-dom';
-import NavBar from './components/navbar/index.js';
-import SignUp from './users_components/signup.js';
+import SignUp from './components/users/signup.js';
+import Home from './pages/index.js';
+
+
 
 function App() {
   // +++++++++++++++++Should remove this?+++++++++++++++++++++++
@@ -34,7 +36,7 @@ function App() {
 
   return (
     <>
-      <NavBar />
+      <Home />
       <Routes>
         <Route path="signup" element={<SignUp />} /> 
       </Routes>
