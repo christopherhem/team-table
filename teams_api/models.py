@@ -79,7 +79,7 @@ class SwapEventVoOut(BaseModel):
     shift_end: datetime
     availability_start: datetime
     availability_end: datetime
-    
+
 
 class RolesIn(BaseModel):
     name: str

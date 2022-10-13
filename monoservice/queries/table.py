@@ -1,4 +1,5 @@
 from queries.pool import pool
+
 import requests
 
 class EventQueries:
@@ -77,7 +78,7 @@ class EventQueries:
     def create_cover_event(self, cover_event):
         id = None
         with pool.connection() as conn:
-            with conn.cursor as db:
+            with conn.cursor() as db:
                 db.execute(
                     """
                     INSERT INTO cover_events (
@@ -102,7 +103,7 @@ class EventQueries:
     def create_shift_swap_event(self, shift_swap_event):
         id = None
         with pool.connection() as conn:
-            with conn.cursor as db:
+            with conn.cursor() as db:
                 db.execute(
                     """
                     INSERT INTO shift_swap_events (
@@ -130,8 +131,8 @@ class EventQueries:
                     return self.get_shift_swap_event(id)
 
     def delete_cover_event(self, id):
-        with pool.connection as conn:
-            with conn.cursor as db:
+        with pool.connection() as conn:
+            with conn.cursor() as db:
                 result = db.execute(
                     """
                     DELETE FROM cover_events
@@ -141,8 +142,8 @@ class EventQueries:
                 )
 
     def delete_shift_swap_event(self, id):
-        with pool.connection as conn:
-            with conn.cursor as db:
+        with pool.connection() as conn:
+            with conn.cursor() as db:
                 result = db.execute(
                     """
                     DELETE FROM shift_swap_events
@@ -152,8 +153,8 @@ class EventQueries:
                 )
 
     def update_cover_event(self, id, data):
-        with pool.connection as conn:
-            with conn.cursor as db:
+        with pool.connection() as conn:
+            with conn.cursor() as db:
                 params = [
                     data.availability_start,
                     data.availability_end,
@@ -174,8 +175,8 @@ class EventQueries:
                 return self.cover_event_record_to_dict(row, result.description)
 
     def update_shift_swap_event(self, id, data):
-        with pool.connection as conn:
-            with conn.cursor as db:
+        with pool.connection() as conn:
+            with conn.cursor() as db:
                 params = [
                     data.shift_start,
                     data.shift_end,
@@ -200,21 +201,42 @@ class EventQueries:
                 return self.shift_swap_event_record_to_dict(row, result.description)
 
     def get_event_types(self):
-        with pool.connection as conn:
-            with conn.cursor as db:
-                result = db.execute(
-                    """
-                    SELECT id, name
-                    FROM event_types
-                    """
-                )
-                event_types = []
-                rows = result.fetchall()
-                for row in rows:
-                    event_type = self.event_type_record_to_dict(row, result.description)
-                    event_types.append(event_type)
-                return None
+        try:
+            with pool.connection() as conn:
+                with conn.cursor() as db:
+                    db.execute(
+                        """
+                        SELECT id, name
+                        FROM event_types;
+                        """
+                    )
+                    event_types = []
+                    rows = db.fetchall()
+                    for row in rows:
+                        event_type = self.event_type_record_to_dict(row, db.description)
+                        event_types.append(event_type)
+                    return event_types
+        except Exception as e:
+            return {"message": str(e)}
 
+    def get_event_type(self, id):
+        try:
+            with pool.connection() as conn:
+                with conn.cursor() as db:
+                    db.execute(
+                        """
+                        SELECT id, name
+                        FROM event_types
+                        WHERE id=%s
+                        """,
+                        [id],
+                    )
+
+                    row = db.fetchone()
+                    return self.event_type_record_to_dict(row, db.description)
+
+        except Exception as e:
+            return {"message": str(e)}
 
     def event_type_record_to_dict(self, row, description):
         event_type = None

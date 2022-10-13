@@ -3,8 +3,8 @@ from queries.pool import pool
 
 class TeamVORepository:
     def get_all(self):
-        with pool.connection as conn:
-            with conn.cursor as db:
+        with pool.connection() as conn:
+            with conn.cursor() as db:
                 result = db.execute(
                     """
                     SELECT u.id, u.first_name, t.name
@@ -25,18 +25,18 @@ class TeamVORepository:
 
     #unfinished, need create function for pub/sub to work
     def create(self, team:TeamVoIn)->TeamVoOut:
-        with pool.connection as conn:
-            with conn.cursor as db:
+        with pool.connection() as conn:
+            with conn.cursor() as db:
                 result = db.execute(
                     """
                     INSERT INTO team_vo ()
                     """
                 )
-            
+
 
     def get_team(self, id):
-        with pool.connection as conn:
-            with conn.cursor as db:
+        with pool.connection() as conn:
+            with conn.cursor() as db:
                 result = db.execute(
                     """
                     SELECT u.id, u.first_name, t.name

@@ -1,5 +1,6 @@
 from fastapi import APIRouter, Depends, Response
 from fastapi.middleware.cors import CORSMiddleware
+from typing import Optional, List
 import os
 from queries.table import EventQueries
 from routers.models import (
@@ -98,6 +99,18 @@ def delete_cover_event(
     record = repo.delete_shift_swap_event(id)
     return True
 
-@router.get("/api/table/event_types", response_model=EventTypeOut)
+@router.get("/api/table/event_types", response_model=List[EventTypeOut])
 def get_event_types(repo: EventQueries = Depends()):
-    return {"event_types": repo.get_event_types()}
+    return repo.get_event_types()
+
+@router.get("/api/table/event_types/{id}", response_model=EventTypeOut)
+def get_event_type(
+    id: int,
+    response: Response,
+    repo: EventQueries = Depends(),
+):
+    record = repo.get_event_type(id)
+    if record is None:
+        response.status_code = 404
+    else:
+        return record

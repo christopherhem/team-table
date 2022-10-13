@@ -15,7 +15,7 @@ def get_event_types(
 ):
     return repo.get_all()
 
-@router.get("/api/teams/event_types/{id}", response_model = Union[Error, l[EventTypeOut]])
+@router.get("/api/teams/event_types/{id}", response_model = Union[Error, EventTypeOut])
 def get_event_type(
     id: int,
     response: Response,
