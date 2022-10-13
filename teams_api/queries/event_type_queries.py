@@ -16,9 +16,7 @@ class EventTypeRepository:
                         FROM event_types;
                         """
                     )
-                    rows = result.fetchall()
-                    desc = result.description
-            return self.to_dict(rows,desc)
+            return self.to_dict(result.fetchall(), result.description)
         except Exception as e:
             return{"message" : str(e)}
 
@@ -27,19 +25,15 @@ class EventTypeRepository:
             with pool.connection() as conn:
                 with conn.cursor() as db:
                     result = db.execute(
+                        
                         """
-                        SELECT event_types(
-                            e.id,
-                            e.name,
-                            e.table_name
-                        )
-                        FROM event_types AS e
+                        SELECT id, name, table_name
+                        FROM event_types
                         WHERE id=%s;
                         """,
                         [id]
                     )
-                    row = result.fetchone()
-                    return self.event_type_record_to_dict(row, result.description)
+                    return self.to_dict(result.fetchall(), result.description)
         except:
             return{"message" : "Error in team_type_queries TeamRepository.get_team_type"}
 
