@@ -3,8 +3,6 @@ from models import *
 from typing import Union, List as l
 from queries.teams_queries import TeamRepository
 
-from .users_dependencies import get_current_user
-
 router = APIRouter()
 
 @router.get("/api/teams", response_model = TeamsOut)
@@ -53,19 +51,9 @@ def get_events():
 def add_team(
     team : TeamIn,
     response : Response,
-    repo : TeamRepository = Depends(),
-    user = Depends(get_current_user)
+    repo : TeamRepository = Depends()
     ):
-    print("OOooOoOoOoOoOooOoOOoOoOo HERE!")
-    email = user['account']['email']
-    print("email:", email)
     return repo.create(team)
-
-#this would probably be an internal call
-@router.post("/api/teams/types")
-def add_team_type( 
-):
-    pass
 
 @router.put("/api/teams/{id}/events/swap")
 def event_swap(

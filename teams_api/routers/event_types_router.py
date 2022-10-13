@@ -13,7 +13,7 @@ router = APIRouter()
 def get_event_types(
     repo: EventTypeRepository = Depends()
 ):
-    return {"event_types": repo.get_all()}
+    return repo.get_all()
 
 @router.get("/api/teams/event_types/{id}", response_model = Union[Error, l[EventTypeOut]])
 def get_event_type(

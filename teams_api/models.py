@@ -12,7 +12,7 @@ class EventTypeIn(BaseModel):
 class EventTypeOut(BaseModel):
     id : int
     name : str
-    event_type_href : str
+    table_name : str
 
 class TeamTypeIn(BaseModel):
     name: str
@@ -53,24 +53,33 @@ class TeamOut(BaseModel):
 class TeamsOut(BaseModel):
     teams: list[TeamOut]
 
-class UserVoIn(BaseModel):
-    user_href : str
+class EventVoIn(BaseModel):
+    event_href: str
+    owner: str
+    team: int
+    shift_start: Optional[datetime]
+    shift_end: Optional[datetime]
+    availability_start: datetime
+    availability_end: datetime
 
-class UserVoOut(BaseModel):
+class CoverEventVoOut(BaseModel):
     id : int
-    name: str
-    user_href: str
+    event_href: str
+    owner: str
+    team: int
+    availability_start: datetime
+    availability_end: datetime
 
-class UserEventVoIn(BaseModel):
-    event_href:str
-
-class UserEventVoOut(BaseModel):
-    id : int
-    user : UserVoOut
-    team : TeamOut
-    event_start: datetime
-    event_end: datetime
-    event_type: EventTypeOut
+class SwapEventVoOut(BaseModel):
+    id:int
+    event_href: str
+    owner: str
+    team: int
+    shift_start: datetime
+    shift_end: datetime
+    availability_start: datetime
+    availability_end: datetime
+    
 
 class RolesIn(BaseModel):
     name: str
@@ -95,10 +104,10 @@ class PermissionsOut(BaseModel):
     add_roles:bool
 
 class MemberIn(BaseModel):
-    member: UserVoOut
+    member: str
     role: RolesOut
 
 class MemberOut(BaseModel):
     id : int
-    member: UserVoOut
+    member: str
     role: RolesOut

@@ -17,11 +17,27 @@ steps = [
         CREATE TABLE event_types(
             id SERIAL PRIMARY KEY NOT NULL,
             name VARCHAR(50) NOT NULL UNIQUE,
-            event_type_href VARCHAR(200) UNIQUE
+            table_name VARCHAR(50) NOT NULL UNIQUE
         );
         """,
         """
         DROP TABLE event_types;
+        """
+    ],
+    [
+        """
+        INSERT INTO event_types(name,table_name)
+        VALUES('shift_swap_events','shift_swap_event_vos')
+        """,
+        """
+        """
+    ],
+    [
+        """
+        INSERT INTO event_types(name,table_name)
+        VALUES('cover_events','cover_event_vos')
+        """,
+        """
         """
     ],
     [
@@ -65,18 +81,18 @@ steps = [
         DROP TABLE teams;
         """
     ],
-    [
-        """
-        CREATE TABLE user_vos(
-            id SERIAL PRIMARY KEY NOT NULL,
-            name VARCHAR(50) NOT NULL,
-            user_href VARCHAR(200) NOT NULL UNIQUE
-        );
-        """,
-        """
-        DROP TABLE user_vos;
-        """
-    ],
+    # [
+    #     """
+    #     CREATE TABLE user_vos(
+    #         id SERIAL PRIMARY KEY NOT NULL,
+    #         name VARCHAR(50) NOT NULL,
+    #         user_href VARCHAR(200) NOT NULL UNIQUE
+    #     );
+    #     """,
+    #     """
+    #     DROP TABLE user_vos;
+    #     """
+    # ],
     [
         """
         CREATE TABLE roles(
@@ -108,7 +124,7 @@ steps = [
         """
         CREATE TABLE members(
             id SERIAL PRIMARY KEY NOT NULL,
-            user INT NOT NULL,
+            member_username VARCHAR(50) NOT NULL,
             role INT NOT NULL REFERENCES roles(id)
         );
         """,
@@ -121,11 +137,11 @@ steps = [
         """
         CREATE TABLE cover_event_vos(
             id SERIAL PRIMARY KEY NOT NULL,
-            event_href VARCHAR(100) NOT NULL
-            owner INTEGER REFERENCES users("id") ON DELETE CASCADE,
-            team VARCHAR(50) REFERENCES team_vo("href") ON DELETE CASCADE
+            event_href VARCHAR(100) NOT NULL,
+            owner VARCHAR(50),
+            team INT REFERENCES teams(id) ON DELETE CASCADE,
             availability_start TIMESTAMP NOT NULL,
-            availability_end TIMESTAMP NOT NULL,
+            availability_end TIMESTAMP NOT NULL
         );
         """,
         # "Down" SQL statement
@@ -138,9 +154,9 @@ steps = [
         """
         CREATE TABLE shift_swap_event_vos(
             id SERIAL PRIMARY KEY NOT NULL,
-            event_href VARCHAR(100) NOT NULL
-            owner INTEGER REFERENCES users("id") ON DELETE CASCADE,
-            team VARCHAR(50) REFERENCES team_vo("href") ON DELETE CASCADE,
+            event_href VARCHAR(100) NOT NULL,
+            owner VARCHAR(50),
+            team INT REFERENCES teams(id) ON DELETE CASCADE,
             shift_start TIMESTAMP NOT NULL,
             shift_end TIMESTAMP NOT NULL,
             availability_start TIMESTAMP NOT NULL,

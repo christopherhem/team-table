@@ -6,28 +6,27 @@ from models import (
     )
 
 class EventTypeRepository:
-    def get_all(self)->Union[Error, List[EventTypeOut]]:
+    error = None
+    def get_all(self)->Union[List[EventTypeOut], Error]:
         try:
             with pool.connection() as conn:
                 with conn.cursor() as db:
                     result = db.execute(
                         """
-                        SELECT event_types(
-                            e.id,
-                            e.name,
-                            e.event_type_href AS href
-                        )
-                        FROM event_types AS e
+                        SELECT(id, name, table_name)
+                        FROM event_types;
                         """
                     )
                     event_types = []
+                    columns = []
+                    print(result)
+                    for i in result.description:
+                        columns.append(i[0])
+                    print(columns)
                     rows= result.fetchall()
-                    for row in rows:
-                        event_type = self.event_type_record_to_dict(row, result.description)
-                        event_types.append(event_type)
                     return event_types
-        except:
-            return{"message" : "Error in event_type queries EventTypeRepository.get_all"}
+        except Exception as e:
+            return{"message" : str(e)}
 
     def get_event_type(self, id)->Union[Error, EventTypeOut]:
         try:
@@ -38,9 +37,9 @@ class EventTypeRepository:
                         SELECT event_types(
                             e.id,
                             e.name,
-                            e.event_type_href AS href
+                            e.table_name
                         )
-                        FROM team_types AS t
+                        FROM event_types AS e
                         WHERE id=%s;
                         """,
                         [id]
@@ -49,13 +48,3 @@ class EventTypeRepository:
                     return self.event_type_record_to_dict(row, result.description)
         except:
             return{"message" : "Error in team_type_queries TeamRepository.get_team_type"}
-
-    def event_type_record_to_dict(self, row, description):
-        event_type = None
-        if row is not None:
-            event_type = {}
-            event_type_fields = ["id", "name", "href"]
-            for i, column in enumerate(description):
-                if column.name in event_type_fields:
-                    event_type[column.name] = row[i]
-            event_type["id"] = event_type["id"]
