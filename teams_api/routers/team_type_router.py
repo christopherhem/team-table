@@ -13,7 +13,7 @@ router = APIRouter()
 def get_team_types(
     repo: TeamTypeRepository = Depends()
 ):
-    return {"team_types": repo.get_all()}
+    return repo.get_all()
 
 @router.get("/api/teams/types/{id}", response_model = Union[Error, TeamTypeOut])
 def get_team_type(
@@ -35,7 +35,7 @@ def create_team_type(
     repo: TeamTypeRepository = Depends()
 ):
     record = repo.create(team_type,event_types)
-    if record in None:
+    if record is None:
         response.status_code = 400
     else:
         return record

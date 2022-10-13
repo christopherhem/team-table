@@ -4,7 +4,7 @@ steps = [
         """
         CREATE TABLE team_types(
             id SERIAL PRIMARY KEY NOT NULL,
-            name VARCHAR(50) NOT NULL
+            name VARCHAR(50) NOT NULL UNIQUE
         );
         """,
         # "Down" SQL statement
@@ -63,6 +63,14 @@ steps = [
         """,
         """
         DROP TABLE pay_levels;
+        """
+    ],
+    [
+        """
+        INSERT INTO pay_levels(name,max_members,max_roles)
+        VALUES('Free',10,3)
+        """,
+        """
         """
     ],
     [
@@ -146,7 +154,7 @@ steps = [
         """,
         # "Down" SQL statement
         """
-        DROP TABLE cover_events;
+        DROP TABLE cover_event_vos;
         """
     ],
     [
@@ -165,7 +173,7 @@ steps = [
         """,
         # "Down" SQL statement
         """
-        DROP TABLE shift_swap_events;
+        DROP TABLE shift_swap_event_vos;
         """
     ]
 ]

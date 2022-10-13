@@ -10,24 +10,21 @@ class TeamTypeRepository:
     def create(self, team_type:TeamTypeIn, event_types:List[int]):
         with pool.connection() as conn:
             with conn.cursor() as db:
-
                 result = db.execute(
                     """
                     INSERT INTO team_types(
-                        name,
+                        name
                     )
                     VALUES(
                         %s
                     )
-                    RETURNING id;
+                    RETURNING id, name;
                     """,
-                    [
-                        team_type.name,
-                    ]
+                    [team_type.name]
                 )
-
-        team_type_id = result.fetchone()[0]
-        row = result.fetchone()
+                team_type = self.to_dict(result.fetchall(), result.description)
+                print(team_type)
+                team_type_id = team_type['id']
         with pool.connection() as conn:
             with conn.cursor() as db:
                 for event_type in event_types:
@@ -45,7 +42,7 @@ class TeamTypeRepository:
                                 """,
                                 [team_type_id, event_type]
                             )
-        return self.team_type_record_to_dict(row, result.description)
+        return team_type
 
     def get_all(self)->Union[Error, List[TeamTypeOut]]:
         try:
@@ -53,19 +50,11 @@ class TeamTypeRepository:
                 with conn.cursor() as db:
                     result = db.execute(
                         """
-                        SELECT team_types(
-                            t.id,
-                            t.name,
-                        )
-                        FROM team_types AS t
+                        SELECT id,name
+                        FROM team_types;
                         """
                     )
-                    team_types = []
-                    rows= result.fetchall()
-                    for row in rows:
-                        team_type = self.team_type_record_to_dict(row, result.description)
-                        team_types.append(team_type)
-                    return team_types
+                    return self.to_dict(result.fetchall(), result.description)
         except:
             return{"message" : "Error in team_type queries TeamTypeRepository.get_all"}
 
@@ -75,17 +64,13 @@ class TeamTypeRepository:
                 with conn.cursor() as db:
                     result = db.execute(
                         """
-                        SELECT team_types(
-                            t.id,
-                            t.name,
-                        )
-                        FROM team_types AS t
+                        SELECT id, name
+                        FROM team_types
                         WHERE id=%s;
                         """,
                         [id]
                     )
-                    row = result.fetchone()
-                    return self.team_type_record_to_dict(row, result.description)
+                    return self.to_dict(result.fetchall(), result.description)
         except:
             return{"message" : "Error in team_type_queries TeamRepository.get_team_type"}
 
@@ -116,16 +101,16 @@ class TeamTypeRepository:
                     """,
                     params,
                 )
-                row = result.fetchone()
-                return self.team_type_record_to_dict(row, result.description)
+                return self.to_dict(result.fetchall(), result.description)
 
-    def team_type_record_to_dict(self, row, description):
-        team_type = None
-        if row is not None:
-            team_type = {}
-            team_type_fields = ["id", "name"]
-            for i, column in enumerate(description):
-                if column.name in team_type_fields:
-                    team_type[column.name] = row[i]
-            team_type["id"] = team_type["id"]
-        return team_type
+    def to_dict(self,rows,description):
+        lst = []
+        columns = [desc[0] for desc in description]
+        for row in rows:
+            item = {}
+            for i in range(len(row)):
+                item[columns[i]]=row[i] 
+            lst.append(item)
+        if len(lst) == 1:
+            lst = lst[0]
+        return lst
