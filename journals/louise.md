@@ -1,3 +1,16 @@
+
+## 10/13/2022
+
+* I spent today helping josh with the pub sub.
+
+The pub sub is for the most part ready to be tested but we had a quite a few spaghetti code erors that we had to work through and fix today. I am hoping that we will get it up and running tomorrow. If we can't get it running by tomorrow night we are going to make it a monolith and try to do microservices as a stretch goal.
+
+## 10/12/2022
+
+* I helped josh for most of the day trying to get the pub/sub to start working
+
+I spent most of the day with josh trying to get the pub/sub up and running. We are close but not quite there yet.
+
 ## 10/11/2022
 
 * I worked on refactoring the events migration, queries, and routers
