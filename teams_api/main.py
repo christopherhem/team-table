@@ -6,7 +6,8 @@ from routers import (
     permissions_router,    
     roles_router, 
     teams_router, 
-    team_type_router
+    team_type_router,
+    u_event_vo_router
 )
 
 from fastapi.middleware.cors import CORSMiddleware
@@ -31,3 +32,4 @@ app.include_router(permissions_router.router)
 app.include_router(roles_router.router)
 app.include_router(teams_router.router)
 app.include_router(team_type_router.router)
+app.include_router(u_event_vo_router.router)

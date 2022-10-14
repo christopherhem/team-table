@@ -75,29 +75,25 @@ class TeamRepository:
                 with conn.cursor() as db:
                     result = db.execute(
                         """
-                        SELECT teams(
+                        SELECT
                             t.id,
                             t.name,
                             t.type,
-                            t.descripton,
+                            t.description,
                             t.pay_level
-                        )
                         FROM teams AS t
                         LEFT JOIN team_types as tt
-                            ON (type=tt.id)
+                            ON (t.type=tt.id)
                         LEFT JOIN pay_levels AS p
-                            ON (paylevel=p.id)
-                        GROUP BY
-                            t.id, t.name,
-                            t.description
-                        WHERE id=%s;
+                            ON (t.pay_level=p.id)
+                        WHERE t.id=%s
                         """,
                         [id]
                     )
                     row = result.fetchone()
                     return self.team_record_to_dict(row, result.description)
-        except:
-            return{"message" : "Error in team_queries TeamRepository.get_team"}
+        except Exception as e:
+            return{"message" : str(e)}
 
     def delete_team(self, id):
         with pool.connection() as conn:

@@ -38,11 +38,13 @@ class EventTypeRepository:
             return{"message" : "Error in team_type_queries TeamRepository.get_team_type"}
 
     def to_dict(self,rows,description):
-        new_dict = []
+        lst = []
         columns = [desc[0] for desc in description]
         for row in rows:
             item = {}
             for i in range(len(row)):
                 item[columns[i]]=row[i] 
-            new_dict.append(item)
-        return new_dict
+            lst.append(item)
+        if len(lst) == 1:
+            lst = lst[0]
+        return lst

@@ -55,9 +55,8 @@ class TeamsOut(BaseModel):
     teams: list[TeamOut]
 
 class EventVoIn(BaseModel):
-    event_href: str
-    owner: str
-    team: int
+    id : int
+    team_href: str
     shift_start: Optional[datetime]
     shift_end: Optional[datetime]
     availability_start: datetime

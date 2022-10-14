@@ -3,8 +3,8 @@ from models import Error, SwapEventVoOut, EventVoIn, CoverEventVoOut
 from queries.pool import pool
 import requests
 
-class SwapEventVoRepository:
-    def create(self, event:EventVoIn, user):
+class EventVoRepository:
+    def create_swap_event(self, event:EventVoIn, user):
 
         href = f"localhost:8000/api/table/events/{event.id}"
         team = requests.get(event.team_href)
@@ -43,9 +43,9 @@ class SwapEventVoRepository:
                     ]
                 )
         id = result.fetchone()[0]
-        return self.get_event(id)
+        return self.get_swap_event(id)
 
-    def get_event(self, id):
+    def get_swap_event(self, id):
         with pool.connection() as conn:
             with conn.cursor() as db:
 
@@ -65,17 +65,9 @@ class SwapEventVoRepository:
                     """,
                     [id]
                 )
-        event = {}
-        row = result.fetchone()
-        count=0
-        for i in result.description:
-            event[i[0]]=row[count]
-            count+=1
-        return event
-
-
-class CoverEventVoRepository:
-    def create(self, event:EventVoIn, user):
+                return self.to_dict(result.fetchall(),result.description)
+    
+    def create_cover_event(self, event:EventVoIn, user):
 
         href = f"localhost:8000/api/table/events/{event.id}"
         team = requests.get(event.team_href)
@@ -108,9 +100,9 @@ class CoverEventVoRepository:
                     ]
                 )
         id = result.fetchone()[0]
-        return self.get_event(id)
+        return self.get_cover_event(id)
 
-    def get_event(self, id):
+    def get_cover_event(self, id):
         with pool.connection() as conn:
             with conn.cursor() as db:
 
@@ -128,11 +120,16 @@ class CoverEventVoRepository:
                     """,
                     [id]
                 )
-        event = {}
-        row = result.fetchone()
-        count=0
-        for i in result.description:
-            event[i[0]]=row[count]
-            count+=1
-        return event
+            return self.to_dict(result.fetchall(),result.description)
 
+    def to_dict(self,rows,description):
+        lst = []
+        columns = [desc[0] for desc in description]
+        for row in rows:
+            item = {}
+            for i in range(len(row)):
+                item[columns[i]]=row[i] 
+            lst.append(item)
+        if len(lst) == 1:
+            lst = lst[0]
+        return lst
