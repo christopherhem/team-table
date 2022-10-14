@@ -1,8 +1,9 @@
 from fastapi import APIRouter, Depends, Response
 from fastapi.middleware.cors import CORSMiddleware
-from typing import Optional, List
+from typing import Optional, List, Union
 import os
 from queries.table import EventQueries
+from routers.users import get_current_user
 from routers.models import (
     CoverEventIn,
     CoverEventOut,
@@ -15,12 +16,16 @@ from routers.models import (
 router = APIRouter()
 
 
-@router.get("/api/table", response_model=TableOut)
-def get_table(queries: EventQueries = Depends()):
-    return {"events": queries.get_table()}
+@router.get("/api/table/cover_events", response_model=Union[CoverEventOut, List[CoverEventOut]])
+def get_cover_event_table(queries: EventQueries = Depends()):
+    return queries.get_cover_event_table()
+
+@router.get("/api/table/shift_swap_events", response_model=Union[CoverEventOut, List[ShiftSwapEventOut]])
+def get_shift_swap_event_table(queries: EventQueries = Depends()):
+    return queries.get_shift_swap_event_table()
 
 @router.get("/api/table/cover_events/{id}", response_model=CoverEventOut)
-def get_event(
+def get_cover_event(
     id: int,
     response: Response,
     queries: EventQueries = Depends(),
@@ -32,7 +37,7 @@ def get_event(
         return record
 
 @router.get("/api/table/shift_swap_events/{id}", response_model=ShiftSwapEventOut)
-def get_event(
+def get_shift_swap_event(
     id: int,
     response: Response,
     queries: EventQueries = Depends(),
@@ -44,14 +49,15 @@ def get_event(
         return record
 
 @router.post("/api/table/cover_events", response_model=CoverEventOut)
-def create_event(
+def create_cover_event(
     event: CoverEventIn,
     queries: EventQueries = Depends(),
+    user = Depends(get_current_user)
 ):
-    return queries.create_cover_event(event)
+    return queries.create_cover_event(event, user)
 
 @router.post("/api/table/shift_swap_events", response_model=ShiftSwapEventOut)
-def create_event(
+def create_shift_swap_event(
     event: ShiftSwapEventIn,
     queries: EventQueries = Depends(),
 ):
@@ -83,7 +89,7 @@ def update_cover_event(
     else:
         return record
 
-@router.delete("/api/table/cover_events/{id}", response_model=CoverEventOut)
+@router.delete("/api/table/cover_events/{id}", response_model=bool)
 def delete_cover_event(
     id: int,
     repo: EventQueries = Depends()
@@ -91,7 +97,7 @@ def delete_cover_event(
     record = repo.delete_cover_event(id)
     return True
 
-@router.delete("/api/table/shift_swap_events/{id}", response_model=ShiftSwapEventOut)
+@router.delete("/api/table/shift_swap_events/{id}", response_model=bool)
 def delete_cover_event(
     id: int,
     repo: EventQueries = Depends()

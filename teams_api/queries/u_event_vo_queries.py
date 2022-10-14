@@ -18,10 +18,10 @@ class EventVoRepository:
                         event_href,
                         owner,
                         team,
-                        shift_start, 
-                        shift_end, 
-                        availability_start, 
-                        availability_end 
+                        shift_start,
+                        shift_end,
+                        availability_start,
+                        availability_end
                     )
                     VALUES(
                         %s,
@@ -58,17 +58,17 @@ class EventVoRepository:
                         event_href,
                         owner,
                         team,
-                        shift_start, 
-                        shift_end, 
-                        availability_start, 
-                        availability_end, 
+                        shift_start,
+                        shift_end,
+                        availability_start,
+                        availability_end,
                     )
                     WHERE id = %s;
                     """,
                     [id]
                 )
                 return self.to_dict(result.fetchall(),result.description)
-    
+
     def create_cover_event(self, event:EventVoIn, user):
 
         href = f"localhost:8000/api/table/events/{event.id}"
@@ -82,8 +82,8 @@ class EventVoRepository:
                         event_href,
                         owner,
                         team,
-                        availability_start, 
-                        availability_end 
+                        availability_start,
+                        availability_end
                     )
                     VALUES(
                         %s,
@@ -116,8 +116,8 @@ class EventVoRepository:
                         event_href,
                         owner,
                         team,
-                        availability_start, 
-                        availability_end, 
+                        availability_start,
+                        availability_end,
                     )
                     WHERE id = %s;
                     """,
@@ -131,7 +131,7 @@ class EventVoRepository:
         for row in rows:
             item = {}
             for i in range(len(row)):
-                item[columns[i]]=row[i] 
+                item[columns[i]]=row[i]
             lst.append(item)
         if len(lst) == 1:
             lst = lst[0]
