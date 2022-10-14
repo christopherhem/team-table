@@ -6,14 +6,15 @@ import requests
 class EventVoRepository:
     def create_swap_event(self, event:EventVoIn, user):
 
-        href = f"localhost:8000/api/table/events/{event.id}"
-        team = requests.get(event.team_href)
+        href = f"localhost:8080/api/table/events/{event.id}"
+        team = list(event.team_href)[-1]
+        print(user)
         with pool.connection() as conn:
             with conn.cursor() as db:
 
                 result = db.execute(
                     """
-                    INSERT INTO swap_event_vos(
+                    INSERT INTO shift_swap_event_vos(
                         event_href,
                         owner,
                         team,
@@ -30,20 +31,21 @@ class EventVoRepository:
                         %s,
                         %s,
                         %s
-                    );
+                    )
+                    RETURNING id, event_href,owner,team,shift_start,shift_end,availability_start,availability_end;
                     """,
                     [
                         href,
-                        user.account.username,
-                        team.id,
+                        user['account']['username'],
+                        team,
                         event.shift_start,
                         event.shift_end,
                         event.availability_start,
                         event.availability_end
                     ]
                 )
-        id = result.fetchone()[0]
-        return self.get_swap_event(id)
+                id = result.fetchone()[0]
+                return self.get_swap_event(id)
 
     def get_swap_event(self, id):
         with pool.connection() as conn:
@@ -70,7 +72,7 @@ class EventVoRepository:
     def create_cover_event(self, event:EventVoIn, user):
 
         href = f"localhost:8000/api/table/events/{event.id}"
-        team = requests.get(event.team_href)
+        team = list(event.team_href)[-1]
         with pool.connection() as conn:
             with conn.cursor() as db:
 
@@ -89,12 +91,13 @@ class EventVoRepository:
                         %s,
                         %s,
                         %s
-                    );
+                    )
+                    RETURNING id, event_href,owner,team,availability_start,availability_end;
                     """,
                     [
                         href,
-                        user.account.username,
-                        team.id,
+                        user['account']['username'],
+                        team,
                         event.availability_start,
                         event.availability_end
                     ]

@@ -1,10 +1,9 @@
 import json
 import requests
-from fastapi import APIRouter, Depends, Response
+from fastapi import APIRouter, Depends, Response, Request
 from models import *
 from typing import Union, List
 from queries import SubQueries
-
 router = APIRouter()
 
 
@@ -25,50 +24,65 @@ def add_team(
     ):
     return repo.add_sub(sub)
 
-@router.post("/api/seps", response_model = bool)
+@router.post("/api/seps", response_model = Union[bool,Error])
 def publish_post(
-    body:json,
+    body: EventVoIn,
+    request: Request,
     response: Response,
     repo:SubQueries = Depends()
     ):
+    headers = {
+        "Authorization": request.headers["Authorization"]
+    }
     try:
         urls = []
         for sub in repo.get_subs():
-            urls.append(sub.url)
+            urls.append(sub['url'])
         for url in urls:
-            requests.post(url, data = body)
+            body = json.dumps(dict(body))
+            requests.post(url, data = body, headers = headers)
         return True
-    except:
-        return False
+    except Exception as e:
+         return {"message": str(e)}
 
 @router.put("/api/seps", response_model = bool)
-def publish_post(
-    body:json,
+def publish_put(
+   body: EventVoIn,
+    request: Request,
     response: Response,
     repo:SubQueries = Depends()
     ):
+    headers = {
+        "Authorization": request.headers["Authorization"]
+    }
     try:
         urls = []
         for sub in repo.get_subs():
-            urls.append(sub.url)
+            urls.append(sub['url'])
         for url in urls:
-            requests.put(url, data = body)
+            body = json.dumps(dict(body))
+            requests.put(url, data = body, headers = headers)
         return True
-    except:
-        return False
+    except Exception as e:
+         return {"message": str(e)}
 
 @router.delete("/api/seps", response_model = bool)
-def publish_post(
-    body:json,
+def publish_delete(
+    body: EventVoIn,
+    request: Request,
     response: Response,
     repo:SubQueries = Depends()
     ):
+    headers = {
+        "Authorization": request.headers["Authorization"]
+    }
     try:
         urls = []
         for sub in repo.get_subs():
-            urls.append(sub.url)
+            urls.append(sub['url'])
         for url in urls:
-            requests.delete(url, data = body)
+            body = json.dumps(dict(body))
+            requests.delete(url, data = body, headers = headers)
         return True
-    except:
-        return False
+    except Exception as e:
+         return {"message": str(e)}
