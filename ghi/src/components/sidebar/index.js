@@ -9,6 +9,8 @@ import {
   SideBtnWrap, 
   SidebarRoute } from './SidebarElements';
 
+
+
 const Sidebar = ({isOpen, toggle}) => {
   return (
     <SidebarContainer isOpen={isOpen} onClick={toggle}>
@@ -19,8 +21,8 @@ const Sidebar = ({isOpen, toggle}) => {
           <SidebarMenu>
             <SidebarLink to="about" onClick={toggle}>About Us</SidebarLink>
             <SidebarLink to="discover" onClick={toggle}>Discover</SidebarLink>
-            <SidebarLink to="services">Services</SidebarLink>
-            <SidebarLink to="/signup">Sign Up</SidebarLink>
+            <SidebarLink to="services" onClick={toggle}>Services</SidebarLink>
+            <SidebarLink to="/signup" onClick={toggle}>Sign Up</SidebarLink>
           </SidebarMenu>
           <SideBtnWrap>
             <SidebarRoute to="/signin">

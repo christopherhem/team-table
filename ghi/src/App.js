@@ -3,9 +3,9 @@
 // import ErrorNotification from './ErrorNotification';
 // import './App.css';
 
-import { Routes, Route } from 'react-router-dom';
+import {Route, Routes} from 'react-router-dom';
 import SignUp from './components/users/signup.js';
-import Home from './pages/index.js';
+import Home from './pages';
 
 
 
@@ -36,8 +36,8 @@ function App() {
 
   return (
     <>
-      <Home />
       <Routes>
+        <Route path='/' element={<Home />} />
         <Route path="signup" element={<SignUp />} />
       </Routes>
     </>

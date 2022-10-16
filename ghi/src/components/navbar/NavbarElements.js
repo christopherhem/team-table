@@ -5,7 +5,7 @@ import {Link as LinkS} from 'react-scroll'
 export const Nav = styled.nav`
     background: #FFF;
     height: 80px;
-    ${'' /* margin-top: -80px; */}
+    margin-top: 80px 0;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -17,7 +17,8 @@ export const Nav = styled.nav`
     @media screen and (max-width: 960px) {
         transition: 0.8s all ease;
     }
-`
+`;
+
 export const NavbarContainer = styled.div`
     display: flex;
     justify-content: space-between;
@@ -25,15 +26,14 @@ export const NavbarContainer = styled.div`
     z-index: 1;
     width: 100%;
     padding: 0 24px;
-    max-width: 1100px;
+    ${'' /* max-width: 1100px; */}
     box-shadow: 0 2px 4px 0 rgba(0,0,0,.2);
 `
-
 export const NavLogo = styled(LinkR)`
-    color: #000;
+    color: #6C63FF;
     justify-self: flex-start;
-    cursor: point;
-    font-size: 1.5rem;
+    cursor: pointer;
+    font-size: 1.65rem;
     display: flex;
     align-items: center;
     margin-left: 24px;
@@ -82,7 +82,7 @@ export const NavLinks = styled(LinkS)`
     cursor: pointer;
 
     &.active {
-        border-bottom: 3px solid #01bf71;
+        border-bottom: 3px solid #6C63FF;
     }
 `
 
@@ -99,7 +99,7 @@ export const NavButton = styled.nav`
 
 export const NavBtnLink = styled(LinkR)`
     border-radius: 50px;
-    background: #01bf71;
+    background: #6C63FF;
     white-space: nowrap;
     padding: 10px 22px;
     color: #010606;
@@ -113,6 +113,6 @@ export const NavBtnLink = styled(LinkR)`
     &:hover {
         transition: all 0.2s ease-in-out;
         background: #fff;
-        color: #010606;  
+        color: #6C63FF;  
     }
 `
