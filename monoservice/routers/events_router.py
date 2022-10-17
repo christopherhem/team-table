@@ -5,13 +5,12 @@ import os, requests, json
 from queries.events_queries import EventQueries
 from authenticator import MyAuthenticator
 from routers.users_dependencies import get_current_user
-from routers.models import (
+from ..models import (
     CoverEventIn,
     CoverEventOut,
     ShiftSwapEventOut,
     ShiftSwapEventIn,
     EventTypeOut,
-    TableOut,
 )
 from datetime import datetime
 

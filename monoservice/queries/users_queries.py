@@ -1,45 +1,7 @@
 from pydantic import BaseModel
 from typing import  List, Optional, Union
 from queries.pool import pool
-class Error(BaseModel):
-    message: str
-
-class User(BaseModel):
-    id: int
-    username: str
-    hashed_password: str
-    first_name: str
-    last_name: str
-    email: str
-    phone_number: str
-    profile_picture_href: str
-
-class UserIn(BaseModel):
-    username: str
-    password: str
-    first_name: str
-    last_name: str
-    email: str
-    phone_number: str
-    profile_picture_href: str
-
-class UserOut(BaseModel):
-    id: int
-    username: str
-    first_name: str
-    last_name: str
-    email: str
-    phone_number: str
-    profile_picture_href: str
-
-class UserPut(BaseModel):
-    id: int
-    hashed_password: Optional[str]
-    first_name: Optional[str]
-    last_name: Optional[str]
-    email: Optional[str]
-    phone_number: Optional[str]
-    profile_picture_href: Optional[str]
+from ..models import User, UserIn, UserOut, UserPut, Error
 
 class UserQueries:
     def get_all(self) -> Union[Error, List[User]]:

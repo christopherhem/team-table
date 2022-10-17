@@ -2,7 +2,7 @@ from fastapi import APIRouter, Depends, Response
 from fastapi.middleware.cors import CORSMiddleware
 import os
 from queries.teamvo_queries import TeamVORepository
-from routers.models import (
+from ..models import (
     TeamVoOut,
     TeamVoIn
 )
@@ -15,6 +15,7 @@ def get_all(repo: TeamVORepository = Depends()):
 
 @router.post("/api/main/teams", response_model = TeamVoOut)
 def new_team_vo(team:TeamVoIn, repo:TeamVORepository):
+    pass
     
 
 @router.get("/api/table/teams/{id}", response_model=TeamVoOut)

@@ -1,5 +1,5 @@
 from queries.pool import pool
-from routers.models import (
+from ..models import (
     CoverEventIn,
     CoverEventOut,
     ShiftSwapEventOut,
