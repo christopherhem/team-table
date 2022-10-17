@@ -17,17 +17,18 @@ import {
 function SignUp() {
     const navigate = useNavigate();
     const [email, setEmail] = useState('');
-    const [userName, setUserName] = useState('');
-    const [firstName, setFirstName] = useState('');
-    const [lastName, setLastName] = useState('');
-    const [phoneNumber, setPhoneNumber] = useState('');
+    const [username, setUserName] = useState('');
+    const [first_name, setFirstName] = useState('');
+    const [last_name, setLastName] = useState('');
+    const [phone_number, setPhoneNumber] = useState('');
     const [password, setPassword] = useState('');
+    const [profile_picture_href, setProfilePic] = useState('')
     const [error, setError] = useState(null);
     const [createUser, result] = useCreateUsersMutation();
 
     async function handleSubmit(e) {
         e.preventDefault();
-        createUser({email, userName, firstName, lastName, phoneNumber,password});
+        createUser({email, username, first_name, last_name, phone_number, password, profile_picture_href});
         if (result.isSuccess) {
             navigate("/dashboard");
         } else {
@@ -55,28 +56,28 @@ function SignUp() {
             id="username" 
             placeholder="Enter User Name" 
             labelText="Create User Name" 
-            value={userName} 
+            value={username} 
             onChange={e=> setUserName(e.target.value)}
             type="text" />
         <CreateInput 
             id="first_name" 
             placeholder="First Name" 
             labelText="First Name" 
-            value={firstName} 
+            value={first_name} 
             onChange={e=> setFirstName(e.target.value)}
             type="text" />
         <CreateInput 
             id="last_name" 
             placeholder="Last Name" 
             labelText="Last Name" 
-            value={lastName} 
+            value={last_name} 
             onChange={e=> setLastName(e.target.value)}
             type="text" />
         <CreateInput 
             id="phone_number" 
             placeholder="Phone Number" 
             labelText="Phone Number" 
-            value={phoneNumber} 
+            value={phone_number} 
             onChange={e=> setPhoneNumber(e.target.value)}
             type="text" />
         <CreateInput 
@@ -86,6 +87,13 @@ function SignUp() {
             value={password} 
             onChange={e=> setPassword(e.target.value)}
             type="password" />
+        <CreateInput 
+            id="profile_picture_href" 
+            placeholder="Profile Picture" 
+            labelText="Profile Picture" 
+            value={profile_picture_href} 
+            onChange={e=> setProfilePic(e.target.value)}
+            type="url" />
          <FormButton type='submit'>Submit</FormButton>
         </Form>
         </FormContent>
