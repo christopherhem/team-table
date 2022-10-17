@@ -4,12 +4,15 @@
 // import './App.css';
 
 import {Route, Routes} from 'react-router-dom';
+import Dashboard from './components/dashboard/index.js';
+import SignIn from './components/users/signin.js';
 import SignUp from './components/users/signup.js';
 import Home from './pages';
 
 
 
 function App() {
+  // const [token, login, logout, signup] = useToken();
   // +++++++++++++++++Should remove this?+++++++++++++++++++++++
 
   // const [launch_info, setLaunchInfo] = useState([]);
@@ -38,7 +41,9 @@ function App() {
     <>
       <Routes>
         <Route path='/' element={<Home />} />
+        <Route path='/dashboard' element={<Dashboard />} />
         <Route path="signup" element={<SignUp />} />
+        <Route path='/signin' element={<SignIn />} />
       </Routes>
     </>
   );

@@ -72,11 +72,11 @@ async def get_current_active_user(
 ):
     return current_user
 
-@router.get("/users", response_model=Union[List[UserOut], Error])
+@router.get("/api/users", response_model=Union[List[UserOut], Error])
 def get_all_users(queries: UserQueries = Depends(),):
     return queries.get_all()
 
-@router.get("/users/{user_id}", response_model=Optional[UserOut])
+@router.get("/api/users/{user_id}", response_model=Optional[UserOut])
 def get_one_user(
     user_id: int,
     query: UserQueries = Depends(),
@@ -86,7 +86,7 @@ def get_one_user(
         raise HTTPException(status_code=404, detail=f'Username error: User not found.')
     return user
 
-@router.post("/users", response_model=Union[UserToken, Error])
+@router.post("/api/users", response_model=Union[UserToken, Error])
 async def create_user(
     info: UserIn,
     request: Request,
@@ -105,7 +105,7 @@ async def create_user(
     token = await authenticator.login(response, request, form, queries)
     return UserToken(user=user, **token.dict())
 
-@router.put("/users/{user_id}", response_model=Union[UserPut, Error])
+@router.put("/api/users/{user_id}", response_model=Union[UserPut, Error])
 def update_user(
     user_id: int,
     user: UserIn,
@@ -113,9 +113,21 @@ def update_user(
 ) -> Union[Error, UserPut]:
     return query.update(user_id, user)
 
-@router.delete("/users/{user_id}", response_model=bool)
+@router.delete("/api/users/{user_id}", response_model=bool)
 def delete_user(
     user_id: int,
     query: UserQueries = Depends(),
 ) -> bool:
     return query.delete(user_id)
+
+@router.get("/token", response_model=UserToken | None)
+async def get_token(
+    request: Request,
+    account: User = Depends(authenticator.try_get_current_account_data)
+) -> UserToken | None:
+    if account and authenticator.cookie_name in request.cookies:
+        return { 
+            "access_token": request.cookies[authenticator.cookie_name],
+            "type": "Bearer",
+            "account": account,
+        }
