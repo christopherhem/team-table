@@ -57,7 +57,7 @@ def create_cover_event(
     user = Depends(get_current_user)
 ):
     headers = request.headers
-    requests.post("http://simplepubsub:8000/api/seps", data = event, headers = headers)
+    requests.post("http://pubsub:8000/api/seps", data = event, headers = headers)
     return queries.create_cover_event(event, user)
 
 @router.post("/api/table/shift_swap_events", response_model=ShiftSwapEventOut)
@@ -66,10 +66,10 @@ def create_shift_swap_event(
     event: ShiftSwapEventIn,
     queries: EventQueries = Depends(),
     user = Depends(get_current_user)
-    
+
 ):
     headers = request.headers
-    requests.post("http://simplepubsub:8000/api/seps", data = event, headers = headers)
+    requests.post("http://pubsub:8000/api/seps", data = event, headers = headers)
     return queries.create_shift_swap_event(event, user)
 
 @router.put("/api/table/cover_events/{id}", response_model=CoverEventOut)

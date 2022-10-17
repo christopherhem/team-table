@@ -41,19 +41,13 @@ class PayLevelRepository:
                 with conn.cursor() as db:
                     result = db.execute(
                         """
-<<<<<<< HEAD
+
                         SELECT
-                            p.id,
-                            p.name,
-                            p.max_members,
-                            p.max_roles,
-=======
-                        SELECT 
                             id,
                             name,
                             max_members,
                             max_roles
->>>>>>> main
+
                         FROM pay_levels
                         WHERE id=%s;
                         """,
@@ -69,19 +63,11 @@ class PayLevelRepository:
                     result = db.execute(
                         """
                         SELECT
-<<<<<<< HEAD
-                            p.id,
-                            p.name,
-                            p.max_members,
-                            p.max_roles
-                        FROM pay_levels AS p
-=======
                             id,
                             name,
                             max_members,
                             max_roles
                         FROM pay_levels
->>>>>>> main
                         """
                     )
                     return self.to_dict(result.fetchall(),result.description)
@@ -129,7 +115,7 @@ class PayLevelRepository:
         for row in rows:
             item = {}
             for i in range(len(row)):
-                item[columns[i]]=row[i] 
+                item[columns[i]]=row[i]
             lst.append(item)
         if len(lst) == 1:
             lst = lst[0]
