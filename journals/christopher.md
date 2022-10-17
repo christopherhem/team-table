@@ -47,3 +47,7 @@ Worked with Louise and Josh to do some tri-programming for our back-end portion 
 ## October 13, 2022
 
 Today I was able to focus a bit more on design and front end tasks. Definitely a different pace compared to back-end programming, which is kind of nice. We were in the talks of possibly converting to a monolith but thankfully Louise and Josh have been very diligent and hardworking on trying to make all the connections. Currently running with a 3 person team appears to be a challenge the past couple days, but we're pushing along! Onwards! 
+
+## October 14, 2022
+
+Starting to feel somewhat the pressure of whether or not we're on track with our project, I was having difficult deciding on what kind of approach to go with our front-end. I initially was thinking a carousel would be nice, but I was able to find more of a scrolling style page that may provide a clean and simple experience. I'm currently implementing more CSS for the Home page just because I want to improve CSS skills a bit. It is definitely a head banger activity. 
