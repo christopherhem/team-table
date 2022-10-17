@@ -26,15 +26,11 @@ class TeamRepository:
                     """,
                     [
                         team.name,
-                        team.type.id,
+                        team.type,
                         team.description
-                        #need to set pay_level to a default value
                     ]
                 )
-                id = result.fetchone()[0]
-        #uncomment once pubsub up and running for teamvos in monoservice
-        #requests.post("localhost:8085/api/stps", data = self.get_team(id))
-        return self.get_team(id)
+                return self.to_dict(result.fetchall(), result.description)
 
     def get_all(self)->Union[Error, List[TeamOut]]:
         try:
@@ -46,7 +42,7 @@ class TeamRepository:
                             id,
                             name,
                             type,
-                            descripton,
+                            description,
                             pay_level
                         FROM teams
                         """
@@ -117,7 +113,7 @@ class TeamRepository:
         for row in rows:
             item = {}
             for i in range(len(row)):
-                item[columns[i]]=row[i] 
+                item[columns[i]]=row[i]
             lst.append(item)
         if len(lst) == 1:
             lst = lst[0]

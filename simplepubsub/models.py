@@ -21,6 +21,8 @@ class EventVoIn(BaseModel):
     availability_end: str
 
 class TeamVoIn(BaseModel):
-    team_id: int
-    name: str
-    username: str
+    id : int
+    name : str
+    type : int
+    description : Optional[str]
+    pay_level : int

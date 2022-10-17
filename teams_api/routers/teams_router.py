@@ -1,18 +1,19 @@
 from fastapi import APIRouter, Depends, status, Response, HTTPException, Request
 from models import *
 import json, requests
+from .users_dependencies import get_current_user
 from typing import Union, List as l
 from queries.teams_queries import TeamRepository
 
 router = APIRouter()
 
-@router.get("/api/teams", response_model = TeamsOut)
+@router.get("/api/teams", response_model = l[TeamOut])
 def get_teams(
     repo: TeamRepository = Depends()
 ):
-    return {"teams": [repo.get_all()]}
+    return repo.get_all()
 
-@router.get("/api/teams/{id}")
+@router.get("/api/teams/{id}", response_model = TeamOut)
 def get_team(id: int,
     response: Response,
     repo: TeamRepository = Depends(),
@@ -48,16 +49,20 @@ def get_events():
 
 
 # Lines 56-64 weas a test to make sure we wer able to access User, Delete when done.
-@router.post("/api/teams", response_model = Union[TeamOut,Error])
+@router.post("/api/teams", response_model = TeamOut)
 def add_team(
     request: Request,
     team : TeamIn,
     response : Response,
-    repo : TeamRepository = Depends()
+    repo : TeamRepository = Depends(),
+    user = Depends(get_current_user)
     ):
     created_team = repo.create(team)
+    print("created_team", created_team)
     headers = request.headers
+    print("headers", headers)
     data = json.dumps(created_team)
+    print("data", data)
     requests.post("http://pubsub:8000/api/smps", data = data, headers = headers)
     return created_team
 

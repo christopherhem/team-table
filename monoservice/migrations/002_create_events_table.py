@@ -5,8 +5,7 @@ steps = [
         CREATE TABLE teams_vo (
             id SERIAL PRIMARY KEY NOT NULL,
             team_href VARCHAR(50) NOT NULL UNIQUE,
-            name VARCHAR(50) NOT NULL UNIQUE,
-            user_id INTEGER REFERENCES users("id") NOT NULL
+            name VARCHAR(50) NOT NULL UNIQUE
         );
 
         """,
