@@ -3,7 +3,8 @@ from fastapi.middleware.cors import CORSMiddleware
 from typing import Optional, List, Union
 import os
 from queries.table import EventQueries
-from routers.users import get_current_user
+from authenticator import MyAuthenticator
+from routers.users_dependencies import get_current_user
 from routers.models import (
     CoverEventIn,
     CoverEventOut,
@@ -60,8 +61,9 @@ def create_cover_event(
 def create_shift_swap_event(
     event: ShiftSwapEventIn,
     queries: EventQueries = Depends(),
+    user = Depends(get_current_user)
 ):
-    return queries.create_shift_swap_event(event)
+    return queries.create_shift_swap_event(event, user)
 
 @router.put("/api/table/cover_events/{id}", response_model=CoverEventOut)
 def update_cover_event(

@@ -19,7 +19,6 @@ class ShiftSwapEventIn(BaseModel):
     shift_end: datetime
     availability_start: datetime
     availability_end: datetime
-    user_id: int
     team_href: str
 
 class ShiftSwapEventOut(BaseModel):

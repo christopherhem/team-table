@@ -1,15 +1,15 @@
 from fastapi import (
-    APIRouter, 
+    APIRouter,
     Depends,
-    Cookie, 
-    Response, 
+    Cookie,
+    Response,
     HTTPException,
     status,
     Request,
 )
 from typing import (
-    List, 
-    Optional, 
+    List,
+    Optional,
     Union
 )
 from queries.users import *
@@ -23,7 +23,7 @@ from authenticator import authenticator
 from pydantic import BaseModel
 class UserForm(BaseModel):
     username: str
-    password: str 
+    password: str
 class UserToken(Token):
     user: UserOut
 class UserInDB(User):
@@ -57,6 +57,7 @@ async def get_current_user(
         token = cookie_token
     try:
         payload = jwt.decode(token, SIGNING_KEY, algorithms=[ALGORITHM])
+        print(payload)
         email = payload.get("email")
         if email is None:
             raise credentials_exception
@@ -65,7 +66,7 @@ async def get_current_user(
     user = repo.get_user(email)
     if user is None:
         raise credentials_exception
-    return user 
+    return user
 
 async def get_current_active_user(
     current_user: User = Depends(get_current_user),
@@ -93,7 +94,7 @@ async def create_user(
     response: Response,
     queries: UserQueries = Depends(),
 ):
-    users = queries.get_all() 
+    users = queries.get_all()
     for u in users:
         if info.username == u.username:
             raise HTTPException(status_code=409, detail=f'Username error: {info.username} already exists...')

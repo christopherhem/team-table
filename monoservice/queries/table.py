@@ -105,13 +105,13 @@ class EventQueries:
                     [
                         cover_event.availability_start,
                         cover_event.availability_end,
-                        user["account"]["username"],
+                        user["account"]["id"],
                         cover_event.team_href
                     ],
                 )
                 return self.to_dict(db.fetchall(), db.description)
 
-    def create_shift_swap_event(self, shift_swap_event: ShiftSwapEventIn):
+    def create_shift_swap_event(self, shift_swap_event: ShiftSwapEventIn, user):
         with pool.connection() as conn:
             with conn.cursor() as db:
                 db.execute(
@@ -129,7 +129,7 @@ class EventQueries:
                         shift_swap_event.shift_end,
                         shift_swap_event.availability_start,
                         shift_swap_event.availability_end,
-                        shift_swap_event.user_id,
+                        user["account"]["id"],
                         shift_swap_event.team_href
                     ],
                 )
