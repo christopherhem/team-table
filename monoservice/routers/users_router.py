@@ -12,7 +12,7 @@ from typing import (
     Optional,
     Union
 )
-from queries.users import *
+from queries.users_queries import *
 
 import os
 

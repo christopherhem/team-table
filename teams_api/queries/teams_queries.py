@@ -32,8 +32,6 @@ class TeamRepository:
                     ]
                 )
                 id = result.fetchone()[0]
-        #uncomment once pubsub up and running for teamvos in monoservice
-        #requests.post("localhost:8085/api/stps", data = self.get_team(id))
         return self.get_team(id)
 
     def get_all(self)->Union[Error, List[TeamOut]]:
