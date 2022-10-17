@@ -11,11 +11,11 @@ router = APIRouter()
 
 @router.get("/api/table/teams", response_model=TeamVoOut)
 def get_all(repo: TeamVORepository = Depends()):
-    return {"teams": repo.get_all()}
+    return repo.get_all()
 
 @router.post("/api/main/teams", response_model = TeamVoOut)
-def new_team_vo(team:TeamVoIn, repo:TeamVORepository):
-    
+def new_team_vo(team:TeamVoIn, repo:TeamVORepository = Depends()):
+    return repo.create(team)
 
 @router.get("/api/table/teams/{id}", response_model=TeamVoOut)
 def get_team(

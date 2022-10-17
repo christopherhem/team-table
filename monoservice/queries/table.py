@@ -21,7 +21,7 @@ class EventQueries:
                     FROM cover_events as e
                     LEFT JOIN users AS u
                         ON (u.id=e.user_id)
-                    LEFT JOIN team_vo AS tm
+                    LEFT JOIN teams_vo AS tm
                         ON (tm.href=e.team_href)
                     GROUP BY e.id, e.availability_start,
                         e.availability_end, e.team_href,
@@ -42,7 +42,7 @@ class EventQueries:
                     FROM shift_swap_events as e
                     LEFT JOIN users AS u
                         ON (u.id=e.user_id)
-                    LEFT JOIN team_vo AS tm
+                    LEFT JOIN teams_vo AS tm
                         ON (tm.href=e.team_href)
                     GROUP BY e.id, e.shift_start, e.shift_end,
                         e.availability_start, e.availability_end,
@@ -63,7 +63,7 @@ class EventQueries:
                     FROM cover_events as e
                     LEFT JOIN users AS u
                         ON (u.id=e.user_id)
-                    LEFT JOIN team_vo AS tm
+                    LEFT JOIN teams_vo AS tm
                         ON (tm.href=e.team_href)
                     WHERE e.id=%s
                     """,
@@ -83,7 +83,7 @@ class EventQueries:
                     FROM shift_swap_events as e
                     LEFT JOIN users AS u
                         ON (u.id=e.user_id)
-                    LEFT JOIN team_vo AS tm
+                    LEFT JOIN teams_vo AS tm
                         ON (tm.href=e.team_href)
                     WHERE e.id=%s
                     """,

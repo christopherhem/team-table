@@ -2,9 +2,9 @@ steps = [
     [
         # "Up" SQL statement
         """
-        CREATE TABLE team_vo (
+        CREATE TABLE teams_vo (
             id SERIAL PRIMARY KEY NOT NULL,
-            href VARCHAR(50) NOT NULL UNIQUE,
+            team_href VARCHAR(50) NOT NULL UNIQUE,
             name VARCHAR(50) NOT NULL UNIQUE,
             user_id INTEGER REFERENCES users("id") NOT NULL
         );
@@ -43,7 +43,7 @@ steps = [
             availability_start TIMESTAMP NOT NULL,
             availability_end TIMESTAMP NOT NULL,
             user_id INTEGER REFERENCES users("id") ON DELETE CASCADE,
-            team_href VARCHAR(50) REFERENCES team_vo("href") ON DELETE CASCADE
+            team_href VARCHAR(50) REFERENCES teams_vo("team_href") ON DELETE CASCADE
         );
         """,
         # "Down" SQL statement
@@ -61,7 +61,7 @@ steps = [
             availability_start TIMESTAMP NOT NULL,
             availability_end TIMESTAMP NOT NULL,
             user_id INTEGER REFERENCES users("id") ON DELETE CASCADE,
-            team_href VARCHAR(50) REFERENCES team_vo("href") ON DELETE CASCADE
+            team_href VARCHAR(50) REFERENCES teams_vo("team_href") ON DELETE CASCADE
         );
         """,
         # "Down" SQL statement

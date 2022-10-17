@@ -16,7 +16,7 @@ class EventTypeRepository:
                         FROM event_types;
                         """
                     )
-            return self.to_dict(result.fetchall(), result.description)
+                    return self.to_dict(result.fetchall(), result.description)
         except Exception as e:
             return{"message" : str(e)}
 
@@ -25,7 +25,7 @@ class EventTypeRepository:
             with pool.connection() as conn:
                 with conn.cursor() as db:
                     result = db.execute(
-                        
+
                         """
                         SELECT id, name, table_name
                         FROM event_types
@@ -43,7 +43,7 @@ class EventTypeRepository:
         for row in rows:
             item = {}
             for i in range(len(row)):
-                item[columns[i]]=row[i] 
+                item[columns[i]]=row[i]
             lst.append(item)
         if len(lst) == 1:
             lst = lst[0]

@@ -19,3 +19,8 @@ class EventVoIn(BaseModel):
     shift_end: Optional[str]
     availability_start: str
     availability_end: str
+
+class TeamVoIn(BaseModel):
+    team_id: int
+    name: str
+    username: str

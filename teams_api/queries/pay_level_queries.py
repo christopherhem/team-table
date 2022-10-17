@@ -41,12 +41,12 @@ class PayLevelRepository:
                 with conn.cursor() as db:
                     result = db.execute(
                         """
-                        SELECT pay_levels(
+                        SELECT
                             p.id,
                             p.name,
                             p.max_members,
                             p.max_roles,
-                        )
+                        FROM pay_levels
                         WHERE id=%s;
                         """,
                         [id]
@@ -61,12 +61,12 @@ class PayLevelRepository:
                 with conn.cursor() as db:
                     result = db.execute(
                         """
-                        SELECT pay_levels(
+                        SELECT
                             p.id,
                             p.name,
                             p.max_members,
-                            p.max_roles,
-                        )
+                            p.max_roles
+                        FROM pay_levels AS p
                         """
                     )
                     pay_levels = []
