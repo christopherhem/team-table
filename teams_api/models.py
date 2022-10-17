@@ -38,18 +38,15 @@ class PayLevelOut(BaseModel):
 
 class TeamIn(BaseModel):
     name : str
-    type : TeamTypeOut
+    type : int
     description : Optional[str]
 
 class TeamOut(BaseModel):
     id : int
     name : str
-    type : TeamTypeOut
+    type : int
     description : Optional[str]
-    pay_level : PayLevelOut
-
-class TeamsOut(BaseModel):
-    teams: list[TeamOut]
+    pay_level : int
 
 class EventVoIn(BaseModel):
     id : int

@@ -51,12 +51,7 @@ class TeamRepository:
                         FROM teams
                         """
                     )
-                    teams = []
-                    rows= result.fetchall()
-                    for row in rows:
-                        team = self.team_record_to_dict(row, result.description)
-                        teams.append(team)
-                    return teams
+                    return self.to_dict(result.fetchall(),result.description)
         except:
             return{"message" : "Error in team_queries TeamRepository.get_all"}
 
@@ -77,8 +72,7 @@ class TeamRepository:
                         """,
                         [id]
                     )
-                    row = result.fetchone()
-                    return self.team_record_to_dict(row, result.description)
+                    return self.to_dict(result.fetchall(),result.description)
         except Exception as e:
             return{"message" : str(e)}
 
@@ -116,3 +110,15 @@ class TeamRepository:
                     params,
                 )
         return self.to_dict(result.fetchall(),result.description)
+
+    def to_dict(self,rows,description):
+        lst = []
+        columns = [desc[0] for desc in description]
+        for row in rows:
+            item = {}
+            for i in range(len(row)):
+                item[columns[i]]=row[i] 
+            lst.append(item)
+        if len(lst) == 1:
+            lst = lst[0]
+        return lst
