@@ -47,22 +47,15 @@ class RolesQueries:
                 with conn.cursor() as db:
                     result = db.execute(
                         """
-                        SELECT roles(
-                            r.id,
-                            r.name,
-                        )
-                        FROM roles as r
-                        LEFT JOIN teams as t
-                            ON (team=t.id)
-                        ORDER BY r.id
-                        WHERE id=%s;
-                        """
+                        SELECT id, name, team
+                        FROM roles
+                        WHERE id = %s
+                        """,
                         [id]
                     )
-                    row = result.fetchone()
-                    return self.role_record_to_dict(row, result.description)
-        except:
-            return{"message" : "Error in roles RolesQueries.get_one"}
+                    return self.to_dict(result.fetchall(),result.description)
+        except Exception as e:
+            return{"message" : f"Error in roles_queries get_one: {e}"}
 
     def update(self, id, data):
         with pool.connection() as conn:
@@ -76,12 +69,11 @@ class RolesQueries:
                     UPDATE roles
                     SET name = %s,
                     WHERE id = %s
-                    RETURNING id, name
+                    RETURNING id, name, team
                     """,
                     params,
                 )
-                row = result.fetchone()
-                return self.role_record_to_dict(row, result.description)
+                return self.to_dict(result.fetchall(),result.description)
 
     def delete(self, id):
         with pool.connection() as conn:
