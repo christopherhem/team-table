@@ -22,3 +22,9 @@ I made a pub sub from scratch that should be able to handle pub sub for events->
 
 ## 10/12/2022
 I finished the pub sub and related endpoints, set up endpoints to use the new get user functionality chris made so we can create models correctly. 
+
+## 10/12/2022
+I worked to get pub sub requests working, ended up needing to work on a long chain of endpoints to get the teams model working so we could test TeamVO pubsub
+
+## 10/13/2022
+Pub sub requests are working! We had to get curtis' help with getting auth to pass through the pub sub correctly, but it is working now, we only need to get all the endpoints working perfectly now and we will be done with the hardest part of the back end.

@@ -21,23 +21,20 @@ class TeamTypeOut(BaseModel):
     id : int
     name : str
 
-class EventTypeTeamTypeIn(BaseModel):
-    team_type:TeamTypeOut
-    event_type:EventTypeOut
+# class EventTypeTeamTypeIn(BaseModel):
+#     team_type:TeamTypeOut
+#     event_type:EventTypeOut
 
-class EventTypeTeamTypeOut(BaseModel):
-    id : int
-    team_type:TeamTypeOut
-    event_type:EventTypeOut
+# class EventTypeTeamTypeOut(BaseModel):
+#     id : int
+#     team_type:TeamTypeOut
+#     event_type:EventTypeOut
 
 class PayLevelOut(BaseModel):
     id : int
     name : str
     max_members : int
     max_roles : int
-
-class PayLevelsOut(BaseModel):
-    pay_levels: list[PayLevelOut]
 
 class TeamIn(BaseModel):
     name : str
@@ -80,32 +77,31 @@ class SwapEventVoOut(BaseModel):
     availability_start: datetime
     availability_end: datetime
 
-
 class RolesIn(BaseModel):
     name: str
-    team: TeamOut
+    team: int
 
 class RolesOut(BaseModel):
     id : int
     name : str
-    team: TeamOut
+    team: int
 
 class PermissionsIn(BaseModel):
-    role : RolesOut
+    role : int
     approve_swaps: bool
     invite_members: bool
     add_roles:bool
 
 class PermissionsOut(BaseModel):
     id : int
-    role : RolesOut
+    role : int
     approve_swaps: bool
     invite_members: bool
     add_roles:bool
 
 class MemberIn(BaseModel):
     member: str
-    role: RolesOut
+    role: int
 
 class MemberOut(BaseModel):
     id : int

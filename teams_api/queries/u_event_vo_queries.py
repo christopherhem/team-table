@@ -8,7 +8,6 @@ class EventVoRepository:
 
         href = f"localhost:8080/api/table/events/{event.id}"
         team = list(event.team_href)[-1]
-        print(user)
         with pool.connection() as conn:
             with conn.cursor() as db:
 

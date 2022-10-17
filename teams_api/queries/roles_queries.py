@@ -1,6 +1,6 @@
 from typing import List, Union
 from queries.pool import pool
-from models import *
+from models import RolesIn, RolesOut, Error
 
 class RolesQueries:
     def create(self, role: RolesIn) -> Union[RolesOut, Error]:
@@ -10,43 +10,34 @@ class RolesQueries:
                     result = db.execute(
                         """
                         INSERT INTO roles
-                            (name, teams)
+                            (name, team)
                         VALUES
                             (%s, %s)
-                        RETURNING id;
+                        RETURNING id, name, team;
                         """,
                         [
                             role.name,
                             role.team
                         ]
                     )
-                    id = result.fetchone()[0]
-                    return self.role_in_to_out(id,role)
+                    return self.to_dict(result.fetchall(),result.description)
         except Exception:
             return {"message": "Unable to create"}
 
-    def get_all(self) -> Union[Error, List[RolesOut]]:
+    def get_all(self, tid) -> Union[Error, List[RolesOut]]:
         try:
             with pool.connection() as conn:
                 with conn.cursor() as db:
                     result = db.execute(
                         """
-                        SELECT roles(
-                            r.id,
-                            r.name,
-                        )
-                        FROM roles as r
-                        LEFT JOIN teams as t
-                            ON (team=t.id)
-                        ORDER BY r.id;
-                        """
+                        SELECT id,name,team
+                        FROM roles
+                        WHERE team = %s
+                        """,
+                        [tid]
                     )
-                    roles = []
-                    rows = result.fetchall()
-                    for row in rows:
-                        role = self.role_record_to_dict(row, result.description)
-                        roles.append(role)
-                    return roles
+                    return self.to_dict(result.fetchall(),result.description)
+                    
         except Exception:
             return {"message": "Could not get all roles"}
 
@@ -56,22 +47,15 @@ class RolesQueries:
                 with conn.cursor() as db:
                     result = db.execute(
                         """
-                        SELECT roles(
-                            r.id,
-                            r.name,
-                        )
-                        FROM roles as r
-                        LEFT JOIN teams as t
-                            ON (team=t.id)
-                        ORDER BY r.id
-                        WHERE id=%s;
-                        """
+                        SELECT id, name, team
+                        FROM roles
+                        WHERE id = %s
+                        """,
                         [id]
                     )
-                    row = result.fetchone()
-                    return self.role_record_to_dict(row, result.description)
-        except:
-            return{"message" : "Error in roles RolesQueries.get_one"}
+                    return self.to_dict(result.fetchall(),result.description)
+        except Exception as e:
+            return{"message" : f"Error in roles_queries get_one: {e}"}
 
     def update(self, id, data):
         with pool.connection() as conn:
@@ -85,12 +69,11 @@ class RolesQueries:
                     UPDATE roles
                     SET name = %s,
                     WHERE id = %s
-                    RETURNING id, name
+                    RETURNING id, name, team
                     """,
                     params,
                 )
-                row = result.fetchone()
-                return self.role_record_to_dict(row, result.description)
+                return self.to_dict(result.fetchall(),result.description)
 
     def delete(self, id):
         with pool.connection() as conn:
@@ -103,17 +86,14 @@ class RolesQueries:
                     [id]
                 )
 
-    def role_in_to_out(self, id: int, role: RolesIn):
-        old_data = role.dict()
-        return RolesOut(id=id, **old_data)
-
-    def role_record_to_dict(self, row, description):
-        role = None
-        if row is not None:
-            role = {}
-            role_fields = ["id", "name"]
-            for i, column in enumerate(description):
-                if column.name in role_fields:
-                    role[column.name] = row[i]
-            role["id"] = role["id"]
-        return role
+    def to_dict(self,rows,description):
+        lst = []
+        columns = [desc[0] for desc in description]
+        for row in rows:
+            item = {}
+            for i in range(len(row)):
+                item[columns[i]]=row[i] 
+            lst.append(item)
+        if len(lst) == 1:
+            lst = lst[0]
+        return lst

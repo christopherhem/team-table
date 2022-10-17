@@ -1,5 +1,5 @@
 from typing import List, Union
-from models import PayLevelOut, PayLevelsOut, Error
+from models import PayLevelOut, Error
 from queries.pool import pool
 
 class PayLevelRepository:
@@ -41,92 +41,96 @@ class PayLevelRepository:
                 with conn.cursor() as db:
                     result = db.execute(
                         """
+<<<<<<< HEAD
                         SELECT
                             p.id,
                             p.name,
                             p.max_members,
                             p.max_roles,
+=======
+                        SELECT 
+                            id,
+                            name,
+                            max_members,
+                            max_roles
+>>>>>>> main
                         FROM pay_levels
                         WHERE id=%s;
                         """,
                         [id]
                     )
-                    row = result.fetchone()
-                    return self.team_record_to_dict(row, result.description)
+                    return self.to_dict(result.fetchall(),result.description)
         except:
             return{"message" : "Error in team_queries PayLevelRepository.get_pay_level"}
 
-    def get_all(self)->Union[Error, PayLevelsOut]:
+    def get_all(self)->Union[Error, List[PayLevelOut]]:
         with pool.connection() as conn:
                 with conn.cursor() as db:
                     result = db.execute(
                         """
                         SELECT
+<<<<<<< HEAD
                             p.id,
                             p.name,
                             p.max_members,
                             p.max_roles
                         FROM pay_levels AS p
+=======
+                            id,
+                            name,
+                            max_members,
+                            max_roles
+                        FROM pay_levels
+>>>>>>> main
                         """
                     )
-                    pay_levels = []
-                    rows = result.fetchall()
-                    for row in rows:
-                        pay_level = self.pay_level_record_to_dict(row, result.description)
-                        pay_levels.append(pay_level)
-                    return pay_level
+                    return self.to_dict(result.fetchall(),result.description)
 
-    def delete_pay_level(self, id):
-        with pool.connection() as conn:
-            with conn.cursor() as db:
-                result = db.execute(
-                    """
-                    DELETE FROM trucks
-                    WHERE id = %s
-                    """,
-                    [id],
-                )
+    # def delete_pay_level(self, id)->bool:
+    #     try:
+    #         with pool.connection() as conn:
+    #             with conn.cursor() as db:
+    #                 result = db.execute(
+    #                     """
+    #                     DELETE FROM pay_levels
+    #                     WHERE id = %s
+    #                     """,
+    #                     [id]
+    #                 )
+    #         return True
+    #     except:
+    #         return False
 
-    def update_pay_level(self, id, data)->Union[Error, PayLevelOut]:
-        with pool.connection() as conn:
-            with conn.cursor() as db:
-                params = [
-                    data.name,
-                    data.max_members,
-                    data.max_roles,
-                    id
-                ]
-                result = db.execute(
-                    """
-                    UPDATE pay_levels
-                    SET name = %s,
-                        max_membeers = %s,
-                        max_roles = %s,
-                    WHERE id = %s
-                    RETURNING id, name, max_members, max_roles
-                    """,
-                    params,
-                )
-                pay_level = None
-                row = result.fetchone()
-                if row is not None:
-                    pay_level = {}
-                    for i, column in enumerate(result.description):
-                        pay_level[column.nam] = row[i]
-                return pay_level
+    # def update_pay_level(self, id, data)->Union[Error, PayLevelOut]:
+    #     with pool.connection() as conn:
+    #         with conn.cursor() as db:
+    #             params = [
+    #                 data.name,
+    #                 data.max_members,
+    #                 data.max_roles,
+    #                 id
+    #             ]
+    #             result = db.execute(
+    #                 """
+    #                 UPDATE pay_levels
+    #                 SET name = %s,
+    #                     max_membeers = %s,
+    #                     max_roles = %s,
+    #                 WHERE id = %s
+    #                 RETURNING id, name, max_members, max_roles
+    #                 """,
+    #                 params,
+    #             )
+    #             return self.to_dict(result.fetchall(),result.description)
 
-    def pay_level_record_to_dict(self, row, description):
-        pay_level = None
-        if row is not None:
-            pay_level = {}
-            pay_level_fields = [
-                "id",
-                "name",
-                "max_members",
-                "max_roles"
-            ]
-            for i, column in enumerate(description):
-                if column.name in pay_level_fields:
-                    pay_level[column.name] = row[i]
-            pay_level["id"] = pay_level["id"]
-        return pay_level
+    def to_dict(self,rows,description):
+        lst = []
+        columns = [desc[0] for desc in description]
+        for row in rows:
+            item = {}
+            for i in range(len(row)):
+                item[columns[i]]=row[i] 
+            lst.append(item)
+        if len(lst) == 1:
+            lst = lst[0]
+        return lst

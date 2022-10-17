@@ -1,6 +1,6 @@
 from fastapi import APIRouter, Depends, Response, HTTPException
 from typing import Optional, Union
-from models import *
+from models import PermissionsIn, PermissionsOut, Error
 from queries.permissions_queries import PermissionsQueries
 
 router = APIRouter()
