@@ -1,5 +1,6 @@
-from fastapi import APIRouter, Depends, status, Response, HTTPException
+from fastapi import APIRouter, Depends, status, Response, HTTPException, Request
 from models import *
+import json, requests
 from typing import Union, List as l
 from queries.teams_queries import TeamRepository
 
@@ -46,14 +47,19 @@ def get_events():
     pass
 
 
-# Lines 56-64 weas a test to make sure we wer able to access User, Delete when done. 
+# Lines 56-64 weas a test to make sure we wer able to access User, Delete when done.
 @router.post("/api/teams", response_model = Union[TeamOut,Error])
 def add_team(
+    request: Request,
     team : TeamIn,
     response : Response,
     repo : TeamRepository = Depends()
     ):
-    return repo.create(team)
+    created_team = repo.create(team)
+    headers = request.headers
+    data = json.dumps(created_team)
+    requests.post("http://pubsub:8000/api/smps", data = data, headers = headers)
+    return created_team
 
 @router.put("/api/teams/{id}/events/swap")
 def event_swap(

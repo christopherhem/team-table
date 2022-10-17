@@ -72,7 +72,7 @@ class TeamRepository:
                             type,
                             description,
                             pay_level
-                        
+
                         WHERE id=%s
                         """,
                         [id]
