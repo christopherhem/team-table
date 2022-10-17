@@ -1,33 +1,32 @@
 from pydantic import BaseModel
 from typing import Literal
+from datetime import datetime
 
 class CoverEventIn(BaseModel):
-    availability_start: str
-    availability_end: str
-    user_id: int
+    availability_start: datetime
+    availability_end: datetime
     team_href: str
 
 class CoverEventOut(BaseModel):
     id: int
-    availability_start: str
-    availability_end: str
+    availability_start: datetime
+    availability_end: datetime
     user_id: int
     team_href: str
 
 class ShiftSwapEventIn(BaseModel):
-    shift_start: str
-    shift_end: str
-    availability_start: str
-    availability_end: str
-    user_id: int
+    shift_start: datetime
+    shift_end: datetime
+    availability_start: datetime
+    availability_end: datetime
     team_href: str
 
 class ShiftSwapEventOut(BaseModel):
     id: int
-    shift_start: str
-    shift_end: str
-    availability_start: str
-    availability_end: str
+    shift_start: datetime
+    shift_end: datetime
+    availability_start: datetime
+    availability_end: datetime
     user_id: int
     team_href: str
 

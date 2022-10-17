@@ -1,3 +1,8 @@
+## 10/14/2022
+
+* I spent today fixing all of our endpoints and finished getting our pubsub set up to send events to the teams service
+
+I spent most of my day going through our enpoints on the evvents mircoservice to make sure they all worked. I am currently stuck on how to get teh current user for creating a new event.
 
 ## 10/13/2022
 
