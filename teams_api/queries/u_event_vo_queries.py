@@ -101,8 +101,8 @@ class EventVoRepository:
                         event.availability_end
                     ]
                 )
-        id = result.fetchone()[0]
-        return self.get_cover_event(id)
+                id = result.fetchone()[0]
+                return self.get_cover_event(id)
 
     def get_cover_event(self, id):
         with pool.connection() as conn:
