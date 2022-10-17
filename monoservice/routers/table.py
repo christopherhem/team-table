@@ -1,8 +1,8 @@
 from fastapi import APIRouter, Depends, Response, Request
 from fastapi.middleware.cors import CORSMiddleware
 from typing import Optional, List, Union
-import os, requests
-from queries.table import EventQueries
+import os, requests, json
+from queries.events_queries import EventQueries
 from authenticator import MyAuthenticator
 from routers.users_dependencies import get_current_user
 from routers.models import (
@@ -13,6 +13,7 @@ from routers.models import (
     EventTypeOut,
     TableOut,
 )
+from datetime import datetime
 
 router = APIRouter()
 
@@ -57,8 +58,16 @@ def create_cover_event(
     user = Depends(get_current_user)
 ):
     headers = request.headers
-    requests.post("http://pubsub:8000/api/seps", data = event, headers = headers)
-    return queries.create_cover_event(event, user)
+    pushevent = {}
+    created_event = queries.create_cover_event(event, user)
+    for key in created_event:
+        if type(created_event[key]) == datetime:
+            pushevent[key] = str(created_event[key])
+        else:
+            pushevent[key] = created_event[key]
+    data = json.dumps(pushevent)
+    requests.post("http://pubsub:8000/api/seps", data = data, headers = headers)
+    return created_event
 
 @router.post("/api/table/shift_swap_events", response_model=ShiftSwapEventOut)
 def create_shift_swap_event(
@@ -69,8 +78,17 @@ def create_shift_swap_event(
 
 ):
     headers = request.headers
-    requests.post("http://pubsub:8000/api/seps", data = event, headers = headers)
-    return queries.create_shift_swap_event(event, user)
+    pushevent = {}
+    created_event = queries.create_shift_swap_event(event, user)
+    for key in created_event:
+        if type(created_event[key]) == datetime:
+            pushevent[key] = str(created_event[key])
+        else:
+            pushevent[key] = created_event[key]
+    data = json.dumps(pushevent)
+    requests.post("http://pubsub:8000/api/seps", data = data, headers = headers)
+    return created_event
+
 
 @router.put("/api/table/cover_events/{id}", response_model=CoverEventOut)
 def update_cover_event(
