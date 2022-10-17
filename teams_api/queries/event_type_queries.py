@@ -16,7 +16,7 @@ class EventTypeRepository:
                         FROM event_types;
                         """
                     )
-            return self.to_dict(result.fetchall(), result.description)
+                    return self.to_dict(result.fetchall(), result.description)
         except Exception as e:
             return{"message" : str(e)}
 

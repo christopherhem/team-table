@@ -11,6 +11,7 @@ router = APIRouter()
 
 @router.get("/api/teams/types", response_model = Union[Error, l[TeamTypeOut]])
 def get_team_types(
+    response: Response,
     repo: TeamTypeRepository = Depends()
 ):
     return repo.get_all()

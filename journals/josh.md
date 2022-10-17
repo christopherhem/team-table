@@ -21,4 +21,13 @@ We continued working on endpoints, queries, and models for the teams microservic
 I made a pub sub from scratch that should be able to handle pub sub for events->eventVO's and Teams->teamVOs. I had to review the docs for requests and do a little bit of research into how pub sub works but it should be effective after we test it and get rid of any small bugs.
 
 ## 10/12/2022
-I finished the pub sub and related endpoints, set up endpoints to use the new get user functionality chris made so we can create models correctly. 
+I 'finished' the pub sub and related endpoints, set up endpoints to use the new get user functionality chris made so we can create models correctly and utilize authentication. 
+
+## 10/13/2022
+I worked to get pub sub requests working, ended up needing to work on a long chain of endpoints to get the teams model working so we could test TeamVO pubsub.
+
+## 10/14/2022
+Pub sub requests are working with insomnia! We had to get curtis' help with getting auth to pass through the pub sub correctly, but it is working now, we only need to get all the endpoints working perfectly now and we will be done with the hardest part of the back end. 
+
+## 10/17/2022
+Louise and I got Pub sub publishing and posting working correctly with two direction authentication for the event->eventVO paths. Creation of an event in fastapi docs on the main monoservice successfully creates that event on the teams microservice as a VO. I refactored the file names for the monoservice to match the style of the teams microservice and be more readable. Also slightly adjusted some models, as well as relocated the models file and updated appropriate imports. 

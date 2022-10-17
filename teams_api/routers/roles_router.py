@@ -1,6 +1,6 @@
 from fastapi import APIRouter, Depends, Response, HTTPException
 from typing import List, Optional, Union
-from models import *
+from models import RolesOut, RolesIn, Error
 from queries.roles_queries import RolesQueries
 
 router = APIRouter()
@@ -11,20 +11,16 @@ def add_role(
     role: RolesIn,
     q: RolesQueries = Depends(),
 ):
-    roles = q.get_all()
-    for r in roles:
-        if role.name == r.name:
-            raise HTTPException(status_code=409, detail=f'Role name duplicate error: {role.name} already exists...')
     return q.create(role)
 
-@router.get("/api/teams/{team_id}/roles", response_model=RolesOut)
+@router.get("/api/teams/{team_id}/roles", response_model= List[RolesOut])
 def get_roles(
     team_id: int,
     q: RolesQueries = Depends()
 ):
-    return {"roles": [q.get_all()]}
+    return q.get_all(team_id)
 
-@router.get("/api/teams/{team_id}/roles/{role_id}", response_model=Optional[RolesOut])
+@router.get("/api/teams/{team_id}/roles/{role_id}", response_model=RolesOut)
 def get_role(
     team_id: int,
     role_id: int,

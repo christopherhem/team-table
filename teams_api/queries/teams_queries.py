@@ -32,8 +32,6 @@ class TeamRepository:
                     ]
                 )
                 id = result.fetchone()[0]
-        #uncomment once pubsub up and running for teamvos in monoservice
-        #requests.post("localhost:8085/api/stps", data = self.get_team(id))
         return self.get_team(id)
 
     def get_all(self)->Union[Error, List[TeamOut]]:
@@ -42,30 +40,16 @@ class TeamRepository:
                 with conn.cursor() as db:
                     result = db.execute(
                         """
-                        SELECT teams(
-                            t.id,
-                            t.name,
-                            t.type,
-                            t.descripton,
-                            t.pay_level
-                        )
-                        FROM teams AS t
-                        LEFT JOIN team_types as tt
-                            ON (type=tt.id)
-                        LEFT JOIN pay_levels AS p
-                            ON (paylevel=p.id)
-                        GROUP BY
-                            t.id, t.name,
-                            t.description
-                        ORDER BY t.id;
+                        SELECT
+                            id,
+                            name,
+                            type,
+                            descripton,
+                            pay_level
+                        FROM teams
                         """
                     )
-                    teams = []
-                    rows= result.fetchall()
-                    for row in rows:
-                        team = self.team_record_to_dict(row, result.description)
-                        teams.append(team)
-                    return teams
+                    return self.to_dict(result.fetchall(),result.description)
         except:
             return{"message" : "Error in team_queries TeamRepository.get_all"}
 
@@ -76,22 +60,17 @@ class TeamRepository:
                     result = db.execute(
                         """
                         SELECT
-                            t.id,
-                            t.name,
-                            t.type,
-                            t.description,
-                            t.pay_level
-                        FROM teams AS t
-                        LEFT JOIN team_types as tt
-                            ON (t.type=tt.id)
-                        LEFT JOIN pay_levels AS p
-                            ON (t.pay_level=p.id)
-                        WHERE t.id=%s
+                            id,
+                            name,
+                            type,
+                            description,
+                            pay_level
+                        
+                        WHERE id=%s
                         """,
                         [id]
                     )
-                    row = result.fetchone()
-                    return self.team_record_to_dict(row, result.description)
+                    return self.to_dict(result.fetchall(),result.description)
         except Exception as e:
             return{"message" : str(e)}
 
@@ -128,66 +107,16 @@ class TeamRepository:
                     """,
                     params,
                 )
-                team = None
-                row = result.fetchone()
-                if row is not None:
-                    team = {}
-                    for i, column in enumerate(result.description):
-                        team[column.name] = row[i]
-                return team
+        return self.to_dict(result.fetchall(),result.description)
 
-
-    def team_record_to_dict(self, row, description):
-        team = None
-        if row is not None:
-            team = {}
-            team_fields = [
-                "id",
-                "name",
-                "type",
-                "description",
-                "pay_level"
-            ]
-            for i, column in enumerate(description):
-                if column.name in team_fields:
-                    team[column.name] = row[i]
-            team["id"] = team["id"]
-        type = {}
-        type_fields = [
-            "id",
-            "name"
-        ]
-        for i, column in enumerate(description):
-            if column.name in type_fields:
-                type[column.name] = row[i]
-        type["id"] = type["id"]
-
-        team["type"] = type
-        pay_level = {}
-        pay_level_fields = [
-            "id",
-            "name",
-            "max_members",
-            "max_roles"
-        ]
-        for i, column in enumerate(description):
-            if column.name in pay_level_fields:
-                pay_level[column.name] = row[i]
-        pay_level["id"] = pay_level["id"]
-
-        team["pay_level"] = pay_level
-        return team
-
-
-
-
-
-# class TeamTypeRepository:
-#     def get_team_types(self):
-#         with pool.connection as conn:
-#             with conn.cursor as db:
-#                 result = db.execute(
-#                     """
-#                     SELECT id
-#                     """
-#                 )
+    def to_dict(self,rows,description):
+        lst = []
+        columns = [desc[0] for desc in description]
+        for row in rows:
+            item = {}
+            for i in range(len(row)):
+                item[columns[i]]=row[i] 
+            lst.append(item)
+        if len(lst) == 1:
+            lst = lst[0]
+        return lst
