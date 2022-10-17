@@ -5,6 +5,7 @@ from models import *
 class PermissionsQueries:
     def create(self, perm: PermissionsIn) -> Union[PermissionsOut, Error]:
         try:
+            print(perm)
             with pool.connection() as conn:
                 with conn.cursor() as db:
                     result = db.execute(
@@ -16,8 +17,8 @@ class PermissionsQueries:
                             add_roles
                         )
                         VALUES
-                            (%s, %b, %b, %b)
-                        RETURNING id;
+                            (%s, %s, %s, %s)
+                        RETURNING id,approve_swaps,invite_members,add_roles;
                         """,
                         [
                             perm.role,
@@ -26,8 +27,7 @@ class PermissionsQueries:
                             perm.add_roles
                         ]
                     )
-                    id = result.fetchone()[0]
-                    return self.perm_in_to_out(id, perm)
+                    return self.to_dict(result.fetchall(),result.description)
         except Exception:
             return {"message": "Unable to create permission"}
 
@@ -120,17 +120,14 @@ class PermissionsQueries:
                     [id]
                 )
 
-    def perm_in_to_out(self, id: int, perm: PermissionsIn):
-        old_data = perm.dict()
-        return PermissionsOut(id=id, **old_data)
-
-    def perm_record_to_dict(self, row, description):
-        perm = None
-        if row is not None:
-            perm = {}
-            perm_fields = ["id", "role", "approve_swaps", "invite_members", "add_roles"]
-            for i, column in enumerate(description):
-                if column.role in perm_fields:
-                    perm[column.role] = row[i]
-            perm["id"] = perm["id"]
-        return perm
+    def to_dict(self,rows,description):
+        lst = []
+        columns = [desc[0] for desc in description]
+        for row in rows:
+            item = {}
+            for i in range(len(row)):
+                item[columns[i]]=row[i] 
+            lst.append(item)
+        if len(lst) == 1:
+            lst = lst[0]
+        return lst
