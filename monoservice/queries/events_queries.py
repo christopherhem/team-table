@@ -1,5 +1,5 @@
 from queries.pool import pool
-from ..models import (
+from models import (
     CoverEventIn,
     CoverEventOut,
     ShiftSwapEventOut,

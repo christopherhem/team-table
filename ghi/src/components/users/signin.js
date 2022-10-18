@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useCreateTokenMutation } from '../../store/UsersApi';
+// import { useCreateTokenMutation } from '../../store/UsersApi';
 import ErrorNotification from '../../ErrorNotification';
 import React from 'react';
 import {
@@ -21,18 +21,20 @@ function SignIn() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
-    const [createToken, result] = useCreateTokenMutation();
 
-    async function handleSubmit(e) {
-      e.preventDefault();
-      createToken(new FormData(e.target));
-    }
+    
+    // const [createToken, result] = useCreateTokenMutation();
 
-    if (result.isSuccess) {
-      navigate('/dashboard');
-    } else {
-      setError(result.error);
-    }
+    // async function handleSubmit(e) {
+    //   e.preventDefault();
+    //   createToken(new FormData(e.target));
+    // }
+
+    // if (result.isSuccess) {
+    //   navigate('/dashboard');
+    // } else {
+    //   setError(result.error);
+    // }
 
   return (
     <>
@@ -40,7 +42,7 @@ function SignIn() {
         <FormWrap>
           <Icon to='/'>TeamTable</Icon>
           <FormContent>
-            <Form onSubmit={handleSubmit}>
+            <Form>
               <FormH1>Sign into your account</FormH1>
               <FormLabel htmlFor='for'>Email</FormLabel>
               <FormInput onChange={setEmail} value={email.email}type='email' required />

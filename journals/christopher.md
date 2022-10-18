@@ -51,3 +51,7 @@ Today I was able to focus a bit more on design and front end tasks. Definitely a
 ## October 14, 2022
 
 Starting to feel somewhat the pressure of whether or not we're on track with our project, I was having difficult deciding on what kind of approach to go with our front-end. I initially was thinking a carousel would be nice, but I was able to find more of a scrolling style page that may provide a clean and simple experience. I'm currently implementing more CSS for the Home page just because I want to improve CSS skills a bit. It is definitely a head banger activity. 
+
+## October 17, 2022
+
+I finally completed the landing page, forms for signing in and create an account, clean up some of the bigger issues that I came across a couple of days ago. At this moment, currently having a difficulty logging in on the front end as well as small routing issues. Hopefully they will be solved by tomorrow and we can continue on to completing the Dashboard of the application. 

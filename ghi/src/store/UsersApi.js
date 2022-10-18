@@ -4,7 +4,7 @@ export const usersApi = createApi({
     reducerPath: 'users',
     baseQuery: fetchBaseQuery({
         //baseUrl: process.env.MONO_HOST
-        baseURL: "http://localhost:8080"
+        baseUrl: "http://localhost:8080/"
     }),
     tagTypes: ['User', 'Token'],
     endpoints: builder => ({
