@@ -124,11 +124,11 @@ def delete_user(
 @router.get("/token", response_model=UserToken | None)
 async def get_token(
     request: Request,
-    account: User = Depends(authenticator.try_get_current_account_data)
+    user: User = Depends(authenticator.try_get_current_account_data)
 ) -> UserToken | None:
-    if account and authenticator.cookie_name in request.cookies:
+    if user and authenticator.cookie_name in request.cookies:
         return { 
             "access_token": request.cookies[authenticator.cookie_name],
             "type": "Bearer",
-            "account": account,
+            "user": user, 
         }

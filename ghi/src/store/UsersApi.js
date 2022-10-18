@@ -6,18 +6,15 @@ export const usersApi = createApi({
         //baseUrl: process.env.MONO_HOST
         baseUrl: "http://localhost:8080/"
     }),
-    tagTypes: ['User', 'Token'],
+    tagTypes: ['Dashboard', 'User', 'Token', 'User', 'Token'],
     endpoints: builder => ({
         createUsers: builder.mutation({
-            query: data => {
-                console.log(data)
-                return {
+            query: data => ({
                 url: 'api/users',
                 body: data,
                 method: 'POST',
                 credentials: 'include'
-            }
-            },
+            }),
             invalidatesTags: ['User'],
         }),
         getUsers: builder.query({
@@ -25,12 +22,18 @@ export const usersApi = createApi({
             providesTags: ['User'],
         }),
         createToken: builder.mutation({
-            query: data => ({
+            query: data => 
+            {
+            console.log("Data:"
+            , data.values)
+            return {
                 url: '/token',
                 body: data,
                 method: 'POST',
                 credentials: 'include',
-            }),
+            }
+            
+            },
             invalidatesTags: ['Token'],
         }),
         getToken: builder.query({
@@ -39,6 +42,34 @@ export const usersApi = createApi({
                 credentials: 'include',
             }),
             providesTags: ['Token'],
+        }),
+        logIn: builder.mutation({
+            query: info => {
+              let formData = null;
+              if (info instanceof HTMLElement) {
+                formData = new FormData(info);
+              } else {
+                formData = new FormData();
+                formData.append('username', info.email);
+                formData.append('password', info.password);
+              }
+              return {
+                url: '/token',
+                method: 'post',
+                body: formData,
+                credentials: 'include',
+              };
+            },
+            providesTags: ['User'],
+            invalidatesTags: result => {
+              return (result && ['Token']) || [];
+            },
+            // async onQueryStarted(arg, { dispatch, queryFulfilled }) {
+            //   try {
+            //     await queryFulfilled;
+            //     dispatch(clearForm());
+            //   } catch (err) {}
+            // },
         }),
         signOut: builder.mutation({
             query: () => ({
@@ -55,4 +86,5 @@ export const {
     useCreateUsersMutation,
     useCreateTokenMutation, 
     useSignOutMutation,
+    useLogInMutation,
     useGetTokenQuery, } = usersApi;

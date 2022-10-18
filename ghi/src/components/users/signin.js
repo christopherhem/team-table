@@ -1,8 +1,7 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-// import { useCreateTokenMutation } from '../../store/UsersApi';
-import ErrorNotification from '../../ErrorNotification';
-import React from 'react';
+import { useCreateTokenMutation, useLogInMutation } from '../../store/UsersApi';
+// import ErrorNotification from '../../ErrorNotification';
 import {
   Container,
   FormWrap,
@@ -13,41 +12,47 @@ import {
   FormLabel,
   FormInput,
   FormButton,
-  Text
+  // Text
 } from './SignInElements';
 
 function SignIn() {
     const navigate = useNavigate();
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    const [error, setError] = useState('');
-
-    
+    // const [error, setError] = useState('');
     // const [createToken, result] = useCreateTokenMutation();
+    const [logIn, result] = useLogInMutation();
 
-    // async function handleSubmit(e) {
-    //   e.preventDefault();
-    //   createToken(new FormData(e.target));
-    // }
-
-    // if (result.isSuccess) {
-    //   navigate('/dashboard');
-    // } else {
-    //   setError(result.error);
-    // }
-
+    async function handleSubmit(e) {
+      e.preventDefault();
+      // createToken(new FormData(e.target));
+      logIn(
+        {email, password}
+      )
+    }
+    if (result.isSuccess) {
+      console.log("SUCCESSFUL LOGIN!")
+      navigate("/dashboard");
+      localStorage.setItem('email', JSON.stringify(email));
+      localStorage.setItem('token', JSON.stringify(result.data.access_token));
+    } else if (result.isError) {
+      console.log("ERROR")
+      // setError(result.error);
+    }
+  
   return (
     <>
       <Container>
         <FormWrap>
           <Icon to='/'>TeamTable</Icon>
           <FormContent>
-            <Form>
+          {/* <ErrorNotification error={error} /> */}
+            <Form onSubmit={(e) => handleSubmit(e)}>
               <FormH1>Sign into your account</FormH1>
               <FormLabel htmlFor='for'>Email</FormLabel>
-              <FormInput onChange={setEmail} value={email.email}type='email' required />
+              <FormInput onChange={(e) => setEmail(e.target.value)} value={email} type='email' required />
               <FormLabel htmlFor='for'>Password</FormLabel>
-              <FormInput onChange={setPassword} value={password.password} type='password' required />
+              <FormInput onChange={(e) => setPassword(e.target.value)} value={password} type='password' required />
               <FormButton type='submit'>Continue</FormButton>
               {/* <Text>Forgot password?</Text> */}
             </Form>

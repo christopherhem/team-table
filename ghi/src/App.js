@@ -3,7 +3,7 @@
 // import ErrorNotification from './ErrorNotification';
 // import './App.css';
 
-import {Route, Routes} from 'react-router-dom';
+import {BrowserRouter, Route, Routes} from 'react-router-dom';
 import Dashboard from './components/dashboard/index.js';
 import SignIn from './components/users/signin.js';
 import SignUp from './components/users/signup.js';
@@ -38,14 +38,14 @@ function App() {
   // }, [])
 
   return (
-    <>
+    <BrowserRouter>
       <Routes>
         <Route path='/' element={<Home />} />
         <Route path='dashboard' element={<Dashboard />} />
         <Route path="signup" element={<SignUp />} />
         <Route path='/signin' element={<SignIn />} />
       </Routes>
-    </>
+    </BrowserRouter>
   );
 }
 

@@ -2,7 +2,6 @@ import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom';
 import ErrorNotification from '../../ErrorNotification';
 import { useCreateUsersMutation } from '../../store/UsersApi';
-import Dashboard from '../dashboard';
 
 import {
     Container,
@@ -29,13 +28,13 @@ function SignUp() {
 
     async function handleSubmit(e) {
         e.preventDefault();
-        const result = await createUser({email, username, first_name, last_name, phone_number, password, profile_picture_href});
+        createUser({email, username, first_name, last_name, phone_number, password, profile_picture_href});
+    }
 
-        if (result.isSuccess) {
-            navigate(Dashboard);
-        } else {
-            setError(result.error);
-        }
+    if (result.isSuccess) {
+        navigate('/dashboard');
+    } else if (result.isError) {
+        setError(result.error);
     }
 
     return (
@@ -43,7 +42,7 @@ function SignUp() {
     <Container>
         <FormWrap>
         <Icon to='/'>TeamTable</Icon>
-        {/* <ErrorNotification error={error}/> */}
+        <ErrorNotification error={error}/>
         <FormContent>
         <Form onSubmit={(e) => handleSubmit(e)}>
         <FormH1>Create Account</FormH1>
