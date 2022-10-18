@@ -5,7 +5,7 @@ import os, requests, json
 from queries.events_queries import EventQueries
 from authenticator import MyAuthenticator
 from routers.users_dependencies import get_current_user
-from ..models import (
+from models import (
     CoverEventIn,
     CoverEventOut,
     ShiftSwapEventOut,
@@ -24,6 +24,20 @@ def get_cover_event_table(queries: EventQueries = Depends()):
 @router.get("/api/table/shift_swap_events", response_model=Union[CoverEventOut, List[ShiftSwapEventOut]])
 def get_shift_swap_event_table(queries: EventQueries = Depends()):
     return queries.get_shift_swap_event_table()
+
+@router.get("/api/table/user/cover_events", response_model=Union[CoverEventOut, List[CoverEventOut]])
+def get_user_cover_events(
+    user = Depends(get_current_user),
+    queries: EventQueries = Depends()
+):
+    return queries.get_user_cover_events(user)
+
+@router.get("/api/table/user/shift_swap_events", response_model=Union[CoverEventOut, List[ShiftSwapEventOut]])
+def get_user_shift_swap_events(
+    user = Depends(get_current_user),
+    queries: EventQueries = Depends()
+):
+    return queries.get_user_shift_swap_events(user)
 
 @router.get("/api/table/cover_events/{id}", response_model=CoverEventOut)
 def get_cover_event(

@@ -1,7 +1,7 @@
 from pydantic import BaseModel
 from typing import  List, Optional, Union
 from queries.pool import pool
-from ..models import User, UserIn, UserOut, UserPut, Error
+from models import User, UserIn, UserOut, UserPut, Error
 
 class UserQueries:
     def get_all(self) -> Union[Error, List[User]]:
@@ -121,7 +121,7 @@ class UserQueries:
                 )
                 id = result.fetchone()[0]
                 return User(
-                    id=id, 
+                    id=id,
                     email=user.email,
                     hashed_password=hashed_password,
                     username=user.username,

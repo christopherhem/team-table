@@ -47,12 +47,10 @@ class TeamVoOut(BaseModel):
     name: str
     user_id: int
 
-<<<<<<< HEAD:monoservice/routers/models.py
 class TeamVoIn(BaseModel):
     team_id: int
     name: str
     username: str
-=======
 
 class Error(BaseModel):
     message: str
@@ -93,4 +91,3 @@ class UserPut(BaseModel):
     email: Optional[str]
     phone_number: Optional[str]
     profile_picture_href: Optional[str]
->>>>>>> main:monoservice/models.py
