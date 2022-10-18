@@ -1,4 +1,4 @@
-from routers.models import TeamVoOut, TeamVoIn
+from ..models import TeamVoOut, TeamVoIn
 from queries.pool import pool
 
 class TeamVORepository:

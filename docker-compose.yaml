@@ -82,4 +82,6 @@ services:
       HOST_OS: ${OS}
       NODE_ENV: development
       HOST: "0.0.0.0"
-      REACT_APP_API_HOST: http://localhost:8080/
+      REACT_APP_API_HOST: http://localhost:8000
+      MONO_HOST: http://monoservice:8000/
+      TEAM_HOST: http://teams:8000/
