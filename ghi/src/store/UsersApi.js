@@ -3,7 +3,7 @@ import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 export const usersApi = createApi({
     reducerPath: 'users',
     baseQuery: fetchBaseQuery({
-        baseUrl: process.env.REACT_APP_MONO_API,
+        baseUrl: process.env.REACT_APP_API_HOST,
     }),
     tagTypes: ['User', 'Token'],
     endpoints: builder => ({
@@ -49,6 +49,6 @@ export const usersApi = createApi({
 export const {
     useGetUsersQuery,
     useCreateUsersMutation,
-    useCreateTokenMutation, 
+    useCreateTokenMutation,
     useSignOutMutation,
     useGetTokenQuery, } = usersApi;
