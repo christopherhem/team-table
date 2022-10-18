@@ -1,3 +1,15 @@
+## 10/18/2022
+
+* I spent today writing out the redux endpoints for the events queries
+
+I took a break from the backend today. I really needed some relief from banging my head against the wall with the pubsub. I got all the the redux endpoints flushed out for the events queries. The only thing I am waiting on is the ability to pass the user's token through each endpoint. Chris has been having a bug in the login that is preventing the token from being returned. We have asked for help but no one has figured out what's going on. Good news is that Josh was able to finalize the teamsvo pubsub and its up and running pefectly!
+
+## 10/17/2022
+
+* I spent today trying to work on the teamsvo pub sub
+
+Today was a big blocker day. I tried to ge the teamsvo pubs sub up and running to no avail. We had too many other issues with our routers and queries that were hindering the progress. I tried to get all of the events q/r working while Josh worked on the teams q/r. We didnt end up finishing today and I am really starting to worry that we are not going to make our MVP on time due to being only 3 members now.
+
 ## 10/14/2022
 
 * I spent today fixing all of our endpoints and finished getting our pubsub set up to send events to the teams service

@@ -121,7 +121,7 @@ class UserQueries:
                 )
                 id = result.fetchone()[0]
                 return User(
-                    id=id, 
+                    id=id,
                     email=user.email,
                     hashed_password=hashed_password,
                     username=user.username,

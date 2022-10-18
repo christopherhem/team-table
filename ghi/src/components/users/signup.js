@@ -25,7 +25,7 @@ function SignUp() {
     const [profile_picture_href, setProfilePic] = useState('')
     const [error, setError] = useState(null);
     const [createUser, result] = useCreateUsersMutation();
-
+    console.log(process.env.REACT_APP_MONO_API)
     async function handleSubmit(e) {
         e.preventDefault();
         createUser({email, username, first_name, last_name, phone_number, password, profile_picture_href});
@@ -46,11 +46,11 @@ function SignUp() {
         <FormContent>
         <Form onSubmit={(e) => handleSubmit(e)}>
         <FormH1>Create Account</FormH1>
-        <CreateInput 
-            id="email" 
-            placeholder="Enter Email" 
-            labelText="Your email address" 
-            value={email} 
+        <CreateInput
+            id="email"
+            placeholder="Enter Email"
+            labelText="Your email address"
+            value={email}
             onChange={e=> setEmail(e.target.value)}
             type="email" />
         <CreateInput 
@@ -81,11 +81,11 @@ function SignUp() {
             value={phone_number} 
             onChange={e=> setPhoneNumber(e.target.value)}
             type="text" />
-        <CreateInput 
-            id="password" 
-            placeholder="Password" 
-            labelText="Password" 
-            value={password} 
+        <CreateInput
+            id="password"
+            placeholder="Password"
+            labelText="Password"
+            value={password}
             onChange={e=> setPassword(e.target.value)}
             type="password" />
         <CreateInput 

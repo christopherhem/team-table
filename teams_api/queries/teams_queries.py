@@ -1,7 +1,6 @@
 from typing import List, Union
 from models import TeamOut, TeamIn, Error
 from queries.pool import pool
-#import requests
 
 class TeamRepository:
     def create(self, team:TeamIn):
@@ -26,15 +25,13 @@ class TeamRepository:
                     """,
                     [
                         team.name,
-                        team.type.id,
+                        team.type,
                         team.description
-                        #need to set pay_level to a default value
                     ]
                 )
-                id = result.fetchone()[0]
-        return self.get_team(id)
+                return self.to_dict(result.fetchall(),result.description)
 
-    def get_all(self)->Union[Error, List[TeamOut]]:
+    def get_all(self)->Union[Error, List[TeamOut], TeamOut]:
         try:
             with pool.connection() as conn:
                 with conn.cursor() as db:
@@ -44,9 +41,9 @@ class TeamRepository:
                             id,
                             name,
                             type,
-                            descripton,
+                            description,
                             pay_level
-                        FROM teams
+                        FROM teams;
                         """
                     )
                     return self.to_dict(result.fetchall(),result.description)
@@ -65,7 +62,7 @@ class TeamRepository:
                             type,
                             description,
                             pay_level
-                        
+                        FROM teams
                         WHERE id=%s
                         """,
                         [id]
@@ -107,7 +104,7 @@ class TeamRepository:
                     """,
                     params,
                 )
-        return self.to_dict(result.fetchall(),result.description)
+                return self.to_dict(result.fetchall(),result.description)
 
     def to_dict(self,rows,description):
         lst = []
@@ -115,7 +112,7 @@ class TeamRepository:
         for row in rows:
             item = {}
             for i in range(len(row)):
-                item[columns[i]]=row[i] 
+                item[columns[i]]=row[i]
             lst.append(item)
         if len(lst) == 1:
             lst = lst[0]

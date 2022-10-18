@@ -6,7 +6,7 @@ export const usersApi = createApi({
         //baseUrl: process.env.MONO_HOST
         baseUrl: "http://localhost:8080/"
     }),
-    tagTypes: ['Dashboard', 'User', 'Token', 'User', 'Token'],
+    tagTypes: ['Dashboard', 'User', 'Token', 'UserCoverEventsList', 'UserShiftSwapEventsList', 'CoverEvent', 'ShiftSwapEvent'],
     endpoints: builder => ({
         createUsers: builder.mutation({
             query: data => ({
@@ -78,13 +78,88 @@ export const usersApi = createApi({
                 credentials: 'include',
             }),
             invalidatesTags: ['Token'],
+        }),
+        getUserCoverEvents: builder.query({
+            query: () => '/api/table/user/cover_events/',
+            providesTags: ['UserCoverEventsList'],
+        }),
+        getUserShiftSwapEvents: builder.query({
+            query: () => '/api/table/user/shift_swap_events/',
+            providesTags: ['UserShiftSwapEventsList'],
+        }),
+        getCoverEvent: builder.query({
+            query: (id) => `/api/table/cover_events/${id}`,
+            providesTags: ['CoverEvent']
+        }),
+        getShiftSwapEvent: builder.query({
+            query: (id) => `/api/table/shift_swap_events/${id}`,
+            providesTags: ['ShiftSwapEvent']
+        }),
+        CreateCoverEvent: builder.mutation({
+            query: (data) => ({
+                url: '/api/table/cover_events/',
+                method: 'post',
+                body: data,
+                credentials: 'include'
+            }),
+            invalidatesTags: ['UserCoverEventsList']
+        }),
+        CreateShiftSwapEvent: builder.mutation({
+            query: (data) => ({
+                url: '/api/table/shift_swap_events/',
+                method: 'post',
+                body: data,
+                credentials: 'include'
+            }),
+            invalidatesTags: ['UserShiftSwapEventsList']
+        }),
+        UpdateCoverEvent: builder.mutation({
+            query: (id, data) => ({
+                url: `/api/table/cover_events/${id}`,
+                method: 'put',
+                body: data,
+                credentials: 'include'
+            }),
+            invalidatesTags: ['CoverEvent', 'UserCoverEventsList']
+        }),
+        UpdateShiftSwapEvent: builder.mutation({
+            query: (id, data) => ({
+                url: `/api/table/shift_swap_events/${id}`,
+                method: 'put',
+                body: data,
+                credentials: 'include'
+            }),
+            invalidatesTags: ['ShiftSwapEvent', 'UserShiftSwapEventsList']
+        }),
+        DeleteCoverEvent: builder.mutation({
+            query: (id) => ({
+                url: `/api/table/cover_events/${id}`,
+                method: 'delete',
+                credentials: 'include'
+            })
+        }),
+        DeleteShiftSwapEvent: builder.mutation({
+            query: (id) => ({
+                url: `/api/table/shift_swap_events/${id}`,
+                method: 'delete',
+                credentials: 'include'
+            })
         })
     }),
 });
 export const {
+    useDeleteCoverEventMutation,
+    useUpdateShiftSwapEventMutation,
+    useUpdateCoverEventMutation,
+    useCreateShiftSwapEventMutation,
+    useCreateCoverEventMutation,
+    useGetUserCoverEventsQuery,
+    useGetCoverEventQuery,
+    useGetUserShiftSwapEventsQuery,
+    useGetShiftSwapEventQuery,
     useGetUsersQuery,
     useCreateUsersMutation,
-    useCreateTokenMutation, 
+    useCreateTokenMutation,
     useSignOutMutation,
     useLogInMutation,
     useGetTokenQuery, } = usersApi;

@@ -25,6 +25,20 @@ def get_cover_event_table(queries: EventQueries = Depends()):
 def get_shift_swap_event_table(queries: EventQueries = Depends()):
     return queries.get_shift_swap_event_table()
 
+@router.get("/api/table/user/cover_events", response_model=Union[CoverEventOut, List[CoverEventOut]])
+def get_user_cover_events(
+    user = Depends(get_current_user),
+    queries: EventQueries = Depends()
+):
+    return queries.get_user_cover_events(user)
+
+@router.get("/api/table/user/shift_swap_events", response_model=Union[CoverEventOut, List[ShiftSwapEventOut]])
+def get_user_shift_swap_events(
+    user = Depends(get_current_user),
+    queries: EventQueries = Depends()
+):
+    return queries.get_user_shift_swap_events(user)
+
 @router.get("/api/table/cover_events/{id}", response_model=CoverEventOut)
 def get_cover_event(
     id: int,
@@ -74,7 +88,7 @@ def create_shift_swap_event(
     event: ShiftSwapEventIn,
     queries: EventQueries = Depends(),
     user = Depends(get_current_user)
-    
+
 ):
     headers = request.headers
     pushevent = {}
@@ -87,6 +101,7 @@ def create_shift_swap_event(
     data = json.dumps(pushevent)
     requests.post("http://pubsub:8000/api/seps", data = data, headers = headers)
     return created_event
+
 
 @router.put("/api/table/cover_events/{id}", response_model=CoverEventOut)
 def update_cover_event(

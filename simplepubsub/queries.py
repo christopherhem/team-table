@@ -5,7 +5,7 @@ from pydantic import BaseModel
 from models import Error, SubUrlOut, SubUrlIn
 from typing import  List, Optional, Union
 
-class SubQueries:
+class TeamSubQueries:
     def add_sub(
         self,
         sub:SubUrlIn,
@@ -14,7 +14,7 @@ class SubQueries:
                 with conn.cursor() as db:
                     result = db.execute(
                         """
-                        INSERT INTO sub_urls(
+                        INSERT INTO team_sub_urls(
                             url
                         )
                         VALUES(
@@ -35,7 +35,7 @@ class SubQueries:
                         result = db.execute(
                             """
                             SELECT id, url
-                            FROM sub_urls
+                            FROM team_sub_urls
                             """
                         )
                         return self.to_dict(result.fetchall(),result.description)
@@ -48,6 +48,54 @@ class SubQueries:
         for row in rows:
             item = {}
             for i in range(len(row)):
-                item[columns[i]]=row[i] 
+                item[columns[i]]=row[i]
+            lst.append(item)
+        return lst
+
+
+
+class MainSubQueries:
+    def add_sub(
+        self,
+        sub:SubUrlIn,
+)->Union[Error, SubUrlOut]:
+        with pool.connection() as conn:
+                with conn.cursor() as db:
+                    result = db.execute(
+                        """
+                        INSERT INTO mono_sub_urls(
+                            url
+                        )
+                        VALUES(
+                            %s
+                        )
+                        RETURNING id;
+                        """,
+                        [sub.url]
+                    )
+                    id = result.fetchone()[0]
+        url = sub.dict()
+        return SubUrlOut(id = id,url = url)
+    def get_subs(self)->Union[Error, List[SubUrlOut]]:
+        try:
+            with pool.connection() as conn:
+                    with conn.cursor() as db:
+                        result = db.execute(
+                            """
+                            SELECT id, url
+                            FROM mono_sub_urls
+                            """
+                        )
+                        return self.to_dict(result.fetchall(),result.description)
+        except:
+            return{"message":"Error in SubQueries.get_subs"}
+
+    def to_dict(self,rows,description):
+        lst = []
+        columns = [desc[0] for desc in description]
+        for row in rows:
+            item = {}
+            for i in range(len(row)):
+                item[columns[i]]=row[i]
             lst.append(item)
         return lst
