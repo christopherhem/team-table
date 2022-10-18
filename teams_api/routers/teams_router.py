@@ -1,13 +1,13 @@
 from fastapi import APIRouter, Depends, status, Response, HTTPException, Request
-from models import *
-import json, requests
-from .users_dependencies import get_current_user
+from models import TeamIn, TeamOut,Error
 from typing import Union, List as l
 from queries.teams_queries import TeamRepository
+from .users_dependencies import get_current_user
+import requests, json
 
 router = APIRouter()
 
-@router.get("/api/teams", response_model = l[TeamOut])
+@router.get("/api/teams/", response_model = Union[TeamOut, l[TeamOut]])
 def get_teams(
     repo: TeamRepository = Depends()
 ):
@@ -43,30 +43,16 @@ def update_team(
     else:
         return record
 
-@router.get("/api/teams/{id}/events")
-def get_events():
-    pass
-
-
-# Lines 56-64 weas a test to make sure we wer able to access User, Delete when done.
-@router.post("/api/teams", response_model = TeamOut)
+@router.post("/api/teams/", response_model = Union[TeamOut,Error])
 def add_team(
-    request: Request,
+    request:Request,
     team : TeamIn,
     response : Response,
     repo : TeamRepository = Depends(),
     user = Depends(get_current_user)
     ):
-    created_team = repo.create(team)
-    print("created_team", created_team)
+    record = repo.create(team)
     headers = request.headers
-    print("headers", headers)
-    data = json.dumps(created_team)
-    print("data", data)
-    requests.post("http://pubsub:8000/api/smps", data = data, headers = headers)
-    return created_team
-
-@router.put("/api/teams/{id}/events/swap")
-def event_swap(
-):
-    pass
+    data = json.dumps(record)
+    requests.post("http://pubsub:8000/api/smps/", data = data, headers = headers)
+    return record

@@ -13,7 +13,7 @@ steps = [
      [
         """
         INSERT INTO team_sub_urls (url)
-        VALUES ('http://teams:8000/api/teams/events')
+        VALUES ('http://teams:8000/api/teams/events/')
         """,
         """
         """

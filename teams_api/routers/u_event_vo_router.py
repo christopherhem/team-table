@@ -13,7 +13,7 @@ from queries.u_event_vo_queries import EventVoRepository
 
 router = APIRouter()
 
-@router.post("/api/teams/events")
+@router.post("/api/teams/events/")
 def new_event_vo(
     event:EventVoIn,
     response:Response,

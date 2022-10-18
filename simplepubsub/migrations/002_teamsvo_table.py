@@ -13,7 +13,7 @@ steps = [
      [
         """
         INSERT INTO mono_sub_urls (url)
-        VALUES ('http://monoservice:8000/api/main/teams')
+        VALUES ('http://monoservice:8000/api/main/teams/')
         """,
         """
         """

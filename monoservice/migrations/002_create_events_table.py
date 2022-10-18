@@ -5,13 +5,27 @@ steps = [
         CREATE TABLE teams_vo (
             id SERIAL PRIMARY KEY NOT NULL,
             team_href VARCHAR(50) NOT NULL UNIQUE,
-            name VARCHAR(50) NOT NULL UNIQUE
+            name VARCHAR(50) NOT NULL UNIQUE,
+            description TEXT
         );
 
         """,
         # "Down" SQL statement
         """
         DROP TABLE teams_vo;
+        """
+    ],
+    [
+        """
+        CREATE TABLE teams_users_relations(
+            id SERIAL PRIMARY KEY NOT NULL,
+            team_id INT NOT NULL REFERENCES teams_vo(id),
+            user_id INT NOT NULL REFERENCES users(id),
+            unique_string VARCHAR(100) NOT NULL UNIQUE
+        );
+        """,
+        """
+        DROP TABLE teams_user_relations;
         """
     ],
     [

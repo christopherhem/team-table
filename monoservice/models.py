@@ -45,12 +45,13 @@ class TeamVoOut(BaseModel):
     id: int
     team_href: str
     name: str
-    user_id: int
+    description: str
 
 class TeamVoIn(BaseModel):
-    team_id: int
+    id: int
     name: str
-    username: str
+    description : Optional[str]
+    #{"id": 11, "name": "team16", "type": 1, "description": "yes", "pay_level": 1}
 
 class Error(BaseModel):
     message: str

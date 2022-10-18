@@ -6,25 +6,32 @@ from models import (
     TeamVoOut,
     TeamVoIn
 )
+from .users_dependencies import get_current_user
+from typing import List, Union
 
 router = APIRouter()
 
-@router.get("/api/table/teams", response_model=TeamVoOut)
+@router.get("/api/main/teams/", response_model= List[TeamVoOut])
 def get_all(repo: TeamVORepository = Depends()):
     return repo.get_all()
 
-@router.post("/api/main/teams", response_model = TeamVoOut)
-def new_team_vo(team:TeamVoIn, repo:TeamVORepository = Depends()):
-    return repo.create(team)
+@router.post("/api/main/teams/", response_model = TeamVoOut)
+def new_team_vo(team:TeamVoIn, repo:TeamVORepository = Depends(), user = Depends(get_current_user)):
+    return repo.create(team, user)
 
-@router.get("/api/table/teams/{id}", response_model=TeamVoOut)
-def get_team(
+@router.get("/api/main/teams/{id}", response_model=TeamVoOut)
+def get_by_id(
     id: int,
     response: Response,
     repo: TeamVORepository = Depends()
 ):
-    record = repo.get_team(id)
-    if record is None:
-        response.status_code = 404
-    else:
-        return record
+    return repo.get_team(id)
+
+
+@router.get("/api/main/teams/byuser/", response_model = List[TeamVoOut])
+def get_by_user(
+    user = Depends(get_current_user),
+    repo : TeamVORepository = Depends()
+):
+    return repo.get_user_teams(user)
+    

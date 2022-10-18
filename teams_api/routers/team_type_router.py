@@ -4,17 +4,22 @@ from models import (
     TeamTypeIn,
     TeamTypeOut,
     )
-from typing import Union, List as l
+from typing import Union, List
 from queries.team_type_queries import TeamTypeRepository
 
 router = APIRouter()
 
-@router.get("/api/teams/types", response_model = Union[Error, l[TeamTypeOut]])
+@router.get("/api/teams/types/", response_model = Union[Error, List[TeamTypeOut]])
 def get_team_types(
     response: Response,
     repo: TeamTypeRepository = Depends()
 ):
-    return repo.get_all()
+    print('router called')
+    record = repo.get_all()
+    if record is None:
+        response.status_code = 404
+    else:
+        return record
 
 @router.get("/api/teams/types/{id}", response_model = Union[Error, TeamTypeOut])
 def get_team_type(
@@ -31,7 +36,7 @@ def get_team_type(
 @router.post("/api/teams/types", response_model = Union[Error, TeamTypeOut])
 def create_team_type(
     team_type: TeamTypeIn,
-    event_types:l[int],
+    event_types:List[int],
     response: Response,
     repo: TeamTypeRepository = Depends()
 ):

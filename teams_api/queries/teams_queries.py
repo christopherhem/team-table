@@ -1,7 +1,6 @@
 from typing import List, Union
 from models import TeamOut, TeamIn, Error
 from queries.pool import pool
-#import requests
 
 class TeamRepository:
     def create(self, team:TeamIn):
@@ -30,9 +29,9 @@ class TeamRepository:
                         team.description
                     ]
                 )
-                return self.to_dict(result.fetchall(), result.description)
+                return self.to_dict(result.fetchall(),result.description)
 
-    def get_all(self)->Union[Error, List[TeamOut]]:
+    def get_all(self)->Union[Error, List[TeamOut], TeamOut]:
         try:
             with pool.connection() as conn:
                 with conn.cursor() as db:
@@ -44,7 +43,7 @@ class TeamRepository:
                             type,
                             description,
                             pay_level
-                        FROM teams
+                        FROM teams;
                         """
                     )
                     return self.to_dict(result.fetchall(),result.description)
@@ -63,7 +62,7 @@ class TeamRepository:
                             type,
                             description,
                             pay_level
-
+                        FROM teams
                         WHERE id=%s
                         """,
                         [id]
@@ -105,7 +104,7 @@ class TeamRepository:
                     """,
                     params,
                 )
-        return self.to_dict(result.fetchall(),result.description)
+                return self.to_dict(result.fetchall(),result.description)
 
     def to_dict(self,rows,description):
         lst = []
