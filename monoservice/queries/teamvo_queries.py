@@ -5,7 +5,7 @@ class TeamVORepository:
     def get_user_teams(self,user):
         with pool.connection() as conn:
             with conn.cursor() as db:
-                result = db.execute(
+                resultlst = db.execute(
                     """
                     SELECT 
                         team_id
@@ -14,8 +14,12 @@ class TeamVORepository:
                     """,
                     [user['account']['id']]
                 )
-                teams_dict = self.to_dict(result.fetchall(),result.description)
+                teams_dict = self.to_dict(resultlst.fetchall(),resultlst.description)
         team_ids = []
+        if type(teams_dict) != list:
+            temp = []
+            temp.append(teams_dict)
+            teams_dict = temp
         for dic in teams_dict:
             team_ids.append(dic['team_id'])
         
@@ -71,9 +75,7 @@ class TeamVORepository:
                 created_team  = self.to_dict(result.fetchall(), result.description)
         
         team_id = created_team['id']
-        print("team_id:",team_id)
         member_u_str = "".join([str(team_id), user['account']['username']])
-        print("unique string:",member_u_str)
         with pool.connection() as conn:
             with conn.cursor() as db:
                 result = db.execute(
@@ -91,17 +93,20 @@ class TeamVORepository:
 
 
     def get_team(self, id):
+        print(id)
         with pool.connection() as conn:
             with conn.cursor() as db:
                 result = db.execute(
                     """
                     SELECT id, team_href, name, description
                     FROM teams_vo
-                    WHERE id = %s
+                    WHERE id = %s;
                     """,
                     [id]
                 )
-                return self.to_dict(result.fetchall(),result.description)
+                teamres = self.to_dict(result.fetchall(),result.description)
+                print(teamres)
+                return teamres
 
 
     def to_dict(self,rows,description):
