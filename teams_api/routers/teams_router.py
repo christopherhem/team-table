@@ -1,8 +1,9 @@
-from fastapi import APIRouter, Depends, status, Response, HTTPException
-from models import *
+from fastapi import APIRouter, Depends, status, Response, HTTPException, Request
+from models import TeamIn, TeamOut,Error
 from typing import Union, List as l
 from queries.teams_queries import TeamRepository
 from .users_dependencies import get_current_user
+import requests, json
 
 router = APIRouter()
 
@@ -44,9 +45,14 @@ def update_team(
 
 @router.post("/api/teams/", response_model = Union[TeamOut,Error])
 def add_team(
+    request:Request,
     team : TeamIn,
     response : Response,
     repo : TeamRepository = Depends(),
     user = Depends(get_current_user)
     ):
-    return repo.create(team)
+    record = repo.create(team)
+    headers = request.headers
+    data = json.dumps(record)
+    requests.post("http://pubsub:8000/api/smps/", data = data, headers = headers)
+    return record

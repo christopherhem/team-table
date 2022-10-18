@@ -16,7 +16,7 @@ router = APIRouter()
 
 """
 
-@router.post("/api/seps/subscribe", response_model = Union[SubUrlOut,Error])
+@router.post("/api/seps/subscribe/", response_model = Union[SubUrlOut,Error])
 def add_team(
     sub : SubUrlIn,
     response : Response,
@@ -24,7 +24,7 @@ def add_team(
     ):
     return repo.add_sub(sub)
 
-@router.post("/api/seps", response_model = Union[bool,Error])
+@router.post("/api/seps/", response_model = Union[bool,Error])
 def publish_post(
     body: EventVoIn,
     request: Request,
@@ -45,7 +45,7 @@ def publish_post(
     except Exception as e:
          return {"message": str(e)}
 
-@router.put("/api/seps", response_model = bool)
+@router.put("/api/seps/", response_model = bool)
 def publish_put(
    body: EventVoIn,
     request: Request,
@@ -66,7 +66,7 @@ def publish_put(
     except Exception as e:
          return {"message": str(e)}
 
-@router.delete("/api/seps", response_model = bool)
+@router.delete("/api/seps/", response_model = bool)
 def publish_delete(
     body: EventVoIn,
     request: Request,
