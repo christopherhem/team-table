@@ -6,16 +6,17 @@ from models import (
     TeamVoOut,
     TeamVoIn
 )
+from .users_dependencies import get_current_user
 
 router = APIRouter()
 
-@router.get("/api/table/teams", response_model=TeamVoOut)
+@router.get("/api/table/teams/", response_model=TeamVoOut)
 def get_all(repo: TeamVORepository = Depends()):
     return repo.get_all()
 
-@router.post("/api/main/teams", response_model = TeamVoOut)
-def new_team_vo(team:TeamVoIn, repo:TeamVORepository = Depends()):
-    return repo.create(team)
+@router.post("/api/main/teams/", response_model = TeamVoOut)
+def new_team_vo(team:TeamVoIn, repo:TeamVORepository = Depends(), user = Depends(get_current_user)):
+    return repo.create(team, user)
 
 @router.get("/api/table/teams/{id}", response_model=TeamVoOut)
 def get_team(

@@ -2,61 +2,92 @@ from models import TeamVoOut, TeamVoIn
 from queries.pool import pool
 
 class TeamVORepository:
+    def get_user_teams(self,user):
+        with pool.connection() as conn:
+            with conn.cursor() as db:
+                result = db.execute(
+                    """
+                    SELECT 
+                        team_id
+                    FROM teams_users_relations
+                    WHERE user_id = %s
+                    """,
+                    [user['account']['id']]
+                )
+                teams_dict = self.to_dict(result.fetchall(),result.description)
+        team_ids = []
+        for dic in teams_dict:
+            team_ids.append(dic['team_id'])
+        
+        teams_lst = []
+        for id in team_ids:
+            with pool.connection() as conn:
+                with conn.cursor() as db:
+                    result = db.execute(
+                        """
+                        SELECT 
+                            id, team_href, name, description
+                        FROM teams_vo
+                        WHERE id = %s
+                        """,
+                        [id]
+                    )
+                    teams_lst.append(self.to_dict(result.fetchall(),result.description))
+        return teams_lst
+
+
+
     def get_all(self):
         with pool.connection() as conn:
             with conn.cursor() as db:
                 result = db.execute(
                     """
-                    SELECT u.id, u.first_name, t.name
-                    FROM users as u
-                    LEFT JOIN teams_vo as t
-                        ON (u.id = t.user_id)
-                    GROUP BY
-                        u.id, u.first_name, t.name
-                    ORDER BY t.name
+                    SELECT 
+                        id, team_href, name, description
+                    FROM teams_vo
                     """
                 )
-                teams = []
-                rows = result.fetchall()
-                for row in rows:
-                    team = self.team_record_to_dict(row, result.description)
-                    teams.append(team)
-                return teams
+                return self.to_dict(result.fetchall(),result.description)
+                
 
     #unfinished, need create function for pub/sub to work
-    def create(self, team:TeamVoIn)->TeamVoOut:
-        user_id = None
-        team_href = f"https://teams:8000/api/teams/{team.team_id}"
-        with pool.connection() as conn:
-            with conn.cursor() as db:
-                user = db.execute(
-
-                """
-                SELECT id
-                FROM users
-                WHERE username=%s;
-
-                """,
-                [team.username]
-                )
-                user_id = self.to_dict(user.fetchall(), user.description)
-                user_id = user_id["id"]
-
+    def create(self, team:TeamVoIn, user)->TeamVoOut:
+        user_id = user['account']['id']
+        team_href = f"https://teams:8000/api/teams/{team.id}"
         with pool.connection() as conn:
             with conn.cursor() as db:
                 result = db.execute(
                     """
-                    INSERT INTO teams_vo (team_href, name, user_id)
+                    INSERT INTO teams_vo (team_href, name, description)
                     VALUES (%s, %s, %s)
-                    RETURNING id, team_href, name, user_id
+                    RETURNING id, team_href, name, description
                     """,
                     [
                         team_href,
                         team.name,
-                        user_id
+                        team.description
                     ]
                 )
-                return self.to_dict(result.fetchall(), result.description)
+                created_team  = self.to_dict(result.fetchall(), result.description)
+        
+        team_id = created_team['id']
+        print("team_id:",team_id)
+        member_u_str = "".join([str(team_id), user['account']['username']])
+        print("unique string:",member_u_str)
+        with pool.connection() as conn:
+            with conn.cursor() as db:
+                result = db.execute(
+                    """
+                    INSERT INTO teams_users_relations (team_id, user_id, unique_string)
+                    VALUES (%s, %s, %s)    
+                    """,
+                    [
+                        team_id, 
+                        user_id, 
+                        member_u_str
+                    ]
+                )
+        return created_team
 
 
     def get_team(self, id):
@@ -64,44 +95,13 @@ class TeamVORepository:
             with conn.cursor() as db:
                 result = db.execute(
                     """
-                    SELECT u.id, u.first_name, t.name
-                    FROM users as u
-                    LEFT JOIN teams_vo as t
-                        ON (u.id = t.user_id)
-                    WHERE t.id = %s
+                    SELECT id, team_href, name, description
+                    FROM teams_vo
+                    WHERE id = %s
                     """,
                     [id]
                 )
-                row = result.fetchone()
-                return self.team_record_to_dict(row, result.description)
-
-    def team_record_to_dict(self, row, description):
-        team = None
-        if row is not None:
-            team = {}
-            team_fields = [
-                "id",
-                "href",
-                "name",
-                "user_id"
-            ]
-            for i, column in enumerate(description):
-                if column.name in team_fields:
-                    team[column.name] = row[i]
-            team["id"] = team["id"]
-
-            user = {}
-            user_fields = [
-                "user_id",
-                "first_name"
-            ]
-            for i, column in enumerate(description):
-                if column.name in user_fields:
-                    user[column.name] = row[i]
-            user["id"] = user["user_id"]
-
-            team["user_id"] = user
-        return team
+                return self.to_dict(result.fetchall(),result.description)
 
 
     def to_dict(self,rows,description):

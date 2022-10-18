@@ -97,7 +97,7 @@ def add_team(
     ):
     return repo.add_sub(sub)
 
-@router.post("/api/smps", response_model = Union[bool,Error])
+@router.post("/api/smps/", response_model = Union[bool,Error])
 def publish_post(
     body: TeamVoIn,
     request: Request,
@@ -114,11 +114,12 @@ def publish_post(
         for url in urls:
             body = json.dumps(dict(body))
             requests.post(url, data = body, headers = headers)
+            print(body)
         return True
     except Exception as e:
          return {"message": str(e)}
 
-@router.put("/api/smps", response_model = bool)
+@router.put("/api/smps/", response_model = bool)
 def publish_put(
    body: TeamVoIn,
     request: Request,
@@ -139,7 +140,7 @@ def publish_put(
     except Exception as e:
          return {"message": str(e)}
 
-@router.delete("/api/smps", response_model = bool)
+@router.delete("/api/smps/", response_model = bool)
 def publish_delete(
     body: TeamVoIn,
     request: Request,

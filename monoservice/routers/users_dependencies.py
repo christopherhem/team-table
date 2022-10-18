@@ -30,11 +30,9 @@ async def get_current_user(
         headers={"WWW-Authenticate": "Bearer"},
     )
     
-    print("auth:", authorization)
     if not authorization or not authorization.startswith("Bearer"):
         raise credentials_exception
     token = authorization[7:].strip()
-    print("token:", token)
     try:
         return jwt.decode(token, SIGNING_KEY, algorithms=[ALGORITHM])
     except (JWTError, AttributeError) as e:

@@ -78,7 +78,6 @@ class MainSubQueries:
         return SubUrlOut(id = id,url = url)
     def get_subs(self)->Union[Error, List[SubUrlOut]]:
         try:
-            print("sub call initiated")
             with pool.connection() as conn:
                     with conn.cursor() as db:
                         result = db.execute(
