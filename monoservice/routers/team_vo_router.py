@@ -2,7 +2,7 @@ from fastapi import APIRouter, Depends, Response
 from fastapi.middleware.cors import CORSMiddleware
 import os
 from queries.teamvo_queries import TeamVORepository
-from ..models import (
+from models import (
     TeamVoOut,
     TeamVoIn
 )

@@ -45,12 +45,13 @@ class TeamTypeRepository:
         return team_type
 
     def get_all(self)->Union[Error, List[TeamTypeOut]]:
+        print("function called")
         try:
             with pool.connection() as conn:
                 with conn.cursor() as db:
                     result = db.execute(
                         """
-                        SELECT id,name
+                        SELECT id, name
                         FROM team_types;
                         """
                     )

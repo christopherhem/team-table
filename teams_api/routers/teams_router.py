@@ -2,14 +2,15 @@ from fastapi import APIRouter, Depends, status, Response, HTTPException
 from models import *
 from typing import Union, List as l
 from queries.teams_queries import TeamRepository
+from .users_dependencies import get_current_user
 
 router = APIRouter()
 
-@router.get("/api/teams", response_model = TeamsOut)
+@router.get("/api/teams/", response_model = Union[TeamOut, l[TeamOut]])
 def get_teams(
     repo: TeamRepository = Depends()
 ):
-    return {"teams": [repo.get_all()]}
+    return repo.get_all()
 
 @router.get("/api/teams/{id}")
 def get_team(id: int,
@@ -41,21 +42,11 @@ def update_team(
     else:
         return record
 
-@router.get("/api/teams/{id}/events")
-def get_events():
-    pass
-
-
-# Lines 56-64 weas a test to make sure we wer able to access User, Delete when done. 
-@router.post("/api/teams", response_model = Union[TeamOut,Error])
+@router.post("/api/teams/", response_model = Union[TeamOut,Error])
 def add_team(
     team : TeamIn,
     response : Response,
-    repo : TeamRepository = Depends()
+    repo : TeamRepository = Depends(),
+    user = Depends(get_current_user)
     ):
     return repo.create(team)
-
-@router.put("/api/teams/{id}/events/swap")
-def event_swap(
-):
-    pass

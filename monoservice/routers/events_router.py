@@ -5,7 +5,7 @@ import os, requests, json
 from queries.events_queries import EventQueries
 from authenticator import MyAuthenticator
 from routers.users_dependencies import get_current_user
-from ..models import (
+from models import (
     CoverEventIn,
     CoverEventOut,
     ShiftSwapEventOut,
