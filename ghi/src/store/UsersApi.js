@@ -62,28 +62,67 @@ export const usersApi = createApi({
             providesTags: ['ShiftSwapEvent']
         }),
         CreateCoverEvent: builder.mutation({
-            query: () => ({
+            query: (data) => ({
                 url: '/api/table/cover_events/',
                 method: 'post',
+                body: data,
                 credentials: 'include'
             }),
             invalidatesTags: ['UserCoverEventsList']
         }),
         CreateShiftSwapEvent: builder.mutation({
-            query: () => ({
+            query: (data) => ({
                 url: '/api/table/shift_swap_events/',
                 method: 'post',
+                body: data,
                 credentials: 'include'
             }),
             invalidatesTags: ['UserShiftSwapEventsList']
+        }),
+        UpdateCoverEvent: builder.mutation({
+            query: (id, data) => ({
+                url: `/api/table/cover_events/${id}`,
+                method: 'put',
+                body: data,
+                credentials: 'include'
+            }),
+            invalidatesTags: ['CoverEvent', 'UserCoverEventsList']
+        }),
+        UpdateShiftSwapEvent: builder.mutation({
+            query: (id, data) => ({
+                url: `/api/table/shift_swap_events/${id}`,
+                method: 'put',
+                body: data,
+                credentials: 'include'
+            }),
+            invalidatesTags: ['ShiftSwapEvent', 'UserShiftSwapEventsList']
+        }),
+        DeleteCoverEvent: builder.mutation({
+            query: (id) => ({
+                url: `/api/table/cover_events/${id}`,
+                method: 'delete',
+                credentials: 'include'
+            })
+        }),
+        DeleteShiftSwapEvent: builder.mutation({
+            query: (id) => ({
+                url: `/api/table/shift_swap_events/${id}`,
+                method: 'delete',
+                credentials: 'include'
+            })
         })
     }),
 });
 export const {
+    useDeleteCoverEventMutation,
+    useUpdateShiftSwapEventMutation,
+    useUpdateCoverEventMutation,
+    useCreateShiftSwapEventMutation,
     useCreateCoverEventMutation,
     useGetUserCoverEventsQuery,
     useGetCoverEventQuery,
     useGetUserShiftSwapEventsQuery,
+    useGetShiftSwapEventQuery,
     useGetUsersQuery,
     useCreateUsersMutation,
     useCreateTokenMutation,
