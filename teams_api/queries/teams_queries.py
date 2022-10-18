@@ -29,7 +29,11 @@ class TeamRepository:
                         team.description
                     ]
                 )
+<<<<<<< HEAD
                 return self.to_dict(result.fetchall(),result.description)
+=======
+                return self.to_dict(result.fetchall(), result.description)
+>>>>>>> main
 
     def get_all(self)->Union[Error, List[TeamOut], TeamOut]:
         try:
@@ -62,7 +66,11 @@ class TeamRepository:
                             type,
                             description,
                             pay_level
+<<<<<<< HEAD
                         FROM teams
+=======
+
+>>>>>>> main
                         WHERE id=%s
                         """,
                         [id]
@@ -112,7 +120,7 @@ class TeamRepository:
         for row in rows:
             item = {}
             for i in range(len(row)):
-                item[columns[i]]=row[i] 
+                item[columns[i]]=row[i]
             lst.append(item)
         if len(lst) == 1:
             lst = lst[0]

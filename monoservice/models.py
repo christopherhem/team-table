@@ -42,10 +42,15 @@ class UserVoOut(BaseModel):
     first_name: str
 
 class TeamVoOut(BaseModel):
-    href: str
+    id: int
+    team_href: str
     name: str
     user_id: int
 
+class TeamVoIn(BaseModel):
+    team_id: int
+    name: str
+    username: str
 
 class Error(BaseModel):
     message: str

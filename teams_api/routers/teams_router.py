@@ -13,7 +13,7 @@ def get_teams(
 ):
     return repo.get_all()
 
-@router.get("/api/teams/{id}")
+@router.get("/api/teams/{id}", response_model = TeamOut)
 def get_team(id: int,
     response: Response,
     repo: TeamRepository = Depends(),

@@ -19,11 +19,11 @@ services:
     build:
       context: simplepubsub
       dockerfile: Dockerfile
-    ports: 
+    ports:
       - 8085:8000
     volumes:
       - ./simplepubsub:/app
-    depends_on: 
+    depends_on:
       - postgres
     environment:
       DATABASE_URL: postgresql://pubsub:password@postgres/pubsub

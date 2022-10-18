@@ -21,8 +21,8 @@ class EventQueries:
                     FROM cover_events as e
                     LEFT JOIN users AS u
                         ON (u.id=e.user_id)
-                    LEFT JOIN team_vo AS tm
-                        ON (tm.href=e.team_href)
+                    LEFT JOIN teams_vo AS tm
+                        ON (tm.team_href=e.team_href)
                     GROUP BY e.id, e.availability_start,
                         e.availability_end, e.team_href,
                         e.user_id
@@ -42,8 +42,8 @@ class EventQueries:
                     FROM shift_swap_events as e
                     LEFT JOIN users AS u
                         ON (u.id=e.user_id)
-                    LEFT JOIN team_vo AS tm
-                        ON (tm.href=e.team_href)
+                    LEFT JOIN teams_vo AS tm
+                        ON (tm.team_href=e.team_href)
                     GROUP BY e.id, e.shift_start, e.shift_end,
                         e.availability_start, e.availability_end,
                         e.team_href, e.user_id
@@ -51,6 +51,36 @@ class EventQueries:
                     """,
                 )
                 return self.to_dict(db.fetchall(), db.description)
+
+    def get_user_cover_events(self, user):
+        with pool.connection() as conn:
+            with conn.cursor() as db:
+                result = db.execute(
+                    """
+                    SELECT e.id, e.availability_start,
+                        e.availability_end, e.user_id,
+                        e.team_href
+                    FROM cover_events AS e
+                    WHERE e.user_id = %s;
+                    """,
+                    [user["account"]["id"]]
+                )
+                return self.to_dict(result.fetchall(), result.description)
+
+    def get_user_shift_swap_events(self, user):
+        with pool.connection() as conn:
+            with conn.cursor() as db:
+                result = db.execute(
+                    """
+                    SELECT e.id, e.shift_start, e.shift_end,
+                        e.availability_start, e.availability_end,
+                        e.user_id, e.team_href
+                    FROM shift_swap_events as e
+                    WHERE e.user_id = %s;
+                    """,
+                    [user["account"]["id"]]
+                )
+                return self.to_dict(result.fetchall(), result.description)
 
     def get_cover_event(self, id):
         with pool.connection() as conn:
@@ -63,7 +93,7 @@ class EventQueries:
                     FROM cover_events as e
                     LEFT JOIN users AS u
                         ON (u.id=e.user_id)
-                    LEFT JOIN team_vo AS tm
+                    LEFT JOIN teams_vo AS tm
                         ON (tm.href=e.team_href)
                     WHERE e.id=%s
                     """,
@@ -83,7 +113,7 @@ class EventQueries:
                     FROM shift_swap_events as e
                     LEFT JOIN users AS u
                         ON (u.id=e.user_id)
-                    LEFT JOIN team_vo AS tm
+                    LEFT JOIN teams_vo AS tm
                         ON (tm.href=e.team_href)
                     WHERE e.id=%s
                     """,

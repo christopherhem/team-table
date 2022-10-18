@@ -6,7 +6,7 @@ export const usersApi = createApi({
         //baseUrl: process.env.MONO_HOST
         baseURL: "http://localhost:8080"
     }),
-    tagTypes: ['User', 'Token'],
+    tagTypes: ['User', 'Token', 'UserCoverEventsList', 'UserShiftSwapEventsList', 'CoverEvent', 'ShiftSwapEvent'],
     endpoints: builder => ({
         createUsers: builder.mutation({
             query: data => ({
@@ -44,12 +44,48 @@ export const usersApi = createApi({
                 credentials: 'include',
             }),
             invalidatesTags: ['Token'],
+        }),
+        getUserCoverEvents: builder.query({
+            query: () => '/api/table/user/cover_events/',
+            providesTags: ['UserCoverEventsList'],
+        }),
+        getUserShiftSwapEvents: builder.query({
+            query: () => '/api/table/user/shift_swap_events/',
+            providesTags: ['UserShiftSwapEventsList'],
+        }),
+        getCoverEvent: builder.query({
+            query: (id) => `/api/table/cover_events/${id}`,
+            providesTags: ['CoverEvent']
+        }),
+        getShiftSwapEvent: builder.query({
+            query: (id) => `/api/table/shift_swap_events/${id}`,
+            providesTags: ['ShiftSwapEvent']
+        }),
+        CreateCoverEvent: builder.mutation({
+            query: () => ({
+                url: '/api/table/cover_events/',
+                method: 'post',
+                credentials: 'include'
+            }),
+            invalidatesTags: ['UserCoverEventsList']
+        }),
+        CreateShiftSwapEvent: builder.mutation({
+            query: () => ({
+                url: '/api/table/shift_swap_events/',
+                method: 'post',
+                credentials: 'include'
+            }),
+            invalidatesTags: ['UserShiftSwapEventsList']
         })
     }),
 });
 export const {
+    useCreateCoverEventMutation,
+    useGetUserCoverEventsQuery,
+    useGetCoverEventQuery,
+    useGetUserShiftSwapEventsQuery,
     useGetUsersQuery,
     useCreateUsersMutation,
-    useCreateTokenMutation, 
+    useCreateTokenMutation,
     useSignOutMutation,
     useGetTokenQuery, } = usersApi;
