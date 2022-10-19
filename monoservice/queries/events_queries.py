@@ -63,7 +63,7 @@ class EventQueries:
                     FROM cover_events AS e
                     WHERE e.user_id = %s;
                     """,
-                    [user["account"]["id"]]
+                    [user["id"]]
                 )
                 return self.to_dict(result.fetchall(), result.description)
 
@@ -78,7 +78,7 @@ class EventQueries:
                     FROM shift_swap_events as e
                     WHERE e.user_id = %s;
                     """,
-                    [user["account"]["id"]]
+                    [user["id"]]
                 )
                 return self.to_dict(result.fetchall(), result.description)
 
@@ -135,7 +135,7 @@ class EventQueries:
                     [
                         cover_event.availability_start,
                         cover_event.availability_end,
-                        user["account"]["id"],
+                        user["id"],
                         cover_event.team_href
                     ],
                 )
@@ -159,7 +159,7 @@ class EventQueries:
                         shift_swap_event.shift_end,
                         shift_swap_event.availability_start,
                         shift_swap_event.availability_end,
-                        user["account"]["id"],
+                        user["id"],
                         shift_swap_event.team_href
                     ],
                 )
