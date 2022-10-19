@@ -31,3 +31,6 @@ Pub sub requests are working with insomnia! We had to get curtis' help with gett
 
 ## 10/17/2022
 Louise and I got Pub sub publishing and posting working correctly with two direction authentication for the event->eventVO paths. Creation of an event in fastapi docs on the main monoservice successfully creates that event on the teams microservice as a VO. I refactored the file names for the monoservice to match the style of the teams microservice and be more readable. Also slightly adjusted some models, as well as relocated the models file and updated appropriate imports. I started working on the logic and routes to make a list of events that have availability and shift overlap
+
+## 10/18/2022
+I finished the paths and logic for pub sub in the Teams->teamsVO direction. I had to rewrite a few of the endpoints and models to accept the data correctly as well as fix early syntax errors from our early attempts at SQL table manipulation. I also wrote a query to get the teams related to a given user, which required a many to many table that had to be implemented into the teamVO creation to autopopulate. We will also need to create a path for members pub sub to populate the many to many table in monoservice when a member is added to a team. I also added functionality for updating a user so the new password will hash correctly and require authentication.

@@ -106,13 +106,15 @@ async def create_user(
     token = await authenticator.login(response, request, form, queries)
     return UserToken(user=user, **token.dict())
 
-@router.put("/api/users/{user_id}", response_model=Union[UserPut, Error])
+@router.put("/api/users/", response_model=Union[UserOut, Error])
 def update_user(
-    user_id: int,
     user: UserIn,
     query: UserQueries = Depends(),
-) -> Union[Error, UserPut]:
-    return query.update(user_id, user)
+    userdict = Depends(authenticator.get_current_account_data)
+):
+    user_id = userdict['id']
+    hashed_password = authenticator.hash_password(user.password)
+    return query.update(user_id, user, hashed_password)
 
 @router.delete("/api/users/{user_id}", response_model=bool)
 def delete_user(

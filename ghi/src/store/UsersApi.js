@@ -91,13 +91,16 @@ export const usersApi = createApi({
         }),
         getUserCoverEvents: builder.query({
             query: () => ({
-                url: '/api/table/user/cover_events',
+                url: '/api/table/user/cover_events/',
                 credentials: 'include'
             }),
             providesTags: ['UserCoverEventsList'],
         }),
         getUserShiftSwapEvents: builder.query({
-            query: () => '/api/table/user/shift_swap_events/',
+            query: () => ({
+                url: '/api/table/user/shift_swap_events/',
+                credentials: 'include'
+            }),
             providesTags: ['UserShiftSwapEventsList'],
         }),
         getCoverEvent: builder.query({
