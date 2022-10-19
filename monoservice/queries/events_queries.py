@@ -79,7 +79,7 @@ class EventQueries:
                         [dic['team_href']]
                     )
                     dic['team_name'] = str(result.fetchone()).strip("(',)")
-            
+
         return cover_events
 
 
@@ -206,8 +206,19 @@ class EventQueries:
                         shift_swap_event.team_href
                     ],
                 )
-
-                return self.to_dict(db.fetchall(), db.description)
+                event = self.to_dict(db.fetchall(), db.description)
+        with pool.connection() as conn:
+            with conn.cursor() as db:
+                db.execute(
+                    """
+                    SELECT name
+                    FROM teams_vo
+                    WHERE team_href = %s
+                    """,
+                    [event['team_href']]
+                )
+                event['team_name'] = str(db.fetchone()).strip("(',)")
+        return event
 
     def delete_cover_event(self, id):
         with pool.connection() as conn:
