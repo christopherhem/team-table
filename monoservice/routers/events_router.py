@@ -17,22 +17,22 @@ from datetime import datetime
 router = APIRouter()
 
 
-@router.get("/api/table/cover_events", response_model=Union[CoverEventOut, List[CoverEventOut]])
+@router.get("/api/table/cover_events/", response_model=Union[CoverEventOut, List[CoverEventOut]])
 def get_cover_event_table(queries: EventQueries = Depends()):
     return queries.get_cover_event_table()
 
-@router.get("/api/table/shift_swap_events", response_model=Union[CoverEventOut, List[ShiftSwapEventOut]])
+@router.get("/api/table/shift_swap_events/", response_model=Union[CoverEventOut, List[ShiftSwapEventOut]])
 def get_shift_swap_event_table(queries: EventQueries = Depends()):
     return queries.get_shift_swap_event_table()
 
-@router.get("/api/table/user/cover_events", response_model=Union[CoverEventOut, List[CoverEventOut]])
+@router.get("/api/table/user/cover_events/", response_model=Union[CoverEventOut, List[CoverEventOut]])
 def get_user_cover_events(
     user = Depends(authenticator.get_current_account_data),
     queries: EventQueries = Depends()
 ):
     return queries.get_user_cover_events(user)
 
-@router.get("/api/table/user/shift_swap_events", response_model=Union[CoverEventOut, List[ShiftSwapEventOut]])
+@router.get("/api/table/user/shift_swap_events/", response_model=Union[CoverEventOut, List[ShiftSwapEventOut]])
 def get_user_shift_swap_events(
     user = Depends(authenticator.get_current_account_data),
     queries: EventQueries = Depends()
@@ -63,7 +63,7 @@ def get_shift_swap_event(
     else:
         return record
 
-@router.post("/api/table/cover_events", response_model=CoverEventOut)
+@router.post("/api/table/cover_events/", response_model=CoverEventOut)
 def create_cover_event(
     request: Request,
     event: CoverEventIn,
@@ -79,10 +79,10 @@ def create_cover_event(
         else:
             pushevent[key] = created_event[key]
     data = json.dumps(pushevent)
-    requests.post("http://pubsub:8000/api/seps", data = data, headers = headers)
+    requests.post("http://pubsub:8000/api/seps/", data = data, headers = headers)
     return created_event
 
-@router.post("/api/table/shift_swap_events", response_model=ShiftSwapEventOut)
+@router.post("/api/table/shift_swap_events/", response_model=ShiftSwapEventOut)
 def create_shift_swap_event(
     request: Request,
     event: ShiftSwapEventIn,
@@ -99,7 +99,7 @@ def create_shift_swap_event(
         else:
             pushevent[key] = created_event[key]
     data = json.dumps(pushevent)
-    requests.post("http://pubsub:8000/api/seps", data = data, headers = headers)
+    requests.post("http://pubsub:8000/api/seps/", data = data, headers = headers)
     return created_event
 
 
