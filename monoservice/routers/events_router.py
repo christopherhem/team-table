@@ -4,7 +4,6 @@ from typing import Optional, List, Union
 import os, requests, json
 from queries.events_queries import EventQueries
 from authenticator import authenticator
-from routers.users_dependencies import get_current_user
 from models import (
     CoverEventIn,
     CoverEventOut,

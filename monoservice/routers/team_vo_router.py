@@ -6,8 +6,8 @@ from models import (
     TeamVoOut,
     TeamVoIn
 )
-from .users_dependencies import get_current_user
 from typing import List, Union
+from authenticator import authenticator
 
 router = APIRouter()
 
@@ -16,7 +16,7 @@ def get_all(repo: TeamVORepository = Depends()):
     return repo.get_all()
 
 @router.post("/api/main/teams/", response_model = TeamVoOut)
-def new_team_vo(team:TeamVoIn, repo:TeamVORepository = Depends(), user = Depends(get_current_user)):
+def new_team_vo(team:TeamVoIn, repo:TeamVORepository = Depends(), user = Depends(authenticator.get_current_account_data)):
     return repo.create(team, user)
 
 @router.get("/api/main/teams/{id}", response_model=TeamVoOut)
@@ -30,7 +30,7 @@ def get_by_id(
 
 @router.get("/api/main/teams/byuser/", response_model = List[TeamVoOut])
 def get_by_user(
-    user = Depends(get_current_user),
+    user = Depends(authenticator.get_current_account_data),
     repo : TeamVORepository = Depends()
 ):
     return repo.get_user_teams(user)
