@@ -57,15 +57,31 @@ class EventQueries:
             with conn.cursor() as db:
                 result = db.execute(
                     """
-                    SELECT e.id, e.availability_start,
-                        e.availability_end, e.user_id,
-                        e.team_href
-                    FROM cover_events AS e
-                    WHERE e.user_id = %s;
+                    SELECT id, availability_start,
+                        availability_end, user_id,
+                        team_href
+                    FROM cover_events
+                    WHERE user_id = %s;
                     """,
                     [user["id"]]
                 )
-                return self.to_dict(result.fetchall(), result.description)
+                cover_events =  self.to_dict(result.fetchall(), result.description)
+        for dic in cover_events:
+            with pool.connection() as conn:
+                with conn.cursor() as db:
+                    result = db.execute(
+                        """
+                        SELECT name
+                        FROM teams_vo
+                        WHERE team_href = %s
+
+                        """,
+                        [dic['team_href']]
+                    )
+                    dic['team_name'] = str(result.fetchone()).strip("(',)")
+            
+        return cover_events
+
 
     def get_user_shift_swap_events(self, user):
         with pool.connection() as conn:
@@ -80,7 +96,21 @@ class EventQueries:
                     """,
                     [user["id"]]
                 )
-                return self.to_dict(result.fetchall(), result.description)
+                events =  self.to_dict(result.fetchall(), result.description)
+        for dic in events:
+            with pool.connection() as conn:
+                with conn.cursor() as db:
+                    result = db.execute(
+                        """
+                        SELECT name
+                        FROM teams_vo
+                        WHERE team_href = %s
+
+                        """,
+                        [dic['team_href']]
+                    )
+                    dic['team_name'] = str(result.fetchone()).strip("(',)")
+        return events
 
     def get_cover_event(self, id):
         with pool.connection() as conn:
@@ -139,7 +169,20 @@ class EventQueries:
                         cover_event.team_href
                     ],
                 )
-                return self.to_dict(db.fetchall(), db.description)
+                event =  self.to_dict(db.fetchall(), db.description)
+
+        with pool.connection() as conn:
+            with conn.cursor() as db:
+                db.execute(
+                    """
+                    SELECT name
+                    FROM teams_vo
+                    WHERE team_href = %s
+                    """,
+                    [event['team_href']]
+                )
+                event['team_name'] = str(db.fetchone()).strip("(',)")
+        return event
 
     def create_shift_swap_event(self, shift_swap_event: ShiftSwapEventIn, user):
         with pool.connection() as conn:
