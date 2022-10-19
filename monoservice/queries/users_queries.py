@@ -131,7 +131,7 @@ class UserQueries:
                     profile_picture_href=user.profile_picture_href,
                 )
 
-    def update(self, user_id: int, user: UserPut) -> Union[User, Error]:
+    def update(self, user_id: int, user: UserIn, hp) -> Union[UserOut, Error]:
         try:
             # connect the database
             with pool.connection() as conn:
@@ -140,23 +140,25 @@ class UserQueries:
                     db.execute(
                         """
                         UPDATE users
-                        SET password = %s
-                          ,  first_name = %s
-                          , last_name = %s
-                          , email = %s
-                          , phone_number = %s
-                          , profile_picture_href = %s
+                        SET 
+                            hashed_password = %s, 
+                            first_name = %s, 
+                            last_name = %s, 
+                            email = %s, 
+                            phone_number = %s, 
+                            profile_picture_href = %s
                         WHERE id = %s
-                        RETURNING id
-                            , password
-                            , first_name
-                            , last_name
-                            , email
-                            , phone_number
-                            , profile_picture_href
+                        RETURNING 
+                            id,
+                            username, 
+                            first_name, 
+                            last_name, 
+                            email, 
+                            phone_number, 
+                            profile_picture_href
                         """,
                         [
-                            user.hashed_password,
+                            hp,
                             user.first_name,
                             user.last_name,
                             user.email,
@@ -165,7 +167,7 @@ class UserQueries:
                             user_id
                         ]
                     )
-                    return self.user_in_to_out(user_id, user)
+                    return self.record_to_user_out_safe(db.fetchone())
         except Exception as e:
             print(e)
             return {"message": "Could not update user"}
@@ -201,6 +203,17 @@ class UserQueries:
             id=record[0],
             username=record[1],
             hashed_password=record[2],
+            first_name=record[3],
+            last_name=record[4],
+            email=record[5],
+            phone_number=record[6],
+            profile_picture_href=record[7],
+        )
+
+    def record_to_user_out_safe(self, record):
+        return User(
+            id=record[0],
+            username=record[1],
             first_name=record[3],
             last_name=record[4],
             email=record[5],

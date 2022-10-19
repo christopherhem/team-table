@@ -21,6 +21,7 @@ from jose import JWTError, jwt
 from jwtdown_fastapi.authentication import Token
 from authenticator import authenticator
 from pydantic import BaseModel
+from .users_dependencies import get_current_user as gcu
 class UserForm(BaseModel):
     username: str
     password: str
@@ -106,13 +107,15 @@ async def create_user(
     token = await authenticator.login(response, request, form, queries)
     return UserToken(user=user, **token.dict())
 
-@router.put("/api/users/{user_id}", response_model=Union[UserPut, Error])
+@router.put("/api/users/", response_model=Union[UserOut, Error])
 def update_user(
-    user_id: int,
     user: UserIn,
     query: UserQueries = Depends(),
-) -> Union[Error, UserPut]:
-    return query.update(user_id, user)
+    userdict = Depends(gcu)
+):
+    user_id = userdict["account"]['id']
+    hashed_password = authenticator.hash_password(user.password)
+    return query.update(user_id, user, hashed_password)
 
 @router.delete("/api/users/{user_id}", response_model=bool)
 def delete_user(
