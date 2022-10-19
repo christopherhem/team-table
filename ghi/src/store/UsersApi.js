@@ -4,7 +4,16 @@ export const usersApi = createApi({
     reducerPath: 'users',
     baseQuery: fetchBaseQuery({
         //baseUrl: process.env.MONO_HOST
-        baseUrl: "http://localhost:8080/"
+        baseUrl: "http://localhost:8080/",
+        prepareHeaders: (headers, { getState }) => {
+            const selector = usersApi.endpoints.getToken.select();
+            const { data: tokenData } = selector(getState());
+            if (tokenData && tokenData.access_token) {
+              headers.set('Authorization', `Bearer ${tokenData.access_token}`);
+            }
+            return headers;
+          }
+
     }),
     tagTypes: ['Dashboard', 'User', 'Token', 'UserCoverEventsList', 'UserShiftSwapEventsList', 'CoverEvent', 'ShiftSwapEvent'],
     endpoints: builder => ({
@@ -22,7 +31,7 @@ export const usersApi = createApi({
             providesTags: ['User'],
         }),
         createToken: builder.mutation({
-            query: data => 
+            query: data =>
             {
             console.log("Data:"
             , data.values)
@@ -32,7 +41,7 @@ export const usersApi = createApi({
                 method: 'POST',
                 credentials: 'include',
             }
-            
+
             },
             invalidatesTags: ['Token'],
         }),
@@ -42,6 +51,7 @@ export const usersApi = createApi({
                 credentials: 'include',
             }),
             providesTags: ['Token'],
+            invalidatesTags: ['UserCoverEventsList']
         }),
         logIn: builder.mutation({
             query: info => {
@@ -80,7 +90,10 @@ export const usersApi = createApi({
             invalidatesTags: ['Token'],
         }),
         getUserCoverEvents: builder.query({
-            query: () => '/api/table/user/cover_events/',
+            query: () => ({
+                url: '/api/table/user/cover_events',
+                credentials: 'include'
+            }),
             providesTags: ['UserCoverEventsList'],
         }),
         getUserShiftSwapEvents: builder.query({
