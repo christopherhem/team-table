@@ -4,10 +4,17 @@ import { Card, CardBody, CardTitle, CardSubtitle, Table } from "reactstrap";
 // import ErrorNotification from '../../ErrorNotification'
 // import { Link } from 'react-router-dom';
 import { useGetTokenQuery, useGetUserCoverEventsQuery } from '../../store/UsersApi';
+import CoverEventFormModal from '../events/CoverEventFormModal';
+import SwapEventFormModal from '../events/SwapEventFormModal';
+
+
+import styles from "./Dashboard.module.css"
 
 
 
 function Dashboard() {
+    const [isOpen, setIsOpen] = useState(false);
+    const [isOpenSwap, setIsOpenSwap] = useState(false);
     useGetTokenQuery();
     const { data: eventData } = useGetUserCoverEventsQuery();
     console.log(eventData)
@@ -38,11 +45,13 @@ function Dashboard() {
                   data.
                 </tbody>
               </Table>
+              <button className={styles.primaryBtn} onClick={() => setIsOpen(true)}>Create Cover Event</button>{isOpen && <CoverEventFormModal setIsOpen={setIsOpen} />}
+              <button className={styles.primaryBtn} onClick={() => setIsOpenSwap(true)}>Create Swap Event</button>{isOpenSwap && <SwapEventFormModal setIsOpenSwap={setIsOpenSwap} />}
             </CardBody>
           </Card>
+          
         </div>
     </>
   )
 }
-
 export default Dashboard;

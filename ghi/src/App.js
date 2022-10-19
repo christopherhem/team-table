@@ -3,8 +3,10 @@
 // import ErrorNotification from './ErrorNotification';
 // import './App.css';
 
+import { createElement } from 'react';
 import {BrowserRouter, Route, Routes} from 'react-router-dom';
 import Dashboard from './components/dashboard/Dashboard.js';
+import EventFormModal from './components/events/CoverEventFormModal.js';
 import SignIn from './components/users/signin.js';
 import SignUp from './components/users/signup.js';
 import Home from './pages';
@@ -40,6 +42,9 @@ function App() {
   return (
     <BrowserRouter>
       <Routes>
+        <Route path ="events" >
+            <Route path="new" element={<EventFormModal/>} />
+          </Route>
         <Route path='/' element={<Home />} />
         <Route path='dashboard' element={<Dashboard />} />
         <Route path="signup" element={<SignUp />} />
