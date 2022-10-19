@@ -21,7 +21,6 @@ from jose import JWTError, jwt
 from jwtdown_fastapi.authentication import Token
 from authenticator import authenticator
 from pydantic import BaseModel
-from .users_dependencies import get_current_user as gcu
 class UserForm(BaseModel):
     username: str
     password: str
@@ -111,9 +110,9 @@ async def create_user(
 def update_user(
     user: UserIn,
     query: UserQueries = Depends(),
-    userdict = Depends(gcu)
+    userdict = Depends(authenticator.get_current_account_data)
 ):
-    user_id = userdict["account"]['id']
+    user_id = userdict['id']
     hashed_password = authenticator.hash_password(user.password)
     return query.update(user_id, user, hashed_password)
 

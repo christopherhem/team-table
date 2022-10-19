@@ -12,7 +12,7 @@ class TeamVORepository:
                     FROM teams_users_relations
                     WHERE user_id = %s
                     """,
-                    [user['account']['id']]
+                    [user['id']]
                 )
                 teams_dict = self.to_dict(resultlst.fetchall(),resultlst.description)
         team_ids = []
@@ -53,10 +53,8 @@ class TeamVORepository:
                 )
                 return self.to_dict(result.fetchall(),result.description)
                 
-
-    #unfinished, need create function for pub/sub to work
     def create(self, team:TeamVoIn, user)->TeamVoOut:
-        user_id = user['account']['id']
+        user_id = user['id']
         team_href = f"https://teams:8000/api/teams/{team.id}"
         with pool.connection() as conn:
             with conn.cursor() as db:
@@ -75,7 +73,7 @@ class TeamVORepository:
                 created_team  = self.to_dict(result.fetchall(), result.description)
         
         team_id = created_team['id']
-        member_u_str = "".join([str(team_id), user['account']['username']])
+        member_u_str = "".join([str(team_id), user['username']])
         with pool.connection() as conn:
             with conn.cursor() as db:
                 result = db.execute(
