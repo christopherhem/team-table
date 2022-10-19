@@ -9,55 +9,60 @@ class MemberRepository:
                 with conn.cursor() as db:
                     result = db.execute(
                         """
-                        SELECT members(
-                            m.id,
-                            m.member,
-                            m.role
-                        )
-                        FROM members AS m
-                        LEFT JOIN roles AS r
-                            ON (role=r.id)
-                        LEFT JOIN user_vos AS u
-                            ON (member=u.id)
-                        GROUP BY
-                            m.id
-                        WHERE id=%s;
-                        """,
-                        [id]
+                        SELECT id, member_username, role
+                        FROM members
+                        """
                     )
-                    members = []
-                    rows= result.fetchall()
-                    for row in rows:
-                        member = self.record_to_dict(row, result.description)
-                        members.append(member)
-                    return members
+                    return self.to_dict(result.fetchall(),result.description)
         except:
-            return{"message" : "Error in member_queries get_one"}
-
+            return{"message" : "Error in member_queries get_all"}
+    
+    def get_members_by_team(self, tid):
+        try:
+            with pool.connection() as conn:
+                with conn.cursor() as db:
+                    result = db.execute(
+                        """
+                        SELECT id, team
+                        FROM roles 
+                        WHERE team = %s
+                        """,
+                        [tid]
+                    )
+                    role_dics = self.to_dict(result.fetchall(),result.description)
+            role_ids = []
+            for dic in role_dics:
+                role_ids.append(dic['id'])
+            members = []
+            for rid in role_ids:
+                with pool.connection() as conn:
+                    with conn.cursor() as db:
+                        result = db.execute(
+                            """
+                            SELECT id, member_username, role
+                            FROM members
+                            WHERE role = %s
+                            """,
+                            [rid]
+                        )
+                        members.append(self.to_dict(result.fetchall(),result.description))
+            return members
+        except Exception as e:
+            return {"message": f"Error in member_queries get_members_by_team: {e}"}
+    
     def get_one(self, id)->Union[Error, MemberOut]:
         try:
             with pool.connection() as conn:
                 with conn.cursor() as db:
                     result = db.execute(
                         """
-                        SELECT members(
-                            m.id,
-                            m.member,
-                            m.role
-                        )
-                        FROM members AS m
-                        LEFT JOIN roles AS r
-                            ON (role = r.id)
-                        LEFT JOIN user_vos AS u
-                            ON (member = u.id)
-                        GROUP BY
-                            m.id
+                        SELECT id, member_username, role
+                        FROM members
                         WHERE id=%s;
                         """,
                         [id]
                     )
-                    row = result.fetchone()
-                    return self.record_to_dict(row, result.description)
+                    return self.to_dict(result.fetchall(), result.description)
         except:
             return{"message" : "Error in member_queries get_one"}
     def create(self, member:MemberIn):
@@ -67,23 +72,21 @@ class MemberRepository:
                 result = db.execute(
                     """
                     INSERT INTO members(
-                        member,
+                        member_username,
                         role
                     )
                     VALUES(
                         %s,
                         %s
                     )
-                    RETURNING id;
+                    RETURNING id, member_username, role;
                     """,
                     [
-                        member.member.id,
-                        member.role.id
+                        member.member,
+                        member.role
                     ]
                 )
-        id = result.fetchone()[0]
-        data = member.dict()
-        return MemberOut(id=id, **data)
+                return self.to_dict(result.fetchall(),result.description)
 
     def delete(self, id):
         with pool.connection() as conn:
@@ -106,98 +109,25 @@ class MemberRepository:
                     ]
                     result = db.execute(
                         """
-                        UPDATE teams
+                        UPDATE members
                         SET role = %s
                         WHERE id = %s
-                        RETURNING id, member, team, role
+                        RETURNING id, member_username, role
                         """,
                         params
                     )
-                    member = None
-                    row = result.fetchone()
-                    if row is not None:
-                        member = {}
-                        for i, column in enumerate(result.description):
-                            member[column.nam] = row[i]
-                    return member
+                    return self.to_dict(result.fetchall(),result.description)
         except:
             return {"message":"Error in members_queries.update"}
 
-    def record_to_dict(self, row, description):
-        member = None
-        if row is not None:
-            member = {}
-            member_fields = [
-                "id",
-                "member",
-                "role"
-            ]
-            for i, column in enumerate(description):
-                if column.name in member_fields:
-                    member[column.name] = row[i]
-            member["id"] = member["id"]
-        member_var = {}
-        member_var_fields = [
-            "id",
-            "name",
-            "user_href"
-        ]
-        for i, column in enumerate(description):
-            if column.name in member_var_fields:
-                member_var[column.name] = row[i]
-        member_var["id"] = member_var["id"]
-
-        member["member"] = member_var
-
-        # team = {}
-        # team_fields = [
-        #     "id",
-        #     "name",
-        #     "type",
-        #     "description",
-        #     "pay_level"
-        # ]
-        # for i, column in enumerate(description):
-        #     if column.name in team_fields:
-        #         team[column.name] = row[i]
-        # team["id"] = team["id"]
-
-        # type = {}
-        # type_fields = [
-        #     "id",
-        #     "name"
-        # ]
-        # for i, column in enumerate(description):
-        #     if column.name in type_fields:
-        #         type[column.name] = row[i]
-        # type["id"] = type["id"]
-
-        # team["type"] = type
-        # pay_level = {}
-        # pay_level_fields = [
-        #     "id",
-        #     "name",
-        #     "max_members",
-        #     "max_roles"
-        # ]
-        # for i, column in enumerate(description):
-        #     if column.name in pay_level_fields:
-        #         pay_level[column.name] = row[i]
-        # pay_level["id"] = pay_level["id"]
-
-        # team["pay_level"] = pay_level
-
-        role = {}
-        role_fields = [
-            "id",
-            "name",
-            "team"
-        ]
-        for i, column in enumerate(description):
-            if column.name in role_fields:
-                role[column.name] = row[i]
-        role["id"] = role["id"]
-
-        member["role"] = role
-
-        return member
+    def to_dict(self,rows,description):
+        lst = []
+        columns = [desc[0] for desc in description]
+        for row in rows:
+            item = {}
+            for i in range(len(row)):
+                item[columns[i]]=row[i]
+            lst.append(item)
+        if len(lst) == 1:
+            lst = lst[0]
+        return lst
