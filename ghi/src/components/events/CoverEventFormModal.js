@@ -16,7 +16,7 @@ import {
 } from '../users/SignUpElements.js';
 
 
-export default function CoverEventFormModal({ setIsOpen }) {
+export default function CoverEventFormModal({ setIsOpenCover }) {
   const [availability_start, setStart] = useState('');
   const [availability_end, setEnd] = useState('');
   const [createCover, result] = useCreateCoverEventMutation();
@@ -24,17 +24,18 @@ export default function CoverEventFormModal({ setIsOpen }) {
   async function handleSubmit(e) {
       e.preventDefault();
       createCover({availability_start, availability_end});
+      console.log(result)
   }
 
   return (
     <>
-      <div className={styles.darkBG} onClick={() => setIsOpen(false)} />
+      <div className={styles.darkBG} onClick={() => setIsOpenCover(false)} />
       <div className={styles.centered}>
         <div className={styles.modal}>
           <div className={styles.modalHeader}>
             <h5 className={styles.heading}>Create a cover event</h5>
           </div>
-          <button className={styles.closeBtn} onClick={() => setIsOpen(false)}>
+          <button className={styles.closeBtn} onClick={() => setIsOpenCover(false)}>
             <RiCloseLine style={{ marginBottom: "-3px" }} />
           </button>
           <form className={styles.modalContent} onSubmit={(e) => handleSubmit(e)}>
@@ -46,12 +47,12 @@ export default function CoverEventFormModal({ setIsOpen }) {
           </form>
           <div className={styles.modalActions}>
             <div className={styles.actionsContainer}>
-              <button className={styles.deleteBtn} onClick={() => setIsOpen(false)}>
+              <button className={styles.deleteBtn} onClick={() => setIsOpenCover(false)}>
                 Submit
               </button>
               <button
                 className={styles.cancelBtn}
-                onClick={() => setIsOpen(false)}
+                onClick={() => setIsOpenCover(false)}
               >
                 Cancel
               </button>

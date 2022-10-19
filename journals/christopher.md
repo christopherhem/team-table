@@ -59,3 +59,7 @@ I finally completed the landing page, forms for signing in and create an account
 ## October 18, 2022
 
 I have finally completed the user login that creates a token for them. It took me nearly all day to finally get it up and running... My brain is once again fried. Not sure how much mental energy I have left to work for the remainder of the evening... I hope tomorrow is a better day. 
+
+## October 19, 2022
+
+More front-end frenzy. Dashboard is slowly coming together, I was able to get some modal forms up and running. Currently having issues with the endpoints. But overall looks pretty cool. Today was a better today. I hope tomorrow is an even better day. Onwards. 
