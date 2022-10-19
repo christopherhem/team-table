@@ -55,7 +55,7 @@ class TeamVORepository:
                 
     def create(self, team:TeamVoIn, user)->TeamVoOut:
         user_id = user['id']
-        team_href = f"https://teams:8000/api/teams/{team.id}"
+        team_href = f"http://teams:8000/api/teams/{team.id}"
         with pool.connection() as conn:
             with conn.cursor() as db:
                 result = db.execute(

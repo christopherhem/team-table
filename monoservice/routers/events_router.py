@@ -78,7 +78,7 @@ def create_cover_event(
         else:
             pushevent[key] = created_event[key]
     data = json.dumps(pushevent)
-    requests.post("http://pubsub:8000/api/seps", data = data, headers = headers)
+    requests.post("http://pubsub:8000/api/seps/", data = data, headers = headers)
     return created_event
 
 @router.post("/api/table/shift_swap_events", response_model=ShiftSwapEventOut)
