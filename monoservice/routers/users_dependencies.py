@@ -21,7 +21,7 @@ ALGORITHM = "HS256"
 oauth2_scheme = OAuth2AuthorizationCodeBearer(authorizationUrl="",tokenUrl="token", auto_error=False)
 
 async def get_current_user(
-    # token: Optional[str] = Depends(oauth2_scheme),
+    #token: Optional[str] = Depends(oauth2_scheme),
     authorization: str | None = Header(default=None)
 ):
     credentials_exception = HTTPException(
