@@ -6,20 +6,21 @@ import { Card, CardBody, CardTitle, CardSubtitle, Table } from "reactstrap";
 import { NavLogo } from '../navbar/NavbarElements';
 // import ErrorNotification from '../../ErrorNotification'
 // import { Link } from 'react-router-dom';
-import { useGetUserCoverEventsQuery, useGetUserShiftSwapEventsQuery } from '../../store/UsersApi';
+import { useGetTokenQuery, useGetUserCoverEventsQuery, useGetUserShiftSwapEventsQuery } from '../../store/UsersApi';
 
 
 
 function Dashboard() {
     const [isOpen, setIsOpen] = useState(false)
+    const {data: userData, isLoading: isLoadingUser} = useGetTokenQuery();
     const { data: eventData, isLoading: isLoadingEvent } = useGetUserCoverEventsQuery();
     const { data: shiftData, isLoading: isLoadingShift } = useGetUserShiftSwapEventsQuery();
-    console.log(eventData)
-    if (isLoadingEvent || isLoadingShift) {
+    if (isLoadingEvent || isLoadingShift || isLoadingUser) {
       return (
         <progress className="progress is-primary" max="100"></progress>
-      );
-    }
+        );
+      }
+    const user = userData.user.first_name
     const toggle = () => {
       setIsOpen(!isOpen)
   }
@@ -28,7 +29,7 @@ function Dashboard() {
     <>
         <NavBar toggle={toggle} />
         <h1>
-            Hello, User
+            Hello, {user}!
         </h1>
         <div>
           <Card>
