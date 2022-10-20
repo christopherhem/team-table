@@ -9,7 +9,7 @@ from queries.event_type_queries import EventTypeRepository
 
 router = APIRouter()
 
-@router.get("/api/teams/event_types", response_model = Union[Error, l[EventTypeOut]])
+@router.get("/api/teams/event_types/", response_model = Union[Error, l[EventTypeOut]])
 def get_event_types(
     repo: EventTypeRepository = Depends()
 ):

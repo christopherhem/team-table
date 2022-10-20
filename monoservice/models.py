@@ -94,3 +94,9 @@ class UserPut(BaseModel):
     email: Optional[str]
     phone_number: Optional[str]
     profile_picture_href: Optional[str]
+
+class MemberIn(BaseModel):
+    id : int
+    member_username: str
+    role: int
+    team_href : str

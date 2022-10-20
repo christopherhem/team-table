@@ -14,6 +14,14 @@ steps = [
     ],
     [
         """
+        INSERT INTO team_types (name)
+        VALUES ('shift_swapping_team')
+        """,
+        """
+        """
+    ],
+    [
+        """
         CREATE TABLE event_types(
             id SERIAL PRIMARY KEY NOT NULL,
             name VARCHAR(50) NOT NULL UNIQUE,
@@ -51,6 +59,22 @@ steps = [
         """
         DROP TABLE event_types_team_types;
         """
+    ],
+    [
+        """
+        INSERT INTO event_types_team_types (team_type, event_type)
+        VALUES (1,1)
+        """,
+        """
+        """
+    ],
+    [
+       """
+        INSERT INTO event_types_team_types (team_type, event_type)
+        VALUES (1,2)
+        """,
+        """
+        """ 
     ],
     [
         """

@@ -4,7 +4,8 @@ import os
 from queries.teamvo_queries import TeamVORepository
 from models import (
     TeamVoOut,
-    TeamVoIn
+    TeamVoIn,
+    MemberIn
 )
 from typing import List, Union
 from authenticator import authenticator
@@ -34,4 +35,11 @@ def get_by_user(
     repo : TeamVORepository = Depends()
 ):
     return repo.get_user_teams(user)
-    
+
+@router.post("/api/main/teams/members/")
+def add_user_team_relation(
+    member: MemberIn,
+    user = Depends(authenticator.get_current_account_data),
+    repo:TeamVORepository = Depends()
+):
+    return repo.create_user_relation(member)

@@ -45,6 +45,7 @@ services:
       WAIT_HOSTS: postgres:5432
       PGDATABASE: teams
       SIGNING_KEY: teamtable
+      INTERNAL_REFERENCE_URL: http://teams:8000/
   pg-admin:
     image: dpage/pgadmin4
     volumes:

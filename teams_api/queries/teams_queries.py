@@ -2,8 +2,11 @@ from typing import List, Union
 from models import TeamOut, TeamIn, Error
 from queries.pool import pool
 
+from .roles_queries import *
+from .members_queries import *
+
 class TeamRepository:
-    def create(self, team:TeamIn):
+    def create(self, team:TeamIn, user):
         with pool.connection() as conn:
             with conn.cursor() as db:
 
@@ -29,7 +32,11 @@ class TeamRepository:
                         team.description
                     ]
                 )
-                return self.to_dict(result.fetchall(),result.description)
+                created_team = self.to_dict(result.fetchall(),result.description)
+        owner_role = RolesQueries.create(self, RolesIn(name = "Owner", team = created_team['id']))
+        MemberRepository.create(self, MemberIn(member = user['account']['username'], role = owner_role['id']))
+        return created_team
+
 
     def get_all(self)->Union[Error, List[TeamOut], TeamOut]:
         try:
