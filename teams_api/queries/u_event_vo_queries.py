@@ -110,20 +110,48 @@ class EventVoRepository:
 
                 result = db.execute(
                     """
-                    SELECT cover_event_vos(
+                    SELECT
                         id,
                         event_href,
                         owner,
                         team,
                         availability_start,
                         availability_end,
-                    )
+                    FROM cover_event_vos
                     WHERE id = %s;
                     """,
                     [id]
                 )
             return self.to_dict(result.fetchall(),result.description)
+    
+    def get_events(self,tid):
+        events = {}
+        with pool.connection() as conn:
+            with conn.cursor() as db:
 
+                result = db.execute(
+                    """
+                    SELECT id,owner,shift_start,shift_end,availability_start,availability_end
+                    FROM swap_event_vos
+                    WHERE team = %s
+                    """,
+                    [tid]
+                )
+                events['swap_events']=self.to_dict(result.fetchall(),result.description)
+
+        with pool.connection() as conn:
+            with conn.cursor() as db:
+
+                result = db.execute(
+                    """
+                    SELECT id,owner,availability_start,availability_end
+                    FROM cover_event_vos
+                    WHERE team = %s
+                    """,
+                    [tid] 
+                )        
+                events['cover_events']=self.to_dict(result.fetchall(),result.description)
+        return events
     def to_dict(self,rows,description):
         lst = []
         columns = [desc[0] for desc in description]

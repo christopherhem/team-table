@@ -33,7 +33,7 @@ def get_team_type(
     else:
         return record
 
-@router.post("/api/teams/types", response_model = Union[Error, TeamTypeOut])
+@router.post("/api/teams/types/", response_model = Union[Error, TeamTypeOut])
 def create_team_type(
     team_type: TeamTypeIn,
     event_types:List[int],

@@ -1,6 +1,6 @@
 from datetime import datetime
 from pydantic import BaseModel
-from typing import Optional, List
+from typing import Optional, List, Union
 
 class Error(BaseModel):
     message : str
@@ -104,3 +104,8 @@ class MemberOut(BaseModel):
     id : int
     member_username: str
     role: int
+
+class EventsOut(BaseModel):
+    swap_events: Optional[Union[SwapEventVoOut,List[SwapEventVoOut]]]
+    cover_events: Optional[Union[CoverEventVoOut,List[CoverEventVoOut]]]
+

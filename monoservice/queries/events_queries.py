@@ -66,6 +66,10 @@ class EventQueries:
                     [user["id"]]
                 )
                 cover_events =  self.to_dict(result.fetchall(), result.description)
+        if type(cover_events) != list:
+            temp = []
+            temp.append(cover_events)
+            cover_events = temp
         for dic in cover_events:
             with pool.connection() as conn:
                 with conn.cursor() as db:
@@ -97,6 +101,10 @@ class EventQueries:
                     [user["id"]]
                 )
                 events =  self.to_dict(result.fetchall(), result.description)
+        if type(events) != list:
+            temp = []
+            temp.append(events)
+            events = temp
         for dic in events:
             with pool.connection() as conn:
                 with conn.cursor() as db:
