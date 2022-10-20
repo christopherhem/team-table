@@ -11,7 +11,7 @@ import SwapEventFormModal from '../events/SwapEventFormModal';
 
 import styles from "./Dashboard.module.css"
 import { useGetTokenQuery, useGetUserCoverEventsQuery, useGetUserShiftSwapEventsQuery } from '../../store/UsersApi';
-
+import SideNavbar from './dashboardNav';
 
 
 function Dashboard() {
@@ -35,8 +35,9 @@ function Dashboard() {
 
   return (
     <>
-        <NavBar toggle={toggle} />
-        <h1>
+        {/* <SideNavbar /> */}
+        {/* <NavBar toggle={toggle} /> */}
+        <h1 classname="">
             Hello, {user}!
         </h1>
         <div>

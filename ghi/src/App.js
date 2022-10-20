@@ -10,6 +10,8 @@ import EventFormModal from './components/events/CoverEventFormModal.js';
 import SignIn from './components/users/signin.js';
 import SignUp from './components/users/signup.js';
 import Home from './pages';
+import SideNavbar from './components/dashboard/dashboardNav.js';
+
 
 
 
