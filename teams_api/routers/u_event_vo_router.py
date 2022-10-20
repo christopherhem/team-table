@@ -7,7 +7,7 @@ else:
 from .users_dependencies import get_current_user
 
 from fastapi import APIRouter, Depends, Response
-from models import EventVoIn, SwapEventVoOut,CoverEventVoOut
+from models import EventVoIn, EventsOut, SwapEventVoOut, CoverEventVoOut
 from typing import Union, List as l
 from queries.u_event_vo_queries import EventVoRepository
 
@@ -28,3 +28,11 @@ def new_event_vo(
         response.status_code = 404
     else:
         return record
+
+@router.get("/api/teams/{id}/events", response_model = EventsOut)
+def get_events_by_team(
+    response:Response,
+    user: Depends(get_current_user),
+    repo: EventVoRepository = Depends()
+):
+    return repo.get_events(id)

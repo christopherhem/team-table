@@ -34,3 +34,6 @@ Louise and I got Pub sub publishing and posting working correctly with two direc
 
 ## 10/18/2022
 I finished the paths and logic for pub sub in the Teams->teamsVO direction. I had to rewrite a few of the endpoints and models to accept the data correctly as well as fix early syntax errors from our early attempts at SQL table manipulation. I also wrote a query to get the teams related to a given user, which required a many to many table that had to be implemented into the teamVO creation to autopopulate. We will also need to create a path for members pub sub to populate the many to many table in monoservice when a member is added to a team. I also added functionality for updating a user so the new password will hash correctly and require authentication.
+
+## 10/19/2022
+I spent the day polishing endpoints and adding a few new ones as louise and chris made progress on the front end and needed functionality we had not originally thought of. I bagan work on a pub sub for members in the team microservice that should update the relational table in the monoservice that indexes user's connections to team VO's

@@ -1,26 +1,34 @@
-from fastapi import APIRouter, Depends, Response
+from fastapi import APIRouter, Depends, Response, Request
 from models import MemberIn, MemberOut, Error
 from typing import Union, List as l
 from queries.members_queries import MemberRepository
+from routers.users_dependencies import get_current_user
+import requests, json
 
 router = APIRouter()
 
 
-@router.post("/api/teams/{id}/members")
+@router.post("/api/teams/{id}/members", response_model = MemberOut)
 def add_member(
     member:MemberIn,
     response: Response,
     repo: MemberRepository = Depends(),
+    user = Depends(get_current_user),
+    request = Request
     ):
-    response.status_code = 400
-    return repo.create(member)
+    created_member = repo.create(member)
+    headers = request.headers
+    data = json.dumps(created_member)
+    requests.post("http://pubsub:8000/api/surps/", data = data, headers = headers)
+    return created_member
+
     
 
 @router.get("/api/teams/{id}/members", response_model = Union[Error, l[MemberOut]])
 def get_members(
     repo : MemberRepository = Depends(),
 ):
-    return {"members": [repo.get_all()]}
+    return repo.get_all()
 
 @router.get("/api/teams/{id}/members/{uid}", response_model = Union[Error, MemberOut])
 def get_member(
@@ -50,8 +58,3 @@ def edit_member(
     
 ):
     return repo.update(uid,member)
-
-
-@router.put("/api/teams/{id}/members/{uid}")
-def edit_member():
-    pass

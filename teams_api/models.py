@@ -1,6 +1,6 @@
 from datetime import datetime
 from pydantic import BaseModel
-from typing import Optional, List
+from typing import Optional, List, Union
 
 class Error(BaseModel):
     message : str
@@ -97,10 +97,15 @@ class PermissionsOut(BaseModel):
     add_roles:bool
 
 class MemberIn(BaseModel):
-    member: str
+    member_username: str
     role: int
 
 class MemberOut(BaseModel):
     id : int
-    member: str
-    role: RolesOut
+    member_username: str
+    role: int
+
+class EventsOut(BaseModel):
+    swap_events: Optional[Union[SwapEventVoOut,List[SwapEventVoOut]]]
+    cover_events: Optional[Union[CoverEventVoOut,List[CoverEventVoOut]]]
+
