@@ -51,7 +51,7 @@ def add_team(
     repo : TeamRepository = Depends(),
     user = Depends(get_current_user)
     ):
-    record = repo.create(team)
+    record = repo.create(team, user)
     headers = request.headers
     data = json.dumps(record)
     requests.post("http://pubsub:8000/api/smps/", data = data, headers = headers)

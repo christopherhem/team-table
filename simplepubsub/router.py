@@ -3,7 +3,7 @@ import requests
 from fastapi import APIRouter, Depends, Response, Request
 from models import *
 from typing import Union, List
-from queries import TeamSubQueries, MainSubQueries
+from queries import TeamSubQueries, MainSubQueries, MemberSubQueries
 router = APIRouter()
 
 
@@ -146,6 +146,79 @@ def publish_delete(
     request: Request,
     response: Response,
     repo:MainSubQueries = Depends()
+    ):
+    headers = {
+        "Authorization": request.headers["Authorization"]
+    }
+    try:
+        urls = []
+        for sub in repo.get_subs():
+            urls.append(sub['url'])
+        for url in urls:
+            body = json.dumps(dict(body))
+            requests.delete(url, data = body, headers = headers)
+        return True
+    except Exception as e:
+         return {"message": str(e)}
+
+
+@router.post("/api/surps/subscribe", response_model = Union[SubUrlOut,Error])
+def add_team(
+    sub : SubUrlIn,
+    response : Response,
+    repo : MemberSubQueries = Depends()
+    ):
+    return repo.add_sub(sub)
+
+@router.post("/api/surps/", response_model = Union[bool,Error])
+def publish_post(
+    body: TeamVoIn,
+    request: Request,
+    response: Response,
+    repo:MemberSubQueries = Depends()
+    ):
+    headers = {
+        "Authorization": request.headers["Authorization"]
+    }
+    try:
+        urls = []
+        for sub in repo.get_subs():
+            urls.append(sub['url'])
+        for url in urls:
+            body = json.dumps(dict(body))
+            requests.post(url, data = body, headers = headers)
+            print(body)
+        return True
+    except Exception as e:
+         return {"message": str(e)}
+
+@router.put("/api/surps/", response_model = bool)
+def publish_put(
+   body: TeamVoIn,
+    request: Request,
+    response: Response,
+    repo:MemberSubQueries = Depends()
+    ):
+    headers = {
+        "Authorization": request.headers["Authorization"]
+    }
+    try:
+        urls = []
+        for sub in repo.get_subs():
+            urls.append(sub['url'])
+        for url in urls:
+            body = json.dumps(dict(body))
+            requests.put(url, data = body, headers = headers)
+        return True
+    except Exception as e:
+         return {"message": str(e)}
+
+@router.delete("/api/surps/", response_model = bool)
+def publish_delete(
+    body: TeamVoIn,
+    request: Request,
+    response: Response,
+    repo:MemberSubQueries = Depends()
     ):
     headers = {
         "Authorization": request.headers["Authorization"]

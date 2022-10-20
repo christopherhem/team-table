@@ -40,7 +40,7 @@ class TeamSubQueries:
                         )
                         return self.to_dict(result.fetchall(),result.description)
         except:
-            return{"message":"Error in SubQueries.get_subs"}
+            return{"message":"Error in TeamSubQueries.get_subs"}
 
     def to_dict(self,rows,description):
         lst = []
@@ -88,7 +88,7 @@ class MainSubQueries:
                         )
                         return self.to_dict(result.fetchall(),result.description)
         except:
-            return{"message":"Error in SubQueries.get_subs"}
+            return{"message":"Error in MainSubQueries.get_subs"}
 
     def to_dict(self,rows,description):
         lst = []
@@ -99,3 +99,41 @@ class MainSubQueries:
                 item[columns[i]]=row[i]
             lst.append(item)
         return lst
+
+
+class MemberSubQueries:
+    def add_sub(
+        self,
+        sub:SubUrlIn,
+)->Union[Error, SubUrlOut]:
+        with pool.connection() as conn:
+                with conn.cursor() as db:
+                    result = db.execute(
+                        """
+                        INSERT INTO team_sub_urls(
+                            url
+                        )
+                        VALUES(
+                            %s
+                        )
+                        RETURNING id;
+                        """,
+                        [sub.url]
+                    )
+                    id = result.fetchone()[0]
+        url = sub.dict()
+        return SubUrlOut(id = id,url = url)
+    def get_subs(self)->Union[Error, List[SubUrlOut]]:
+        try:
+            print("sub call initiated")
+            with pool.connection() as conn:
+                    with conn.cursor() as db:
+                        result = db.execute(
+                            """
+                            SELECT id, url
+                            FROM team_sub_urls
+                            """
+                        )
+                        return self.to_dict(result.fetchall(),result.description)
+        except:
+            return{"message":"Error in MemberSubQueries.get_subs"}
