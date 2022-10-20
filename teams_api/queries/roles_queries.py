@@ -1,3 +1,4 @@
+from re import L
 from typing import List, Union
 from queries.pool import pool
 from models import RolesIn, RolesOut, Error
@@ -36,10 +37,15 @@ class RolesQueries:
                         """,
                         [tid]
                     )
-                    return self.to_dict(result.fetchall(),result.description)
+                    roles = self.to_dict(result.fetchall(),result.description)
+            if type(roles) != list:
+                l = []
+                l.append(roles)
+                roles = l
+            return roles
                     
-        except Exception:
-            return {"message": "Could not get all roles"}
+        except Exception as e:
+            return {"message": f"Error in roles_queries get_all: {e}"}
 
     def get_one(self, id)-> Union[Error, RolesOut]:
         try:

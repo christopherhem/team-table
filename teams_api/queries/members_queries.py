@@ -1,6 +1,7 @@
 from typing import List, Union
 from models import MemberIn, MemberOut, Error
 from queries.pool import pool
+import os
 
 class MemberRepository:
     def get_all(self)->Union[Error, List[MemberOut]]:
@@ -82,11 +83,24 @@ class MemberRepository:
                     RETURNING id, member_username, role;
                     """,
                     [
-                        member.member,
+                        member.member_username,
                         member.role
                     ]
                 )
-                return self.to_dict(result.fetchall(),result.description)
+                created_member = self.to_dict(result.fetchall(),result.description)
+        with pool.connection() as conn:
+            with conn.cursor() as db:
+                result = db.execute(
+                    """
+                    SELECT id, team
+                    FROM roles
+                    WHERE id = %s
+                    """,
+                    [member.role]
+                )
+                team_id = self.to_dict(result.fetchall(),result.description)['team']
+        created_member['team_href'] = os.environ["INTERNAL_REFERENCE_URL"]+"api/teams/"+str(team_id)
+        return created_member
 
     def delete(self, id):
         with pool.connection() as conn:
@@ -104,7 +118,7 @@ class MemberRepository:
             with pool.connection() as conn:
                 with conn.cursor() as db:
                     params = [
-                        data.role.id,
+                        data.role,
                         id
                     ]
                     result = db.execute(

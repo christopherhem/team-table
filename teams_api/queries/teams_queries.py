@@ -34,8 +34,6 @@ class TeamRepository:
                 )
                 created_team = self.to_dict(result.fetchall(),result.description)
         owner_role = RolesQueries.create(self, RolesIn(name = "Owner", team = created_team['id']))
-        print(user)
-        print(owner_role)
         MemberRepository.create(self, MemberIn(member = user['account']['username'], role = owner_role['id']))
         return created_team
 

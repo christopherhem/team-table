@@ -97,10 +97,10 @@ class PermissionsOut(BaseModel):
     add_roles:bool
 
 class MemberIn(BaseModel):
-    member: str
+    member_username: str
     role: int
 
 class MemberOut(BaseModel):
     id : int
-    member: str
-    role: RolesOut
+    member_username: str
+    role: int
