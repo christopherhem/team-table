@@ -1,9 +1,9 @@
 // Create Event Form Modal 
-import React, {useState} from 'react'
+import React, { useState } from 'react'
 import styles from "./Modal.module.css"
 import { RiCloseLine } from "react-icons/ri"
 import { useCreateCoverEventMutation } from '../../store/UsersApi';
-
+import { useGetUsersTeamsQuery } from '../../store/UsersApi';
 import {
   Container,
   FormWrap,
@@ -21,11 +21,19 @@ export default function CoverEventFormModal({ setIsOpenCover }) {
   const [availability_end, setEnd] = useState('');
   const [team_href, setTeam] = useState('');
   const [createCover, result] = useCreateCoverEventMutation();
+  const { data, error, isLoading } = useGetUsersTeamsQuery([]);
+
+  if (isLoading) {
+    return (
+      <progress className="progress is-primary" max="100"></progress>
+    );
+  }
 
   async function handleSubmit(e) {
-      e.preventDefault();
-      createCover({availability_start, availability_end, team_href});
-      console.log(result)
+    e.preventDefault();
+    setIsOpenCover(false);
+    createCover({ availability_start, availability_end, team_href });
+    console.log(result)
   }
 
   return (
@@ -40,36 +48,37 @@ export default function CoverEventFormModal({ setIsOpenCover }) {
             <RiCloseLine style={{ marginBottom: "-3px" }} />
           </button>
           <form className={styles.modalContent} onSubmit={(e) => handleSubmit(e)}>
-          <h6>Enter Start Availability</h6>
-          <input type="datetime-local" id="availability_start" value={availability_start} onChange={e=> setStart(e.target.value)} />
-          <hr></hr>
-          <h6>Enter End Availability</h6>
-          <input type="datetime-local" id="availability_end" value={availability_end} onChange={e=> setEnd(e.target.value)} />
-          <hr></hr>
-          <div className="dropdown">
-          <button className="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            Select Team
-          </button>
-          <div className="dropdown-menu" aria-labelledby="dropdownMenu2">
-            <button className="dropdown-item" type="button">Action</button>
-            <button className="dropdown-item" type="button">Another action</button>
-            <button className="dropdown-item" type="button">Something else here</button>
-          </div>
-          </div>
-          </form>
-          <div className={styles.modalActions}>
-            <div className={styles.actionsContainer}>
-              <button className={styles.deleteBtn} onClick={() => setIsOpenCover(false)}>
-                Submit
-              </button>
-              <button
-                className={styles.cancelBtn}
-                onClick={() => setIsOpenCover(false)}
-              >
-                Cancel
-              </button>
+            <h6>Enter Start Availability</h6>
+            <input type="datetime-local" id="availability_start" value={availability_start} onChange={e => setStart(e.target.value)} />
+            <hr></hr>
+            <h6>Enter End Availability</h6>
+            <input type="datetime-local" id="availability_end" value={availability_end} onChange={e => setEnd(e.target.value)} />
+            <hr></hr>
+            <div className="mb-3">
+              <select onChange={e => setTeam(e.target.value)} value={team_href} className="form-select" name="team_href" id="team_href">
+                <option value="">Select a Team</option>
+                {data.map((team) => {
+                  return (
+                    <option key={team.team_href} value={team.team_href}>{team.name}</option>
+                  );
+                })}
+              </select>
             </div>
-          </div>
+
+            <div className={styles.modalActions}>
+              <div className={styles.actionsContainer}>
+                <button className={styles.deleteBtn}>
+                  Submit
+                </button>
+                <button
+                  className={styles.cancelBtn}
+                  onClick={() => setIsOpenCover(false)}
+                >
+                  Cancel
+                </button>
+              </div>
+            </div>
+          </form>
         </div>
       </div>
     </>
