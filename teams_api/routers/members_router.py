@@ -12,9 +12,10 @@ router = APIRouter()
 def add_member(
     member:MemberIn,
     response: Response,
+    request: Request,
     repo: MemberRepository = Depends(),
-    user = Depends(get_current_user),
-    request = Request
+    user = Depends(get_current_user)
+    
     ):
     created_member = repo.create(member)
     headers = request.headers

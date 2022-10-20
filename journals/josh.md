@@ -37,3 +37,6 @@ I finished the paths and logic for pub sub in the Teams->teamsVO direction. I ha
 
 ## 10/19/2022
 I spent the day polishing endpoints and adding a few new ones as louise and chris made progress on the front end and needed functionality we had not originally thought of. I bagan work on a pub sub for members in the team microservice that should update the relational table in the monoservice that indexes user's connections to team VO's
+
+## 10/20/2022
+I finished the base code for the members pub sub though I did not bug test it. I created a few more endpoints for front end requests and then tackled most of the redux endpoint queries for the teams microservice so that those are available for use, though since we have not tried to use them yet we may need to do some troubleshooting/bug fixes.
