@@ -12,6 +12,7 @@ import SwapEventFormModal from '../events/SwapEventFormModal';
 import styles from "./Dashboard.module.css"
 import { useGetTokenQuery, useGetUserCoverEventsQuery, useGetUserShiftSwapEventsQuery } from '../../store/UsersApi';
 import SideNavbar from './dashboardNav';
+import { TeamsList } from './teamsList';
 
 
 function Dashboard() {
@@ -35,6 +36,7 @@ function Dashboard() {
 
   return (
     <>
+
         {/* <SideNavbar /> */}
         {/* <NavBar toggle={toggle} /> */}
         <h1 classname="">
@@ -106,7 +108,7 @@ function Dashboard() {
                   </Table>
             </CardBody>
           </Card>
-          
+
         </div>
     </>
   )
