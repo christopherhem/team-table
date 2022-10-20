@@ -15,7 +15,7 @@ export const usersApi = createApi({
           }
 
     }),
-    tagTypes: ['Dashboard', 'User', 'Token', 'UserCoverEventsList', 'UserShiftSwapEventsList', 'CoverEvent', 'ShiftSwapEvent'],
+    tagTypes: ['Dashboard', 'User', 'Token', 'UserCoverEventsList', 'UserShiftSwapEventsList', 'CoverEvent', 'ShiftSwapEvent', 'UserTeams'],
     endpoints: builder => ({
         createUsers: builder.mutation({
             query: data => ({
@@ -91,13 +91,16 @@ export const usersApi = createApi({
         }),
         getUserCoverEvents: builder.query({
             query: () => ({
-                url: '/api/table/user/cover_events',
+                url: '/api/table/user/cover_events/',
                 credentials: 'include'
             }),
             providesTags: ['UserCoverEventsList'],
         }),
         getUserShiftSwapEvents: builder.query({
-            query: () => '/api/table/user/shift_swap_events/',
+            query: () => ({
+                url: '/api/table/user/shift_swap_events/',
+                credentials: 'include'
+            }),
             providesTags: ['UserShiftSwapEventsList'],
         }),
         getCoverEvent: builder.query({
@@ -157,10 +160,18 @@ export const usersApi = createApi({
                 method: 'delete',
                 credentials: 'include'
             })
+        }),
+        GetUsersTeams: builder.query({
+            query: () => ({
+                url: '/api/main/teams/byuser/',
+                credentials: 'include'
+            }),
+            providesTags: ['UserTeams']
         })
     }),
 });
 export const {
+    useGetUsersTeamsQuery,
     useDeleteCoverEventMutation,
     useUpdateShiftSwapEventMutation,
     useUpdateCoverEventMutation,
