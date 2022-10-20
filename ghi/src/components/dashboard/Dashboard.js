@@ -7,7 +7,7 @@ import { NavLogo } from '../navbar/NavbarElements';
 // import ErrorNotification from '../../ErrorNotification'
 // import { Link } from 'react-router-dom';
 import { useGetTokenQuery, useGetUserCoverEventsQuery, useGetUserShiftSwapEventsQuery } from '../../store/UsersApi';
-
+import SideNavbar from './dashboardNav';
 
 
 function Dashboard() {
@@ -27,8 +27,9 @@ function Dashboard() {
 
   return (
     <>
-        <NavBar toggle={toggle} />
-        <h1>
+        {/* <SideNavbar /> */}
+        {/* <NavBar toggle={toggle} /> */}
+        <h1 classname="">
             Hello, {user}!
         </h1>
         <div>
