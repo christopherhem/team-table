@@ -12,10 +12,10 @@ import SwapEventFormModal from '../events/SwapEventFormModal';
 import styles from "./Dashboard.module.css"
 import { useGetTokenQuery, useGetUserCoverEventsQuery, useGetUserShiftSwapEventsQuery } from '../../store/UsersApi';
 import SideNavbar from './dashboardNav';
+import { TeamsList } from './teamsList';
 
 
 function Dashboard() {
-
     const [isOpenCover, setIsOpenCover] = useState(false);
     const [isOpenSwap, setIsOpenSwap] = useState(false);
     const [isOpen, setIsOpen] = useState(false)
@@ -27,6 +27,7 @@ function Dashboard() {
         <progress className="progress is-primary" max="100"></progress>
         );
       }
+
     const user = userData.user.first_name
     const toggle = () => {
       setIsOpen(!isOpen)
@@ -35,9 +36,10 @@ function Dashboard() {
 
   return (
     <>
+
         {/* <SideNavbar /> */}
         {/* <NavBar toggle={toggle} /> */}
-        <h1 classname="">
+        <h1 className="">
             Hello, {user}!
         </h1>
         <div>
@@ -70,7 +72,6 @@ function Dashboard() {
                 </tbody>
               </Table>
               <button className={styles.primaryBtn} onClick={() => setIsOpenCover(true)}>Create Cover Event</button>{isOpenCover && <CoverEventFormModal setIsOpenCover={setIsOpenCover} />}
-              <button className={styles.primaryBtn} onClick={() => setIsOpenSwap(true)}>Create Swap Event</button>{isOpenSwap && <SwapEventFormModal setIsOpenSwap={setIsOpenSwap} />}
               <NavLogo tag="h5" color="#6C63FF">Your Shift Swap Events</NavLogo>
               <Table className="border table-striped no-wrap mt-3 align-middle" response border>
                 <thead>
@@ -104,9 +105,10 @@ function Dashboard() {
                     })}
                   </tbody>
                   </Table>
+                  <button className={styles.primaryBtn} onClick={() => setIsOpenSwap(true)}>Create Swap Event</button>{isOpenSwap && <SwapEventFormModal setIsOpenSwap={setIsOpenSwap} />}
             </CardBody>
           </Card>
-          
+
         </div>
     </>
   )
