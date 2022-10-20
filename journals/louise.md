@@ -1,3 +1,15 @@
+## 10/20/2022
+
+* I pair programmed with chris today and made a query to get a users teams
+
+I didn't code my self a whole lot today but I helped Chris work thorugh some of his issues with the events form modal. We have the forms working but now we are having issues with the tables updating the list once a event is made. It was working perfectly earlier but something happened and it seems like the tags are not getting invalidated when a new event is created. We are in the middle of figuring out what went wrong but will probably work on it through the weekend.
+
+## 10/19/2022
+
+* Made tables to show a user's cover events and a table to show their shift_swap events
+
+Today I worked on the Dashboard page to create the table to show a logged in users events. We had some errors while trying to pass the token to each query but Curtis came and helped me get that all figured out. the tables are now up and running.
+
 ## 10/18/2022
 
 * I spent today writing out the redux endpoints for the events queries
