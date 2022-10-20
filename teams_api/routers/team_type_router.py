@@ -14,7 +14,6 @@ def get_team_types(
     response: Response,
     repo: TeamTypeRepository = Depends()
 ):
-    print('router called')
     record = repo.get_all()
     if record is None:
         response.status_code = 404

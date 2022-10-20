@@ -29,8 +29,9 @@ def new_event_vo(
     else:
         return record
 
-@router.get("/api/teams/{id}/events", response_model = EventsOut)
+@router.get("/api/teams/{id}/events/", response_model = EventsOut)
 def get_events_by_team(
+    id: int,
     response:Response,
     user = Depends(get_current_user),
     repo: EventVoRepository = Depends()
