@@ -27,7 +27,6 @@ export default function SwapEventFormModal({ setIsOpenSwap }) {
   async function handleSubmit(e) {
     e.preventDefault();
     setIsOpenSwap(false)
-    console.log("HELLO?")
     createShift({ shift_start, shift_end, availability_start, availability_end, team_href });
     console.log(result)
   }

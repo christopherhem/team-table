@@ -63,3 +63,8 @@ I have finally completed the user login that creates a token for them. It took m
 ## October 19, 2022
 
 More front-end frenzy. Dashboard is slowly coming together, I was able to get some modal forms up and running. Currently having issues with the endpoints. But overall looks pretty cool. Today was a better today. I hope tomorrow is an even better day. Onwards. 
+
+
+## October 20, 2022
+
+Today was a day full of BUGS. We were finally able to access the teams query and events in order to create both Cover and Swaps! Tomorrow Louise and I will have to grind it out to beautify this product because it's looking quite dull at the moment. Hopefully we dont break anything major again... 
