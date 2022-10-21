@@ -31,12 +31,12 @@ function SignIn() {
       )
     }
     if (result.isSuccess) {
-      console.log("SUCCESSFUL LOGIN!")
+      console.log("Login Successful")
       navigate("/dashboard");
       localStorage.setItem('email', JSON.stringify(email));
       localStorage.setItem('token', JSON.stringify(result.data.access_token));
     } else if (result.isError) {
-      console.log("ERROR")
+      console.log("Error Login")
       // setError(result.error);
     }
   
