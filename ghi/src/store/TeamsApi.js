@@ -1,4 +1,5 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
+import { usersApi } from './UsersApi';
 
 export const teamsApi = createApi({
     reducerPath: 'teams',
@@ -10,7 +11,7 @@ export const teamsApi = createApi({
         */
         baseUrl:"http://localhost:8100/",
         prepareHeaders:(headers,{getState})=>{
-            const selector = teamsApi.endpoints.getToken.select();
+            const selector = usersApi.endpoints.getToken.select();
             const {data:tokenData}=selector(getState())
             if (tokenData && tokenData.access_token){
                 headers.set('Authorization',`Bearer ${tokenData.access_token}`);

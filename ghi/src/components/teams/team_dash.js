@@ -2,12 +2,15 @@ import { useGetMembersQuery, useGetTeamQuery } from "../../store/TeamsApi"
 import { Card, CardBody, CardTitle, CardSubtitle, Table } from "reactstrap";
 import { NavLogo } from '../navbar/NavbarElements';
 import { useGetTokenQuery } from "../../store/UsersApi";
+import { useLocation } from "react-router-dom";
 
 
 
-export function TeamDashboard(id) {
+export function TeamDashboard() {
+    const location = useLocation()
+    const { id } = location.state
     const {data: userData, isLoading: isLoadingUser} = useGetTokenQuery();
-    const {data: teamData, isLoading: isLoadingTeam} = (id) = useGetTeamQuery()
+    const {data: teamData, isLoading: isLoadingTeam} = useGetTeamQuery(id)
     // const {data: membersData, isLoading: isLoadingMembers} = useGetMembersQuery()
 
     if (isLoadingUser ) {
@@ -16,7 +19,6 @@ export function TeamDashboard(id) {
             );
     }
     // const team = teamData.name
-    console.log(teamData)
     return (
         <>
 
@@ -32,9 +34,7 @@ export function TeamDashboard(id) {
               <Table className="border table-striped no-wrap mt-3 align-middle" response border>
                 <thead>
                   <tr>
-                    <th>Availability Start</th>
-                    <th>Availability End</th>
-                    <th>Team</th>
+                    <th>Name</th>
                   </tr>
                 </thead>
                 <tbody>

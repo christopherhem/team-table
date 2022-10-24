@@ -30,8 +30,7 @@ function Dashboard() {
       }
 
     const user = userData.user.first_name
-    const eventTeamId = eventData.team_name
-    const shiftTeamId = shiftData.team_name
+    console.log(eventData)
     const toggle = () => {
       setIsOpen(!isOpen)
   }
@@ -60,6 +59,9 @@ function Dashboard() {
                 <tbody>
                   {
                   eventData.map((event) => {
+                    const url = new URL(event.team_href)
+                    const splitPaths = url.pathname.split('/')
+                    const teamId = splitPaths[splitPaths.length - 1]
                     let start = new DateObject(event.availability_start)
                     let end = new DateObject(event.availability_end)
                     let start_date = start.format("ddd DD MMM YYYY, hh:mm a")
@@ -68,7 +70,7 @@ function Dashboard() {
                     <tr key={event.id}>
                     <td>{start_date}</td>
                     <td>{end_date}</td>
-                    <Link to="/team" state = {{id: eventTeamId}}>{event.team_name}</Link>
+                    <Link to="/team" state={{id: teamId}}>{event.team_name}</Link>
                     </tr>
                   );
                   })}
