@@ -77,12 +77,17 @@ class SwapEventVoOut(BaseModel):
 class RolesIn(BaseModel):
     name: str
     team: int
+    can_invite: bool
+    can_approve: bool
 
 class RolesOut(BaseModel):
     id : int
     name : str
     team: int
+    can_invite : bool
+    can_approve: bool
 
+#permissions models functionality moved to roles model, may change in future dependant on needs.
 class PermissionsIn(BaseModel):
     role : int
     approve_swaps: bool
@@ -108,4 +113,27 @@ class MemberOut(BaseModel):
 class EventsOut(BaseModel):
     swap_events: Optional[Union[SwapEventVoOut,List[SwapEventVoOut]]]
     cover_events: Optional[Union[CoverEventVoOut,List[CoverEventVoOut]]]
+
+class ValidSwapOut(BaseModel):
+    user_event : SwapEventVoOut
+    valid_swaps : list[SwapEventVoOut]
+
+class ValidCoverUserOut(BaseModel):
+    #model for user getting a swap event covered
+    user_event: SwapEventVoOut
+    valid_swaps : list[CoverEventVoOut]
+
+class ValidUserCoverOut(BaseModel):
+    #model for user getting swap events to cover
+    user_event:CoverEventVoOut
+    valid_swaps: list[SwapEventVoOut]
+
+class ValidSwapListOut(BaseModel):
+    swaps : list[ValidSwapOut]
+
+class ValidCoverUserListOut(BaseModel):
+    covers: list[ValidCoverUserOut]
+
+class ValidUserCoverListOut(BaseModel):
+    covers: list[ValidUserCoverOut]
 

@@ -130,7 +130,9 @@ steps = [
         CREATE TABLE roles(
             id SERIAL PRIMARY KEY NOT NULL,
             name VARCHAR(50) NOT NULL,
-            team INT NOT NULL REFERENCES teams(id)
+            team INT NOT NULL REFERENCES teams(id),
+            can_invite BOOL,
+            can_approve BOOL
         );
         """,
         """
