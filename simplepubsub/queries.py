@@ -29,7 +29,6 @@ class TeamSubQueries:
         return SubUrlOut(id = id,url = url)
     def get_subs(self)->Union[Error, List[SubUrlOut]]:
         try:
-            print("sub call initiated")
             with pool.connection() as conn:
                     with conn.cursor() as db:
                         result = db.execute(
@@ -110,13 +109,13 @@ class MemberSubQueries:
                 with conn.cursor() as db:
                     result = db.execute(
                         """
-                        INSERT INTO team_sub_urls(
+                        INSERT INTO member_sub_urls(
                             url
                         )
                         VALUES(
                             %s
                         )
-                        RETURNING id;
+                        RETURNING id, url;
                         """,
                         [sub.url]
                     )
@@ -124,16 +123,27 @@ class MemberSubQueries:
         url = sub.dict()
         return SubUrlOut(id = id,url = url)
     def get_subs(self)->Union[Error, List[SubUrlOut]]:
-        try:
-            print("sub call initiated")
-            with pool.connection() as conn:
-                    with conn.cursor() as db:
-                        result = db.execute(
-                            """
-                            SELECT id, url
-                            FROM team_sub_urls
-                            """
-                        )
-                        return self.to_dict(result.fetchall(),result.description)
-        except:
-            return{"message":"Error in MemberSubQueries.get_subs"}
+        with pool.connection() as conn:
+            with conn.cursor() as db:
+                result = db.execute(
+                    """
+                    SELECT id, url
+                    FROM member_sub_urls
+                    """
+                )
+                urls = self.to_dict(result.fetchall(),result.description)
+        if type(urls) != list:
+            temp = []
+            temp.append(urls)
+            urls = temp
+        return urls
+
+    def to_dict(self,rows,description):
+        lst = []
+        columns = [desc[0] for desc in description]
+        for row in rows:
+            item = {}
+            for i in range(len(row)):
+                item[columns[i]]=row[i]
+            lst.append(item)
+        return lst

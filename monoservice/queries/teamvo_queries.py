@@ -105,46 +105,45 @@ class TeamVORepository:
                 return teamres
 
     def create_user_relation(self, member:MemberIn):
-        try:
-            with pool.connection() as conn:
-                with conn.cursor() as db:
-                    result = db.execute(
-                        """
-                        SELECT id, username
-                        FROM users
-                        WHERE username = %s
-                        """,
-                        [member.member_username]
-                    )
-                    user_id = result.fetchone()[0]
-            with pool.connection() as conn:
-                with conn.cursor() as db:
-                    result = db.execute(
-                        """
-                        SELECT id, team_href
-                        FROM teams_vo
-                        WHERE team_href = %s
-                        """,
-                        [member.team_href]
-                    )
-                    team_id = result.fetchone()[0]
-            unique_string = str(team_id)+member.member_username
-            with pool.connection() as conn:
-                with conn.cursor() as db:
-                    result = db.execute(
-                        """
-                        INSERT INTO teams_users_relations (team_id, user_id, unique_string)
-                        VALUES (%s, %s, %s)
-                        """,
-                        [
-                            team_id,
-                            user_id,
-                            unique_string
-                        ]
-                    )
-            return True
-        except Exception as e:
-            return {"message":f"Error in teamvo_queries create_user_relation: {e}"}
+        print(member.team_href)
+        with pool.connection() as conn:
+            with conn.cursor() as db:
+                result = db.execute(
+                    """
+                    SELECT id, username
+                    FROM users
+                    WHERE username = %s
+                    """,
+                    [member.member_username]
+                )
+                user_id = result.fetchone()[0]
+        with pool.connection() as conn:
+            with conn.cursor() as db:
+                result = db.execute(
+                    """
+                    SELECT id, team_href
+                    FROM teams_vo
+                    WHERE team_href = %s
+                    """,
+                    [member.team_href]
+                )
+                team_id = result.fetchone()[0]
+        unique_string = str(team_id)+member.member_username
+        with pool.connection() as conn:
+            with conn.cursor() as db:
+                result = db.execute(
+                    """
+                    INSERT INTO teams_users_relations (team_id, user_id, unique_string)
+                    VALUES (%s, %s, %s)
+                    RETURNING team_id, user_id, unique_string
+                    """,
+                    [
+                        team_id,
+                        user_id,
+                        unique_string
+                    ]
+                )
+        return True
 
     def to_dict(self,rows,description):
         lst = []
