@@ -1,4 +1,4 @@
-// Create Event Form Modal 
+// Create Event Form Modal
 import React, { useState } from 'react'
 import styles from "./Modal.module.css"
 import { RiCloseLine } from "react-icons/ri"
@@ -84,5 +84,3 @@ export default function CoverEventFormModal({ setIsOpenCover }) {
     </>
   );
 };
-
-
