@@ -55,7 +55,12 @@ class TeamTypeRepository:
                         FROM team_types;
                         """
                     )
-                    return self.to_dict(result.fetchall(), result.description)
+                    out =  self.to_dict(result.fetchall(), result.description)
+            if type(out) != list:
+                temp = []
+                temp.append(out)
+                out = temp
+            return out
         except:
             return{"message" : "Error in team_type queries TeamTypeRepository.get_all"}
 

@@ -172,25 +172,21 @@ def add_team(
 
 @router.post("/api/surps/", response_model = Union[bool,Error])
 def publish_post(
-    body: TeamVoIn,
+    body: MemberIn,
     request: Request,
     response: Response,
-    repo:MemberSubQueries = Depends()
+    repo: MemberSubQueries = Depends()
     ):
     headers = {
         "Authorization": request.headers["Authorization"]
     }
-    try:
-        urls = []
-        for sub in repo.get_subs():
-            urls.append(sub['url'])
-        for url in urls:
-            body = json.dumps(dict(body))
-            requests.post(url, data = body, headers = headers)
-            print(body)
-        return True
-    except Exception as e:
-         return {"message": str(e)}
+    urls = []
+    for sub in repo.get_subs():
+        urls.append(sub['url'])
+    for url in urls:
+        body = json.dumps(dict(body))
+        requests.post(url, data = body, headers = headers)
+    return True
 
 @router.put("/api/surps/", response_model = bool)
 def publish_put(
