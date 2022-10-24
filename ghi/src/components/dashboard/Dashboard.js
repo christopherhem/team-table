@@ -9,17 +9,19 @@ import { NavLogo } from '../navbar/NavbarElements';
 // import { Link } from 'react-router-dom';
 import CoverEventFormModal from '../events/CoverEventFormModal';
 import SwapEventFormModal from '../events/SwapEventFormModal';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import UpdateCoverFormModal from '../events/updateCoverModal';
 import { FaPenSquare } from 'react-icons/fa';
 import styles from "./Dashboard.module.css"
 import { useGetTokenQuery, useGetUserCoverEventsQuery, useGetUserShiftSwapEventsQuery } from '../../store/UsersApi';
 import SideNavbar from './dashboardNav';
 import { TeamsList } from './teamsList';
+import UpdateCoverFormModal from '../events/updateCoverModal';
 
 
 function Dashboard() {
     const [isOpenCover, setIsOpenCover] = useState(false);
     const [isOpenSwap, setIsOpenSwap] = useState(false);
+    const [isOpenCoverUpdate, setIsOpenUpdateCover] = useState(false)
     const [isOpen, setIsOpen] = useState(false)
     const {data: userData, isLoading: isLoadingUser} = useGetTokenQuery();
     const { data: eventData, isLoading: isLoadingEvent } = useGetUserCoverEventsQuery();
@@ -52,6 +54,7 @@ function Dashboard() {
               <Table className="border table-striped no-wrap mt-3 align-middle" response border>
                 <thead>
                   <tr>
+                    <th>Edit</th>
                     <th>Availability Start</th>
                     <th>Availability End</th>
                     <th>Team</th>
@@ -65,26 +68,25 @@ function Dashboard() {
                     const teamId = splitPaths[splitPaths.length - 1]
                     let start = new DateObject(event.availability_start)
                     let end = new DateObject(event.availability_end)
-                    let start_date = start.format("ddd DD MMM YYYY, hh:mm a")
-                    let end_date = end.format("ddd DD MMM YYYY, hh:mm a")
+                    let start_date = start.format("DD MMM YYYY, hh:mm a")
+                    let end_date = end.format("DD MMM YYYY, hh:mm a")
                     return (
                     <tr key={event.id}>
-                    <td>{start_date}</td>
-                    <td>{end_date}</td>
-                    <Link to="/team" state={{id: teamId}}>{event.team_name}</Link>
+                      <td><button className={styles.editBtn}>Edit</button></td>
+                      <td>{start_date}</td>
+                      <td>{end_date}</td>
+                      <Link to="/team" state={{id: teamId}}>{event.team_name}</Link>
                     </tr>
                   );
                   })}
                 </tbody>
               </Table>
               <button className={styles.primaryBtn} onClick={() => setIsOpenCover(true)}>Create Cover Event</button>{isOpenCover && <CoverEventFormModal setIsOpenCover={setIsOpenCover} />}
-              <Link to="/somewhere">
-                <FontAwesomeIcon icon={FaPenSquare} size="2x"/>
-              </Link>
               <NavLogo tag="h5" color="#6C63FF">Your Shift Swap Events</NavLogo>
               <Table className="border table-striped no-wrap mt-3 align-middle" response border>
                 <thead>
                     <tr>
+                      <th>Edit</th>
                       <th>Shift Start</th>
                       <th>Shift End</th>
                       <th>Availability Start</th>
@@ -98,15 +100,16 @@ function Dashboard() {
                       const splitPaths = url.pathname.split('/')
                       const teamId = splitPaths[splitPaths.length - 1]
                       let shift_s = new DateObject(event.shift_start)
-                      let shift_start = shift_s.format("ddd DD MMM YYYY, hh:mm a")
+                      let shift_start = shift_s.format("DD MMM YYYY, hh:mm a")
                       let shift_e = new DateObject(event.shift_end)
-                      let shift_end = shift_e.format("ddd DD MMM YYYY, hh:mm a")
+                      let shift_end = shift_e.format("DD MMM YYYY, hh:mm a")
                       let start = new DateObject(event.availability_start)
                       let end = new DateObject(event.availability_end)
-                      let start_date = start.format("ddd DD MMM YYYY, hh:mm a")
-                      let end_date = end.format("ddd DD MMM YYYY, hh:mm a")
+                      let start_date = start.format("DD MMM YYYY, hh:mm a")
+                      let end_date = end.format("DD MMM YYYY, hh:mm a")
                       return (
                       <tr key={event.id}>
+                        <button className={styles.editBtn} onClick={(event.id) => setIsOpenUpdateCover(true)}>Edit</button>{isOpenCoverUpdate && <UpdateCoverFormModal setIsOpenUpdateCover={setIsOpenUpdateCover} />}
                         <td>{shift_start}</td>
                         <td>{shift_end}</td>
                         <td>{start_date}</td>
