@@ -9,7 +9,8 @@ import { NavLogo } from '../navbar/NavbarElements';
 // import { Link } from 'react-router-dom';
 import CoverEventFormModal from '../events/CoverEventFormModal';
 import SwapEventFormModal from '../events/SwapEventFormModal';
-
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { FaPenSquare } from 'react-icons/fa';
 import styles from "./Dashboard.module.css"
 import { useGetTokenQuery, useGetUserCoverEventsQuery, useGetUserShiftSwapEventsQuery } from '../../store/UsersApi';
 import SideNavbar from './dashboardNav';
@@ -77,6 +78,9 @@ function Dashboard() {
                 </tbody>
               </Table>
               <button className={styles.primaryBtn} onClick={() => setIsOpenCover(true)}>Create Cover Event</button>{isOpenCover && <CoverEventFormModal setIsOpenCover={setIsOpenCover} />}
+              <Link to="/somewhere">
+                <FontAwesomeIcon icon={FaPenSquare} size="2x"/>
+              </Link>
               <NavLogo tag="h5" color="#6C63FF">Your Shift Swap Events</NavLogo>
               <Table className="border table-striped no-wrap mt-3 align-middle" response border>
                 <thead>
@@ -90,6 +94,9 @@ function Dashboard() {
                   </thead>
                   <tbody>
                     {shiftData.map((event) => {
+                      const url = new URL(event.team_href)
+                      const splitPaths = url.pathname.split('/')
+                      const teamId = splitPaths[splitPaths.length - 1]
                       let shift_s = new DateObject(event.shift_start)
                       let shift_start = shift_s.format("ddd DD MMM YYYY, hh:mm a")
                       let shift_e = new DateObject(event.shift_end)
@@ -104,7 +111,7 @@ function Dashboard() {
                         <td>{shift_end}</td>
                         <td>{start_date}</td>
                         <td>{end_date}</td>
-                        <td>{event.team_name}</td>
+                        <Link to="/team" state={{id: teamId}}>{event.team_name}</Link>
                       </tr>
                     );
                     })}
