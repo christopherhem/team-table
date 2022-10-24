@@ -4,7 +4,7 @@ import { infoOne, infoThree, infoTwo } from '../components/info_section/Data'
 import NavBar from '../components/navbar'
 import Sidebar from '../components/sidebar'
 
-const Home = () => {
+const Landing = () => {
     const [isOpen, setIsOpen] = useState(false)
 
     const toggle = () => {
@@ -22,4 +22,4 @@ const Home = () => {
   )
 }
 
-export default Home
+export default Landing
