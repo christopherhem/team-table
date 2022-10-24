@@ -9,16 +9,15 @@ import { useLocation } from "react-router-dom";
 export function TeamDashboard() {
     const location = useLocation()
     const { id } = location.state
-    const {data: userData, isLoading: isLoadingUser} = useGetTokenQuery();
     const {data: teamData, isLoading: isLoadingTeam} = useGetTeamQuery(id)
-    // const {data: membersData, isLoading: isLoadingMembers} = useGetMembersQuery()
+    const {data: membersData, isLoading: isLoadingMembers} = useGetMembersQuery(id)
 
-    if (isLoadingUser ) {
+    if (isLoadingTeam || isLoadingMembers ) {
         return (
             <progress className="progress is-primary" max="100"></progress>
             );
     }
-    // const team = teamData.name
+    console.log(membersData)
     return (
         <>
 
