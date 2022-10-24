@@ -32,7 +32,7 @@ function SignIn() {
     }
     if (result.isSuccess) {
       console.log("Login Successful")
-      navigate("/dashboard");
+      navigate("/home");
       localStorage.setItem('email', JSON.stringify(email));
       localStorage.setItem('token', JSON.stringify(result.data.access_token));
     } else if (result.isError) {

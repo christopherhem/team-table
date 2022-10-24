@@ -32,7 +32,7 @@ function SignUp() {
     }
 
     if (result.isSuccess) {
-        navigate('/dashboard');
+        navigate('/home');
     } else if (result.isError) {
         setError(result.error);
     }
