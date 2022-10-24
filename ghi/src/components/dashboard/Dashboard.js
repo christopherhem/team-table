@@ -1,4 +1,5 @@
 import React from 'react'
+import { Link } from 'react-router-dom';
 import NavBar from '../navbar';
 import DateObject from "react-date-object";
 import { useEffect, useState } from 'react';
@@ -29,6 +30,8 @@ function Dashboard() {
       }
 
     const user = userData.user.first_name
+    const eventTeamId = eventData.team_name
+    const shiftTeamId = shiftData.team_name
     const toggle = () => {
       setIsOpen(!isOpen)
   }
@@ -65,7 +68,7 @@ function Dashboard() {
                     <tr key={event.id}>
                     <td>{start_date}</td>
                     <td>{end_date}</td>
-                    <td>{event.team_name}</td>
+                    <Link to="/team" state = {{id: eventTeamId}}>{event.team_name}</Link>
                     </tr>
                   );
                   })}

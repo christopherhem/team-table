@@ -18,7 +18,7 @@ export const teamsApi = createApi({
             return headers;
         }
     }),
-    tagTypes:['Team','Roles','Members','Permissions','TeamEvents','TeamTypes','EventTypes'],
+    tagTypes:['Team','Token','Roles','Members','Permissions','TeamEvents','TeamTypes','EventTypes'],
     endpoints: builder=>({
         createTeam: builder.mutation({
             query: data => ({
@@ -168,9 +168,9 @@ export const teamsApi = createApi({
         }),
         performSwap :builder.mutation({
             /**
-             * 
-             * @param {"user1":username,"user2":username,} data 
-             * @returns 
+             *
+             * @param {"user1":username,"user2":username,} data
+             * @returns
              */
             query:(data)=>({
                 url:``,
@@ -179,7 +179,14 @@ export const teamsApi = createApi({
                 credentials: 'include'
             }),
             invalidatesTags: ['TeamEvents']
-        })
+        }),
+        // getToken: builder.query({
+        //     query: () => ({
+        //         url: '/token',
+        //         credentials: 'include'
+        //     }),
+        //     providesTags: ['Token']
+        // })
         /* TEMPLATES
         get : builder.query({
             query:()=>({
@@ -217,4 +224,24 @@ export const teamsApi = createApi({
         */
     }),
 
-})
+});
+export const {
+    useCreateMemberMutation,
+    useCreateRoleMutation,
+    useCreateTeamMutation,
+    useCreateTypeMutation,
+    useDeleteMemberMutation,
+    useDeleteRoleMutation,
+    useDeleteTeamMutation,
+    useDeleteTypeMutation,
+    useGetEventTypesQuery,
+    useGetEventsQuery,
+    useGetMembersQuery,
+    useGetRolesQuery,
+    useGetTeamQuery,
+    useGetTypesQuery,
+    useUpdateMemberMutation,
+    useUpdateRoleMutation,
+    useUpdateTeamMutation,
+    useUpdateTypeMutation
+} = teamsApi;

@@ -11,8 +11,7 @@ import SignIn from './components/users/signin.js';
 import SignUp from './components/users/signup.js';
 import Home from './pages';
 import SideNavbar from './components/dashboard/dashboardNav.js';
-
-
+import { TeamDashboard } from './components/teams/team_dash.js';
 
 
 function App() {
@@ -49,6 +48,7 @@ function App() {
           </Route>
         <Route path='/' element={<Home />} />
         <Route path='dashboard' element={<Dashboard />} />
+        <Route path='team' element={<TeamDashboard />} />
         <Route path="signup" element={<SignUp />} />
         <Route path='/signin' element={<SignIn />} />
       </Routes>
