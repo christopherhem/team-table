@@ -1,4 +1,5 @@
 import React from 'react'
+import { Link } from 'react-router-dom';
 import DateObject from "react-date-object";
 import { useState } from 'react';
 import { Card, CardBody, Table } from "reactstrap";
@@ -76,6 +77,9 @@ function UserHome() {
                                     <tbody>
                                         {
                                             eventData.map((event) => {
+                                                const url = new URL(event.team_href)
+                                                const splitPaths = url.pathname.split('/')
+                                                const teamId = splitPaths[splitPaths.length - 1]
                                                 let start = new DateObject(event.availability_start)
                                                 let end = new DateObject(event.availability_end)
                                                 let start_date = start.format("ddd DD MMM YYYY, hh:mm a")
@@ -84,7 +88,7 @@ function UserHome() {
                                                     <tr key={event.id}>
                                                         <td>{start_date}</td>
                                                         <td>{end_date}</td>
-                                                        <td>{event.team_name}</td>
+                                                        <Link to="/team" state={{ id: teamId }}>{event.team_name}</Link>
                                                     </tr>
                                                 );
                                             })}
@@ -127,7 +131,6 @@ function UserHome() {
                                 <button className={styles.primaryBtn} onClick={() => setIsOpenSwap(true)}>Create Swap Event</button>{isOpenSwap && <SwapEventFormModal setIsOpenSwap={setIsOpenSwap} />}
                             </CardBody>
                         </Card>
-
                     </div>
                 </main>
             </div>

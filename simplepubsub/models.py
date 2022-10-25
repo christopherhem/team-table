@@ -26,3 +26,9 @@ class TeamVoIn(BaseModel):
     type : int
     description : Optional[str]
     pay_level : int
+
+class MemberIn(BaseModel):
+    id: int 
+    member_username: str 
+    role: int 
+    team_href: str

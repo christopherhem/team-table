@@ -20,6 +20,7 @@ def add_member(
     created_member = repo.create(member)
     headers = request.headers
     data = json.dumps(created_member)
+    print(data)
     requests.post("http://pubsub:8000/api/surps/", data = data, headers = headers)
     return created_member
 

@@ -1,11 +1,11 @@
 from fastapi import FastAPI
 from routers import (
-    event_types_router, 
+    event_types_router,
     members_router,
-    pay_level_router, 
-    permissions_router,    
-    roles_router, 
-    teams_router, 
+    pay_level_router,
+    permissions_router,
+    roles_router,
+    teams_router,
     team_type_router,
     u_event_vo_router
 )

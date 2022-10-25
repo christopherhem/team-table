@@ -30,6 +30,7 @@ def get_team_type(
     if record is None:
         response.status_code = 404
     else:
+        print(record)
         return record
 
 @router.post("/api/teams/types/", response_model = Union[Error, TeamTypeOut])
