@@ -19,39 +19,53 @@ export function TeamDashboard() {
     }
     console.log(membersData)
     return (
-        <>
+        <div className="grid-container">
 
         {/* <SideNavbar /> */}
         {/* <NavBar toggle={toggle} /> */}
         <h1 className="">
-            {"hello"}
+            {teamData.name}
         </h1>
         <div>
           <Card>
-            <CardBody>
-              <NavLogo tag="h5" color="#6C63FF">Members</NavLogo>
-              <Table className="border table-striped no-wrap mt-3 align-middle" response border>
+            <CardBody className="col-6">
+              <NavLogo tag="h5" color="#6C63FF">Members ({membersData.length})</NavLogo>
+              <Table className="border table-striped no-wrap mt-3 align-middle " response border>
                 <thead>
                   <tr>
                     <th>Name</th>
                   </tr>
                 </thead>
                 <tbody>
-                  {/* {
-                  membersData.map((event) => {
+                  {
+                  membersData.map((member) => {
                     return (
-                    <tr key={event.id}>
-                    <td>{start_date}</td>
-                    <td>{end_date}</td>
-                    <td>{event.team_name}</td>
+                    <tr key={member.id}>
+                    <td>{member.member_username}</td>
                     </tr>
                   );
-                  })} */}
+                  })}
+                </tbody>
+               </Table>
+            </CardBody>
+          </Card>
+          <Card>
+            <CardBody className="col-6">
+            <Table className="border table-striped no-wrap mt-3 align-middle " response border>
+                <thead>
+                  <tr>
+                    <th>Team Notifications</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td> some notification</td>
+                  </tr>
                 </tbody>
                </Table>
             </CardBody>
           </Card>
         </div>
-        </>
+        </div>
     )
 }

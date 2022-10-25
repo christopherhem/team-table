@@ -33,7 +33,7 @@ class RolesQueries:
                 with conn.cursor() as db:
                     result = db.execute(
                         """
-                        SELECT id,name,team
+                        SELECT id,name,team, can_invite, can_approve
                         FROM roles
                         WHERE team = %s
                         """,
@@ -45,7 +45,7 @@ class RolesQueries:
                 l.append(roles)
                 roles = l
             return roles
-                    
+
         except Exception as e:
             return {"message": f"Error in roles_queries get_all: {e}"}
 
@@ -100,7 +100,7 @@ class RolesQueries:
         for row in rows:
             item = {}
             for i in range(len(row)):
-                item[columns[i]]=row[i] 
+                item[columns[i]]=row[i]
             lst.append(item)
         if len(lst) == 1:
             lst = lst[0]
