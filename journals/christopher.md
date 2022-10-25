@@ -68,3 +68,7 @@ More front-end frenzy. Dashboard is slowly coming together, I was able to get so
 ## October 20, 2022
 
 Today was a day full of BUGS. We were finally able to access the teams query and events in order to create both Cover and Swaps! Tomorrow Louise and I will have to grind it out to beautify this product because it's looking quite dull at the moment. Hopefully we dont break anything major again... 
+
+## October 24, 2022
+
+I worked on the dashboard and was able to finally complete it when a user logs in it will redirect them to their User page. I also worked on creating multiple forms such as adding member, adding role, and add team. The endpoints still need work on connecting and rendering into the modal. Overall, learning more and more everyday about React. 

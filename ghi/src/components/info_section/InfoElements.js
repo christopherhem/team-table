@@ -2,7 +2,8 @@ import styled from 'styled-components'
 
 export const InfoContainer = styled.div`
     color: #fff;
-    padding: 110px 0;
+    padding: 200px 0;
+    
     background: ${({lightBg}) => (lightBg ? '#f9f9f9' : '6C63FF')}
     ;
 
@@ -14,7 +15,6 @@ export const InfoContainer = styled.div`
 export const InfoWrapper = styled.div`
     display: grid;
     z-index: 1;
-    height: 650px;
     width: 100%;
     max-width: 1100px;
     margin-right: auto;
@@ -96,4 +96,9 @@ export const Img = styled.img`
     width: 100%;
     margin: 0 0 10px 0;
     padding-right: 0;
+`;
+
+export const FlexInfoContainer = styled.div`
+    padding-bottom: 1000px;
+    
 `;
