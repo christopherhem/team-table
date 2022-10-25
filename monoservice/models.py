@@ -7,6 +7,10 @@ class CoverEventIn(BaseModel):
     availability_end: datetime
     team_href: str
 
+class CoverEventUpdateIn(BaseModel):
+    availability_start: datetime
+    availability_end: datetime
+
 class CoverEventOut(BaseModel):
     id: int
     availability_start: datetime
@@ -21,6 +25,12 @@ class ShiftSwapEventIn(BaseModel):
     availability_start: datetime
     availability_end: datetime
     team_href: str
+
+class ShiftSwapEventUpdateIn(BaseModel):
+    shift_start: datetime
+    shift_end: datetime
+    availability_start: datetime
+    availability_end: datetime
 
 class ShiftSwapEventOut(BaseModel):
     id: int
@@ -65,8 +75,8 @@ class User(BaseModel):
     first_name: str
     last_name: str
     email: str
-    phone_number: str
-    profile_picture_href: str
+    phone_number: str | None
+    profile_picture_href: str | None
 
 class UserIn(BaseModel):
     username: str
@@ -74,8 +84,8 @@ class UserIn(BaseModel):
     first_name: str
     last_name: str
     email: str
-    phone_number: str
-    profile_picture_href: str
+    phone_number: str | None
+    profile_picture_href: str | None
 
 class UserOut(BaseModel):
     id: int
@@ -83,8 +93,8 @@ class UserOut(BaseModel):
     first_name: str
     last_name: str
     email: str
-    phone_number: str
-    profile_picture_href: Optional[str]
+    phone_number: str | None
+    profile_picture_href: str | None
 
 class UserPut(BaseModel):
     id: int

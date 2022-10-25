@@ -1,20 +1,16 @@
 // Create Event Form Modal 
 import React, { useState } from 'react'
-import styles from "./Modal.module.css"
+import styles from "../events/Modal.module.css"
 import { RiCloseLine } from "react-icons/ri"
-import { useCreateTeamMutation } from '../../store/UsersApi';
+import { useCreateTeamMutation } from '../../store/TeamsApi';
 
-export default function addTeamFormModal({ setIsOpenTeam }) {
+export default function TeamFormModal({ setIsOpenTeam }) {
   const [name, setTeamName] = useState('');
   const [type, setTeamType] = useState('');
   const [description, setDescription] = useState('');
-  const [createMember, result] = useCreateTeamMutation();
+  const [createTeam, result] = useCreateTeamMutation();
 
-  if (isLoading) {
-    return (
-      <progress className="progress is-primary" max="100"></progress>
-    );
-  }
+
 
   async function handleSubmit(e) {
     e.preventDefault();

@@ -74,7 +74,7 @@ class EventVoRepository:
                         shift_end,
                         availability_start,
                         availability_end
-                    FROM Shift_swap_event_vos
+                    FROM shift_swap_event_vos
                     WHERE id = %s;
                     """,
                     [id]
@@ -151,7 +151,7 @@ class EventVoRepository:
                     [id]
                 )
             return self.to_dict(result.fetchall(),result.description)
-    
+
     def get_events(self,tid):
         events = {}
         with pool.connection() as conn:
@@ -160,7 +160,7 @@ class EventVoRepository:
                 result = db.execute(
                     """
                     SELECT id,owner,shift_start,shift_end,availability_start,availability_end
-                    FROM swap_event_vos
+                    FROM shift_swap_event_vos
                     WHERE team = %s
                     """,
                     [tid]
@@ -176,10 +176,11 @@ class EventVoRepository:
                     FROM cover_event_vos
                     WHERE team = %s
                     """,
-                    [tid] 
-                )        
+                    [tid]
+                )
                 events['cover_events']=self.to_dict(result.fetchall(),result.description)
         return events
+
     def to_dict(self,rows,description):
         lst = []
         columns = [desc[0] for desc in description]

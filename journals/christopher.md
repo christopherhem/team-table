@@ -71,4 +71,4 @@ Today was a day full of BUGS. We were finally able to access the teams query and
 
 ## October 24, 2022
 
-I worked on the dashboard and was able to finally complete it when a user logs in it will redirect them to their User page. I also worked on creating multiple forms such as adding member, adding role, and add team. The endpoints still need work on connecting and rendering into the modal. Overall, learning more and more everyday about React. 
+I worked on the dashboard and was able to finally complete it when a user logs in it will redirect them to their User page. I also worked on creating multiple forms such as adding member, adding role, and add team. The endpoints still need work on connecting and rendering into the modal. Overall, learning more and more everyday about React.

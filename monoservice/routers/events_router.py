@@ -6,9 +6,11 @@ from queries.events_queries import EventQueries
 from authenticator import authenticator
 from models import (
     CoverEventIn,
+    CoverEventUpdateIn,
     CoverEventOut,
     ShiftSwapEventOut,
     ShiftSwapEventIn,
+    ShiftSwapEventUpdateIn,
     EventTypeOut,
 )
 from datetime import datetime
@@ -105,7 +107,7 @@ def create_shift_swap_event(
 @router.put("/api/table/cover_events/{id}", response_model=CoverEventOut)
 def update_cover_event(
     id: int,
-    event: CoverEventIn,
+    event: CoverEventUpdateIn,
     response: Response,
     repo: EventQueries = Depends()
 ):
@@ -116,9 +118,9 @@ def update_cover_event(
         return record
 
 @router.put("/api/table/shift_swap_events/{id}", response_model=ShiftSwapEventOut)
-def update_cover_event(
+def update_shift_swap_event(
     id: int,
-    event: ShiftSwapEventIn,
+    event: ShiftSwapEventUpdateIn,
     response: Response,
     repo: EventQueries = Depends()
 ):

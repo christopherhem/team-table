@@ -1,4 +1,4 @@
-// Create Event Form Modal 
+// Create Event Form Modal
 import React, { useState } from 'react'
 import styles from "./Modal.module.css"
 import { RiCloseLine } from "react-icons/ri"
@@ -21,7 +21,7 @@ export default function CoverEventFormModal({ setIsOpenCover }) {
   const [availability_end, setEnd] = useState('');
   const [team_href, setTeam] = useState('');
   const [createCover, result] = useCreateCoverEventMutation();
-  const { data, error, isLoading } = useGetUsersTeamsQuery([]);
+  const { data, error, isLoading } = useGetUsersTeamsQuery({});
 
   if (isLoading) {
     return (
@@ -84,5 +84,3 @@ export default function CoverEventFormModal({ setIsOpenCover }) {
     </>
   );
 };
-
-

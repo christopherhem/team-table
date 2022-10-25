@@ -181,13 +181,6 @@ export const teamsApi = createApi({
             }),
             invalidatesTags: ['TeamEvents']
         }),
-        // getToken: builder.query({
-        //     query: () => ({
-        //         url: '/token',
-        //         credentials: 'include'
-        //     }),
-        //     providesTags: ['Token']
-        // })
         /* TEMPLATES
         get : builder.query({
             query:()=>({

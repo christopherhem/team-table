@@ -1,5 +1,5 @@
-import {BrowserRouter, Route, Routes} from 'react-router-dom';
-import EventFormModal from './components/events/CoverEventFormModal.js';
+import { useState } from 'react';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import SignIn from './components/users/signin.js';
 import SignUp from './components/users/signup.js';
 import { TeamDashboard } from './components/teams/team_dash.js';
@@ -7,19 +7,64 @@ import { TeamDashboard } from './components/teams/team_dash.js';
 import Landing from './pages/landing';
 import UserHome from './pages/home';
 
+import { FaBars } from 'react-icons/fa';
+import HomeSidebar from './components/dashboard/HomeSidebar.js';
+
+import { useGetTokenQuery } from './store/UsersApi.js';
+
+import './styles.scss';
+
 function App() {
+  const [collapsed, setCollapsed] = useState(false);
+  // const [image, setImage] = useState(false);
+  const [toggled, setToggled] = useState(false);
+  const { data, error, isLoading } = useGetTokenQuery();
+
+  if (isLoading) {
+    return (
+      <progress className="progress is-primary" max="100"></progress>
+    );
+  }
+
+  const handleCollapsedChange = () => {
+    setCollapsed(!collapsed);
+  };
+
+  // const handleImageChange = (checked) => {
+  //   setImage(checked);
+  // };
+
+  const handleToggleSidebar = (value) => {
+    setToggled(value);
+  };
   return (
     <BrowserRouter>
-      <Routes>
-        <Route path ="events" >
-            <Route path="new" element={<EventFormModal/>} />
-          </Route>
-        <Route path='team' element={<TeamDashboard />} />
-        <Route path='/' element={<Landing />} />
-        <Route path='home' element={<UserHome />}/>
-        <Route path="signup" element={<SignUp />} />
-        <Route path='/signin' element={<SignIn />} />
-      </Routes>
+      {data != null ?
+        <div className={`app ${toggled ? 'toggled' : ''}`}>
+          <HomeSidebar
+            // image={image}
+            collapsed={collapsed}
+            toggled={toggled}
+            handleToggleSidebar={handleToggleSidebar}
+            handleCollapsedChange={handleCollapsedChange}
+          />
+          <main>
+            <div className="btn-toggle" onClick={() => handleToggleSidebar(true)}>
+              <FaBars />
+            </div>
+            <Routes>
+              <Route path='/' element={<UserHome />} />
+              <Route path='/team' element={<TeamDashboard />} />
+            </Routes>
+          </main>
+        </div>
+        :
+        <Routes>
+          <Route path='/' element={<Landing />} />
+          <Route path='/signin' element={<SignIn />} />
+          <Route path="signup" element={<SignUp />} />
+        </Routes>
+      }
     </BrowserRouter>
   );
 }
