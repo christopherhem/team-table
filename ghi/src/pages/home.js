@@ -138,7 +138,6 @@ function UserHome() {
                                                     <td>{shift_end}</td>
                                                     <td>{start_date}</td>
                                                     <td>{end_date}</td>
-                                                    <td>{shift.team_name}</td>
                                                     <Link to="/team" state={{ id: teamId }}>{shift.team_name}</Link>
                                                 </tr>
                                             );
