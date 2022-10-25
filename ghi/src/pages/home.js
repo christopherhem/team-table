@@ -37,31 +37,8 @@ function UserHome() {
     const toggle = () => {
         setIsOpen(!isOpen)
     }
-
-    // const handleCollapsedChange = () => {
-    //     setCollapsed(!collapsed);
-    // };
-    // const handleImageChange = (checked) => {
-    //     setImage(checked);
-    // };
-    // const handleToggleSidebar = (value) => {
-    //     setToggled(value);
-    // };
-
     return (
         <>
-            {/* <div className={`app ${toggled ? 'toggled' : ''}`}>
-                <Sidebar
-                    image={image}
-                    collapsed={collapsed}
-                    toggled={toggled}
-                    handleToggleSidebar={handleToggleSidebar}
-                    handleCollapsedChange={handleCollapsedChange}
-                />
-                <main>
-                    <div className="btn-toggle" onClick={() => handleToggleSidebar(true)}>
-                        <FaBars />
-                    </div> */}
                     <h1 className="">
                         Hello, {user}!
                     </h1>
