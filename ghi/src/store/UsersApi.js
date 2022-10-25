@@ -152,14 +152,16 @@ export const usersApi = createApi({
                 url: `/api/table/cover_events/${id}`,
                 method: 'delete',
                 credentials: 'include'
-            })
+            }),
+            invalidatesTags: ['UserCoverEventsList']
         }),
         DeleteShiftSwapEvent: builder.mutation({
             query: (id) => ({
                 url: `/api/table/shift_swap_events/${id}`,
                 method: 'delete',
                 credentials: 'include'
-            })
+            }),
+            invalidatesTags: ['UserShiftSwapEventsList']
         }),
         GetUsersTeams: builder.query({
             query: () => ({
@@ -172,6 +174,7 @@ export const usersApi = createApi({
 });
 export const {
     useGetUsersTeamsQuery,
+    useDeleteShiftSwapEventMutation,
     useDeleteCoverEventMutation,
     useUpdateShiftSwapEventMutation,
     useUpdateCoverEventMutation,

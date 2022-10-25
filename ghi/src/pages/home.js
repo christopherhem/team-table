@@ -8,7 +8,7 @@ import CoverEventFormModal from '../components/events/CoverEventFormModal';
 import SwapEventFormModal from '../components/events/SwapEventFormModal';
 import UpdateCoverFormModal from '../components/events/updateCoverModal';
 import styles from "../components/dashboard/Home.module.css"
-import { useGetTokenQuery, useGetUserCoverEventsQuery, useGetUserShiftSwapEventsQuery, useDeleteCoverEventMutation } from '../store/UsersApi';
+import { useGetTokenQuery, useGetUserCoverEventsQuery, useGetUserShiftSwapEventsQuery, useDeleteCoverEventMutation, useDeleteShiftSwapEventMutation } from '../store/UsersApi';
 import UpdateShiftFormModal from '../components/events/updateSwapModal';
 import { FaBars, FaTrash } from 'react-icons/fa';
 import Sidebar from '../components/dashboard/HomeSidebar';
@@ -16,15 +16,16 @@ import Sidebar from '../components/dashboard/HomeSidebar';
 import './styles.scss';
 
 function UserHome() {
-    const [isOpenUpdateShift, setIsOpenUpdateShift] = useState(false)
-    const [isOpenUpdateCover, setIsOpenUpdateCover] = useState(false)
+    const [isOpenUpdateShift, setIsOpenUpdateShift] = useState(false);
+    const [isOpenUpdateCover, setIsOpenUpdateCover] = useState(false);
     const [isOpenCover, setIsOpenCover] = useState(false);
     const [isOpenSwap, setIsOpenSwap] = useState(false);
-    const [isOpen, setIsOpen] = useState(false)
+    const [isOpen, setIsOpen] = useState(false);
     const [collapsed, setCollapsed] = useState(false);
     const [image, setImage] = useState(false);
     const [toggled, setToggled] = useState(false);
-    const [deleteCover, result] = useDeleteCoverEventMutation()
+    const [deleteCover, coverResult] = useDeleteCoverEventMutation();
+    const [deleteShift, shiftResult] = useDeleteShiftSwapEventMutation();
     const { data: userData, isLoading: isLoadingUser } = useGetTokenQuery();
     const { data: eventData, isLoading: isLoadingEvent } = useGetUserCoverEventsQuery();
     const { data: shiftData, isLoading: isLoadingShift } = useGetUserShiftSwapEventsQuery();
@@ -50,7 +51,8 @@ function UserHome() {
                                 <Table className="border table-striped no-wrap mt-3 align-middle" response border>
                                     <thead>
                                         <tr>
-                                            <th>Edit/Delete</th>
+                                            <th>Edit</th>
+                                            <th>Delete</th>
                                             <th>Availability Start</th>
                                             <th>Availability End</th>
                                             <th>Team</th>
@@ -71,8 +73,8 @@ function UserHome() {
                                                     <tr key={cover.id}>
                                                         <td>
                                                             <button className={styles.editBtn} onClick={() => setIsOpenUpdateCover(true)}>Edit</button>{isOpenUpdateCover && <UpdateCoverFormModal setIsOpenUpdateCover={setIsOpenUpdateCover} id={id} />}
-
                                                         </td>
+                                                        <td><button className={styles.deleteBtn} onClick={() => deleteCover(id)}><FaTrash /></button></td>
                                                         <td>{start_date}</td>
                                                         <td>{end_date}</td>
                                                         <Link to="/team" state={{ id: teamId }}>{cover.team_name}</Link>
@@ -86,7 +88,8 @@ function UserHome() {
                                 <Table className="border table-striped no-wrap mt-3 align-middle" response border>
                                     <thead>
                                         <tr>
-                                            <th>Edit/Delete</th>
+                                            <th>Edit</th>
+                                            <th>Delete</th>
                                             <th>Shift Start</th>
                                             <th>Shift End</th>
                                             <th>Availability Start</th>
@@ -113,6 +116,7 @@ function UserHome() {
                                                     <td>
                                                         <button className={styles.editBtn} onClick={() => setIsOpenUpdateShift(true)}>Edit</button>{isOpenUpdateShift && <UpdateShiftFormModal setIsOpenUpdateShift={setIsOpenUpdateShift} id={id} />}
                                                     </td>
+                                                    <td><button className={styles.deleteBtn} onClick={() => deleteShift(id)}><FaTrash /></button></td>
                                                     <td>{shift_start}</td>
                                                     <td>{shift_end}</td>
                                                     <td>{start_date}</td>
