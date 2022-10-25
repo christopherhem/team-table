@@ -130,16 +130,16 @@ export const usersApi = createApi({
             invalidatesTags: ['UserShiftSwapEventsList']
         }),
         UpdateCoverEvent: builder.mutation({
-            query: (id, data) => ({
+            query: ({id, ...data}) => ({
                 url: `/api/table/cover_events/${id}`,
                 method: 'put',
                 body: data,
                 credentials: 'include'
             }),
-            invalidatesTags: ['CoverEvent', 'UserCoverEventsList']
+            invalidatesTags: ['UserCoverEventsList']
         }),
         UpdateShiftSwapEvent: builder.mutation({
-            query: (id, data) => ({
+            query: ({id, ...data}) => ({
                 url: `/api/table/shift_swap_events/${id}`,
                 method: 'put',
                 body: data,

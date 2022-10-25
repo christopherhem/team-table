@@ -1,6 +1,7 @@
 from queries.pool import pool
 from models import (
     CoverEventIn,
+    CoverEventUpdateIn,
     CoverEventOut,
     ShiftSwapEventOut,
     ShiftSwapEventIn,
@@ -250,7 +251,7 @@ class EventQueries:
                     [id]
                 )
 
-    def update_cover_event(self, id, data):
+    def update_cover_event(self, id, data: CoverEventUpdateIn):
         with pool.connection() as conn:
             with conn.cursor() as db:
                 params = [
@@ -269,7 +270,20 @@ class EventQueries:
                     params
                 )
 
-                return self.to_dict(db.fetchall(), db.description)
+                event =  self.to_dict(db.fetchall(), db.description)
+
+        with pool.connection() as conn:
+            with conn.cursor() as db:
+                db.execute(
+                    """
+                    SELECT name
+                    FROM teams_vo
+                    WHERE team_href = %s
+                    """,
+                    [event['team_href']]
+                )
+                event['team_name'] = str(db.fetchone()).strip("(',)")
+        return event
 
     def update_shift_swap_event(self, id, data):
         with pool.connection() as conn:
@@ -294,7 +308,20 @@ class EventQueries:
                     params
                 )
 
-                return self.to_dict(db.fetchall(), db.description)
+                event =  self.to_dict(db.fetchall(), db.description)
+
+        with pool.connection() as conn:
+            with conn.cursor() as db:
+                db.execute(
+                    """
+                    SELECT name
+                    FROM teams_vo
+                    WHERE team_href = %s
+                    """,
+                    [event['team_href']]
+                )
+                event['team_name'] = str(db.fetchone()).strip("(',)")
+        return event
 
     def get_event_types(self):
         try:

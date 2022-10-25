@@ -16,38 +16,28 @@ import {
 } from '../users/SignUpElements.js';
 
 
-export default function UpdateCoverFormModal({ setIsOpenUpdateCover }) {
-    const location = useLocation()
-    const { id } = location.state
-    const [availability_start, setStart] = useState('');
-    const [availability_end, setEnd] = useState('');
-    const [team_href, setTeam] = useState('');
-    const {data: eventData, isLoading: isLoadingEvent} = useGetCoverEventQuery()
+export default function UpdateCoverFormModal({ setIsOpenUpdateCover, id }) {
+    const [availability_start, setStart] = useState("");
+    const [availability_end, setEnd] = useState("");
     const [updateCover, result] = useUpdateCoverEventMutation();
-    const { data, error, isLoading } = useGetUsersTeamsQuery([]);
-
-    if (isLoading) {
-      return (
-        <progress className="progress is-primary" max="100"></progress>
-      );
-    }
 
     async function handleSubmit(e) {
       e.preventDefault();
-      setIsOpenCover(false);
-      createCover({ availability_start, availability_end, team_href });
+      updateCover({id, availability_start, availability_end })
+      console.log("HEREREE")
+      setIsOpenUpdateCover(false);
       console.log(result)
     }
 
     return (
       <>
-        <div className={styles.darkBG} onClick={() => setIsOpenCover(false)} />
+        <div className={styles.darkBG} onClick={() => setIsOpenUpdateCover(false)} />
         <div className={styles.centered}>
           <div className={styles.modal}>
             <div className={styles.modalHeader}>
               <h2 className={styles.heading}>Create a cover event</h2>
             </div>
-            <button className={styles.closeBtn} onClick={() => setIsOpenCover(false)}>
+            <button className={styles.closeBtn} onClick={() => setIsOpenUpdateCover(false)}>
               <RiCloseLine style={{ marginBottom: "-3px" }} />
             </button>
             <form className={styles.modalContent} onSubmit={(e) => handleSubmit(e)}>
@@ -57,17 +47,6 @@ export default function UpdateCoverFormModal({ setIsOpenUpdateCover }) {
               <h6>Enter End Availability</h6>
               <input type="datetime-local" id="availability_end" value={availability_end} onChange={e => setEnd(e.target.value)} />
               <hr></hr>
-              <div className="mb-3">
-                <select onChange={e => setTeam(e.target.value)} value={team_href} className="form-select" name="team_href" id="team_href">
-                  <option value="">Select a Team</option>
-                  {data.map((team) => {
-                    return (
-                      <option key={team.team_href} value={team.team_href}>{team.name}</option>
-                    );
-                  })}
-                </select>
-              </div>
-
               <div className={styles.modalActions}>
                 <div className={styles.actionsContainer}>
                   <button className={styles.deleteBtn}>
@@ -75,7 +54,7 @@ export default function UpdateCoverFormModal({ setIsOpenUpdateCover }) {
                   </button>
                   <button
                     className={styles.cancelBtn}
-                    onClick={() => setIsOpenCover(false)}
+                    onClick={() => setIsOpenUpdateCover(false)}
                   >
                     Cancel
                   </button>
