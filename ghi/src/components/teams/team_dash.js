@@ -1,15 +1,23 @@
+import { useState } from "react";
 import { useGetMembersQuery, useGetTeamQuery } from "../../store/TeamsApi"
 import { Card, CardBody, CardTitle, CardSubtitle, Table } from "reactstrap";
 import { NavLogo } from '../navbar/NavbarElements';
-import { useGetTokenQuery } from "../../store/UsersApi";
 import { useLocation } from "react-router-dom";
+<<<<<<< HEAD
 import { useState } from "react";
+=======
+import UpdateShiftFormModal from "../events/updateSwapModal";
+>>>>>>> main
 
 import TeamFormModal from "./TeamFormModal";
 
 import styles from "../../components/dashboard/Home.module.css"
 
+<<<<<<< HEAD
 export function TeamDashboard( setisOpenTeam ) {
+=======
+export function TeamDashboard() {
+>>>>>>> main
     const [isOpenTeam, setIsOpenTeam] = useState(false)
     const location = useLocation()
     const { id } = location.state
@@ -24,9 +32,6 @@ export function TeamDashboard( setisOpenTeam ) {
     console.log(membersData)
     return (
         <div className="grid-container">
-
-        {/* <SideNavbar /> */}
-        {/* <NavBar toggle={toggle} /> */}
         <h1 className="">
             {teamData.name}
         </h1>
