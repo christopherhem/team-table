@@ -21,7 +21,7 @@ export default function CoverEventFormModal({ setIsOpenCover }) {
   const [availability_end, setEnd] = useState('');
   const [team_href, setTeam] = useState('');
   const [createCover, result] = useCreateCoverEventMutation();
-  const { data, error, isLoading } = useGetUsersTeamsQuery([]);
+  const { data, error, isLoading } = useGetUsersTeamsQuery({});
 
   if (isLoading) {
     return (
