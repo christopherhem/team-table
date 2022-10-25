@@ -1,6 +1,5 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect } from 'react'
 import { FaBars } from 'react-icons/fa'
-import {IconContext} from 'react-icons/lib'
 import { animateScroll as scroll } from 'react-scroll';
 import { 
   Nav, 
@@ -16,15 +15,6 @@ import {
 } from './NavbarElements';
 
 const NavBar = ({toggle}) => {
-  // const [scrollNav, setScrollNav] = useState(false);
-
-  // const changeNav = () => {
-  //   if (window.scrollY >= 80) {
-  //     setScrollNav(true);
-  //   } else {
-  //     setScrollNav(true);
-  //   }
-  // };
 
   useEffect(() => {
     window.addEventListener('scroll', (e)=> {
@@ -39,7 +29,6 @@ const NavBar = ({toggle}) => {
   return (
     <>
       <Nav> 
-      {/* scrollNav={scrollNav}> */}
         <NavbarContainer>
           <NavLogo onClick={toggleHome} to='/'>
           TeamTable
