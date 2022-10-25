@@ -17,7 +17,7 @@
   }
 
 .editBtn {
-    margin: 10px 5px;
+    margin: 10px 10px;
     cursor: pointer;
     font-weight: 500;
     padding: 13px 25px;
@@ -30,6 +30,24 @@
   }
 
   .editBtn:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px -10px rgba(24, 90, 219, 0.6);
+  }
+
+  .deleteBtn {
+    margin: 10px 10px;
+    cursor: pointer;
+    font-weight: 500;
+    padding: 13px 25px;
+    border-radius: 15px;
+    font-size: 0.8rem;
+    border: none;
+    color: black;
+    background: #a60303;
+    transition: all 0.25s ease;
+  }
+
+  .deleteBtn:hover {
     transform: translateY(-5px);
     box-shadow: 0 10px 20px -10px rgba(24, 90, 219, 0.6);
   }

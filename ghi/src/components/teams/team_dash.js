@@ -1,9 +1,8 @@
-import { useState } from "react";
-import { useGetMembersQuery, useGetTeamQuery } from "../../store/TeamsApi"
+import { useGetMembersQuery, useGetTeamQuery, useGetEventsQuery } from "../../store/TeamsApi"
 import { Card, CardBody, CardTitle, CardSubtitle, Table } from "reactstrap";
 import { NavLogo } from '../navbar/NavbarElements';
 import { useLocation } from "react-router-dom";
-import UpdateShiftFormModal from "../events/updateSwapModal";
+import { useState } from "react";
 
 import TeamFormModal from "./TeamFormModal";
 
@@ -13,17 +12,21 @@ export function TeamDashboard() {
     const [isOpenTeam, setIsOpenTeam] = useState(false)
     const location = useLocation()
     const { id } = location.state
+    const {data: eventData, isLoading: isLoadingEvents} = useGetEventsQuery(id)
     const {data: teamData, isLoading: isLoadingTeam} = useGetTeamQuery(id)
     const {data: membersData, isLoading: isLoadingMembers} = useGetMembersQuery(id)
 
-    if (isLoadingTeam || isLoadingMembers ) {
+    if (isLoadingTeam || isLoadingMembers || isLoadingEvents) {
         return (
             <progress className="progress is-primary" max="100"></progress>
             );
     }
-    console.log(membersData)
+    console.log(eventData)
     return (
         <div className="grid-container">
+
+        {/* <SideNavbar /> */}
+        {/* <NavBar toggle={toggle} /> */}
         <h1 className="">
             {teamData.name}
         </h1>
@@ -51,9 +54,21 @@ export function TeamDashboard() {
                   })}
                 </tbody>
                </Table>
+               <Table className="border table-striped no-wrap mt-3 align-middle col-6" response border>
+                <thead>
+                  <tr>
+                    <th>Team Notifications</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td> some notification</td>
+                  </tr>
+                </tbody>
+               </Table>
             </CardBody>
           </Card>
-          <Card>
+          {/* <Card>
             <CardBody className="col-6">
             <Table className="border table-striped no-wrap mt-3 align-middle " response border>
                 <thead>
@@ -68,7 +83,7 @@ export function TeamDashboard() {
                 </tbody>
                </Table>
             </CardBody>
-          </Card>
+          </Card> */}
         </div>
         </div>
     )

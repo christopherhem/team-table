@@ -29,6 +29,22 @@ def new_event_vo(
     else:
         return record
 
+@router.delete("/api/teams/events/")
+def delete_event_vo(
+    event:EventVoIn,
+    response:Response,
+    repo: EventVoRepository = Depends(),
+    user = Depends(get_current_user)
+):
+    if event.shift_start:
+        record = repo.delete_swap_event(event)
+    else:
+        record = repo.delete_cover_event(event)
+    if record is None:
+        response.status_code = 404
+    else:
+        return record
+
 @router.get("/api/teams/{id}/events/", response_model = EventsOut)
 def get_events_by_team(
     id: int,
