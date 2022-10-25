@@ -2,7 +2,6 @@ from typing import List, Union
 from models import TeamOut, TeamIn, Error
 from queries.pool import pool
 from datetime import datetime as datetime
-from datetime import *
 
 
 class SwapRepository:
