@@ -2,8 +2,8 @@
 import React, { useState } from 'react'
 import styles from "./Modal.module.css"
 import { RiCloseLine } from "react-icons/ri"
-import { useCreateMemberMutation } from '../../store/UsersApi';
-import { useGetUsersTeamsQuery } from '../../store/UsersApi';
+import { useCreateMemberMutation } from '../../store/TeamsApi';
+import { useGetRolesQuery } from '../../store/TeamsApi';
 
 
 
