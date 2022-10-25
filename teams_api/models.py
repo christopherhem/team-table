@@ -130,9 +130,6 @@ class EventsOut(BaseModel):
     swap_events: List[SafeSwapEventVoOut]
     cover_events: List[SafeCoverEventVoOut]
 
-
-
-
 class ValidSwapOut(BaseModel):
     user_event : SwapEventVoOut
     valid_swaps : list[SwapEventVoOut]
