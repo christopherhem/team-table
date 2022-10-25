@@ -12,11 +12,10 @@ import {
   FaUser,
   FaAngleDoubleLeft,
   FaAngleDoubleRight,
-  FaTachometerAlt,
-  FaGem,
-  FaList,
-  FaRegLaughWink,
-  FaHeart
+  FaPeopleArrows,
+  FaCalendarDay,
+  FaHome,
+  FaPencilAlt,
 } from 'react-icons/fa';
 // import sidebarBg from '../assets/bg1.jpg';
 
@@ -67,20 +66,27 @@ const HomeSidebar = ({
       <SidebarContent>
         <Menu iconShape="circle">
           <MenuItem
-            icon={<FaTachometerAlt />}
+            icon={<FaHome />}
+            suffix={<span className="badge red">NEW</span>}
+          >
+            My Home
+            <NavLink to="/" />
+          </MenuItem>
+          <MenuItem
+            icon={<FaPeopleArrows />}
             suffix={<span className="badge red">NEW</span>}
           >
             Teams
-            <NavLink to="/" />
+            <NavLink to="/team" />
           </MenuItem>
           {/* <MenuItem icon={<FaGem />}>Components </MenuItem> */}
-          <MenuItem icon={<FaGem />}>
-            My Events <Link to="/components" />
+          <MenuItem icon={<FaCalendarDay />}>
+            My Events <Link to="/events" />
           </MenuItem>
           <SubMenu
             suffix={<span className="badge yellow">3</span>}
             title={'Create Event'}
-            icon={<FaRegLaughWink />}
+            icon={<FaPencilAlt />}
           >
             <MenuItem>Cover</MenuItem>
             <MenuItem>Swap</MenuItem>

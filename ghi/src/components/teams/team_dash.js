@@ -4,20 +4,22 @@ import { NavLogo } from '../navbar/NavbarElements';
 import { useGetTokenQuery } from "../../store/UsersApi";
 import { useLocation } from "react-router-dom";
 
+import TeamFormModal from "./TeamFormModal";
 
+import styles from "../../components/dashboard/Home.module.css"
 
-export function TeamDashboard() {
-    const location = useLocation()
-    const { id } = location.state
-    const {data: teamData, isLoading: isLoadingTeam} = useGetTeamQuery(id)
-    const {data: membersData, isLoading: isLoadingMembers} = useGetMembersQuery(id)
+export function TeamDashboard( setisOpenTeam ) {
+    // const location = useLocation()
+    // const { id } = location.state
+    // const {data: teamData, isLoading: isLoadingTeam} = useGetTeamQuery(id)
+    // const {data: membersData, isLoading: isLoadingMembers} = useGetMembersQuery(id)
 
-    if (isLoadingTeam || isLoadingMembers ) {
-        return (
-            <progress className="progress is-primary" max="100"></progress>
-            );
-    }
-    console.log(membersData)
+    // if (isLoadingTeam || isLoadingMembers ) {
+    //     return (
+    //         <progress className="progress is-primary" max="100"></progress>
+    //         );
+    // }
+    // console.log(membersData)
     return (
         <div className="grid-container">
 
@@ -26,6 +28,9 @@ export function TeamDashboard() {
         <h1 className="">
             {teamData.name}
         </h1>
+        <div>
+        <button className={styles.primaryBtn} onClick={() => setIsOpenTeam(true)}>Create Team</button>{isOpenTeam && <TeamFormModal setIsOpenTeam={setIsOpenTeam} />}
+        </div>
         <div>
           <Card>
             <CardBody className="col-6">

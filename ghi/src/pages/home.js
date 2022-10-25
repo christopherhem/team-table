@@ -38,19 +38,19 @@ function UserHome() {
         setIsOpen(!isOpen)
     }
 
-    const handleCollapsedChange = () => {
-        setCollapsed(!collapsed);
-    };
-    const handleImageChange = (checked) => {
-        setImage(checked);
-    };
-    const handleToggleSidebar = (value) => {
-        setToggled(value);
-    };
+    // const handleCollapsedChange = () => {
+    //     setCollapsed(!collapsed);
+    // };
+    // const handleImageChange = (checked) => {
+    //     setImage(checked);
+    // };
+    // const handleToggleSidebar = (value) => {
+    //     setToggled(value);
+    // };
 
     return (
         <>
-            <div className={`app ${toggled ? 'toggled' : ''}`}>
+            {/* <div className={`app ${toggled ? 'toggled' : ''}`}>
                 <Sidebar
                     image={image}
                     collapsed={collapsed}
@@ -61,7 +61,7 @@ function UserHome() {
                 <main>
                     <div className="btn-toggle" onClick={() => handleToggleSidebar(true)}>
                         <FaBars />
-                    </div>
+                    </div> */}
                     <h1 className="">
                         Hello, {user}!
                     </h1>
@@ -148,8 +148,8 @@ function UserHome() {
                             </CardBody>
                         </Card>
                     </div>
-                </main>
-            </div>
+                {/* </main>
+            </div> */}
         </>
     );
 }
