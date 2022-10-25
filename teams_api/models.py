@@ -132,8 +132,8 @@ class ValidSwapListOut(BaseModel):
     swaps : list[ValidSwapOut]
 
 class ValidCoverUserListOut(BaseModel):
-    covers: list[ValidCoverUserOut]
+    covers_for_user: list[ValidCoverUserOut]
 
 class ValidUserCoverListOut(BaseModel):
-    covers: list[ValidUserCoverOut]
+    user_covers: list[ValidUserCoverOut]
 
