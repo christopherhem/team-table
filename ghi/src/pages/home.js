@@ -6,15 +6,18 @@ import { Card, CardBody, Table } from "reactstrap";
 import { NavLogo } from '../components/navbar/NavbarElements';
 import CoverEventFormModal from '../components/events/CoverEventFormModal';
 import SwapEventFormModal from '../components/events/SwapEventFormModal';
+import UpdateCoverFormModal from '../components/events/updateCoverModal';
 import styles from "../components/dashboard/Home.module.css"
 import { useGetTokenQuery, useGetUserCoverEventsQuery, useGetUserShiftSwapEventsQuery } from '../store/UsersApi';
-
+import UpdateShiftFormModal from '../components/events/updateSwapModal';
 import { FaBars } from 'react-icons/fa';
 import Sidebar from '../components/dashboard/HomeSidebar';
 
 import './styles.scss';
 
 function UserHome() {
+    const [isOpenUpdateShift, setIsOpenUpdateShift] = useState(false)
+    const [isOpenUpdateCover, setIsOpenUpdateCover] = useState(false)
     const [isOpenCover, setIsOpenCover] = useState(false);
     const [isOpenSwap, setIsOpenSwap] = useState(false);
     const [isOpen, setIsOpen] = useState(false)
@@ -69,6 +72,7 @@ function UserHome() {
                                 <Table className="border table-striped no-wrap mt-3 align-middle" response border>
                                     <thead>
                                         <tr>
+                                            <th>Edit</th>
                                             <th>Availability Start</th>
                                             <th>Availability End</th>
                                             <th>Team</th>
@@ -76,19 +80,23 @@ function UserHome() {
                                     </thead>
                                     <tbody>
                                         {
-                                            eventData.map((event) => {
-                                                const url = new URL(event.team_href)
+                                            eventData.map((cover) => {
+                                                const url = new URL(cover.team_href)
                                                 const splitPaths = url.pathname.split('/')
                                                 const teamId = splitPaths[splitPaths.length - 1]
-                                                let start = new DateObject(event.availability_start)
-                                                let end = new DateObject(event.availability_end)
-                                                let start_date = start.format("ddd DD MMM YYYY, hh:mm a")
-                                                let end_date = end.format("ddd DD MMM YYYY, hh:mm a")
+                                                let start = new DateObject(cover.availability_start)
+                                                let end = new DateObject(cover.availability_end)
+                                                let start_date = start.format("ddd DD MMM YYYY")
+                                                let end_date = end.format("ddd DD MMM YYYY")
+                                                const id = cover.id
                                                 return (
-                                                    <tr key={event.id}>
+                                                    <tr key={cover.id}>
+                                                        <td>
+                                                            <button className={styles.editBtn} onClick={() => setIsOpenUpdateCover(true)}>Edit</button>{isOpenUpdateCover && <UpdateCoverFormModal setIsOpenUpdateCover={setIsOpenUpdateCover} id={id} />}
+                                                        </td>
                                                         <td>{start_date}</td>
                                                         <td>{end_date}</td>
-                                                        <Link to="/team" state={{ id: teamId }}>{event.team_name}</Link>
+                                                        <Link to="/team" state={{ id: teamId }}>{cover.team_name}</Link>
                                                     </tr>
                                                 );
                                             })}
@@ -99,6 +107,7 @@ function UserHome() {
                                 <Table className="border table-striped no-wrap mt-3 align-middle" response border>
                                     <thead>
                                         <tr>
+                                            <th>Edit</th>
                                             <th>Shift Start</th>
                                             <th>Shift End</th>
                                             <th>Availability Start</th>
@@ -107,22 +116,30 @@ function UserHome() {
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        {shiftData.map((event) => {
-                                            let shift_s = new DateObject(event.shift_start)
-                                            let shift_start = shift_s.format("ddd DD MMM YYYY, hh:mm a")
-                                            let shift_e = new DateObject(event.shift_end)
-                                            let shift_end = shift_e.format("ddd DD MMM YYYY, hh:mm a")
-                                            let start = new DateObject(event.availability_start)
-                                            let end = new DateObject(event.availability_end)
-                                            let start_date = start.format("ddd DD MMM YYYY, hh:mm a")
-                                            let end_date = end.format("ddd DD MMM YYYY, hh:mm a")
+                                        {shiftData.map((shift) => {
+                                            const url = new URL(shift.team_href)
+                                            const splitPaths = url.pathname.split('/')
+                                            const teamId = splitPaths[splitPaths.length - 1]
+                                            let shift_s = new DateObject(shift.shift_start)
+                                            let shift_start = shift_s.format("ddd DD MMM YYYY")
+                                            let shift_e = new DateObject(shift.shift_end)
+                                            let shift_end = shift_e.format("ddd DD MMM YYYY")
+                                            let start = new DateObject(shift.availability_start)
+                                            let end = new DateObject(shift.availability_end)
+                                            let start_date = start.format("ddd DD MMM YYYY")
+                                            let end_date = end.format("ddd DD MMM YYYY")
+                                            const id = shift.id
                                             return (
-                                                <tr key={event.id}>
+                                                <tr key={shift.id}>
+                                                    <td>
+                                                        <button className={styles.editBtn} onClick={() => setIsOpenUpdateShift(true)}>Edit</button>{isOpenUpdateShift && <UpdateShiftFormModal setIsOpenUpdateShift={setIsOpenUpdateShift} id={id} />}
+                                                    </td>
                                                     <td>{shift_start}</td>
                                                     <td>{shift_end}</td>
                                                     <td>{start_date}</td>
                                                     <td>{end_date}</td>
-                                                    <td>{event.team_name}</td>
+                                                    <td>{shift.team_name}</td>
+                                                    <Link to="/team" state={{ id: teamId }}>{shift.team_name}</Link>
                                                 </tr>
                                             );
                                         })}
