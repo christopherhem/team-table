@@ -15,10 +15,10 @@ def get_valid_swaps(
     repo: SwapRepository = Depends(),
     user = Depends(get_current_user)
 ):
-    pass
+    return repo.get_valid_swaps(user)
 
 @router.get("/api/usercovers/", response_model = ValidUserCoverListOut)
-def get_valid_covers(
+def get_valid_user_covers(
     response:Response,
     request:Request,
     repo: SwapRepository = Depends(),
@@ -27,7 +27,7 @@ def get_valid_covers(
     pass
 
 @router.get("/api/coveruser/", response_model = ValidCoverUserListOut)
-def get_valid_covers(
+def get_valid_covers_for_user(
     response:Response,
     request:Request,
     repo: SwapRepository = Depends(),

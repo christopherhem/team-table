@@ -11,14 +11,16 @@ class RolesQueries:
                     result = db.execute(
                         """
                         INSERT INTO roles
-                            (name, team)
+                            (name, team, can_invite, can_approve)
                         VALUES
-                            (%s, %s)
-                        RETURNING id, name, team;
+                            (%s, %s, %s, %s)
+                        RETURNING id, name, team, can_invite, can_approve;
                         """,
                         [
                             role.name,
-                            role.team
+                            role.team,
+                            role.can_invite,
+                            role.can_approve
                         ]
                     )
                     return self.to_dict(result.fetchall(),result.description)
