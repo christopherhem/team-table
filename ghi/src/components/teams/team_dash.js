@@ -3,23 +3,25 @@ import { Card, CardBody, CardTitle, CardSubtitle, Table } from "reactstrap";
 import { NavLogo } from '../navbar/NavbarElements';
 import { useGetTokenQuery } from "../../store/UsersApi";
 import { useLocation } from "react-router-dom";
+import { useState } from "react";
 
 import TeamFormModal from "./TeamFormModal";
 
 import styles from "../../components/dashboard/Home.module.css"
 
 export function TeamDashboard( setisOpenTeam ) {
-    // const location = useLocation()
-    // const { id } = location.state
-    // const {data: teamData, isLoading: isLoadingTeam} = useGetTeamQuery(id)
-    // const {data: membersData, isLoading: isLoadingMembers} = useGetMembersQuery(id)
+    const [isOpenTeam, setIsOpenTeam] = useState(false)
+    const location = useLocation()
+    const { id } = location.state
+    const {data: teamData, isLoading: isLoadingTeam} = useGetTeamQuery(id)
+    const {data: membersData, isLoading: isLoadingMembers} = useGetMembersQuery(id)
 
-    // if (isLoadingTeam || isLoadingMembers ) {
-    //     return (
-    //         <progress className="progress is-primary" max="100"></progress>
-    //         );
-    // }
-    // console.log(membersData)
+    if (isLoadingTeam || isLoadingMembers ) {
+        return (
+            <progress className="progress is-primary" max="100"></progress>
+            );
+    }
+    console.log(membersData)
     return (
         <div className="grid-container">
 

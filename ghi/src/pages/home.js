@@ -8,9 +8,9 @@ import CoverEventFormModal from '../components/events/CoverEventFormModal';
 import SwapEventFormModal from '../components/events/SwapEventFormModal';
 import UpdateCoverFormModal from '../components/events/updateCoverModal';
 import styles from "../components/dashboard/Home.module.css"
-import { useGetTokenQuery, useGetUserCoverEventsQuery, useGetUserShiftSwapEventsQuery } from '../store/UsersApi';
+import { useGetTokenQuery, useGetUserCoverEventsQuery, useGetUserShiftSwapEventsQuery, useDeleteCoverEventMutation } from '../store/UsersApi';
 import UpdateShiftFormModal from '../components/events/updateSwapModal';
-import { FaBars } from 'react-icons/fa';
+import { FaBars, FaTrash } from 'react-icons/fa';
 import Sidebar from '../components/dashboard/HomeSidebar';
 
 import './styles.scss';
@@ -24,6 +24,7 @@ function UserHome() {
     const [collapsed, setCollapsed] = useState(false);
     const [image, setImage] = useState(false);
     const [toggled, setToggled] = useState(false);
+    const [deleteCover, result] = useDeleteCoverEventMutation()
     const { data: userData, isLoading: isLoadingUser } = useGetTokenQuery();
     const { data: eventData, isLoading: isLoadingEvent } = useGetUserCoverEventsQuery();
     const { data: shiftData, isLoading: isLoadingShift } = useGetUserShiftSwapEventsQuery();
@@ -72,7 +73,7 @@ function UserHome() {
                                 <Table className="border table-striped no-wrap mt-3 align-middle" response border>
                                     <thead>
                                         <tr>
-                                            <th>Edit</th>
+                                            <th>Edit/Delete</th>
                                             <th>Availability Start</th>
                                             <th>Availability End</th>
                                             <th>Team</th>
@@ -93,6 +94,7 @@ function UserHome() {
                                                     <tr key={cover.id}>
                                                         <td>
                                                             <button className={styles.editBtn} onClick={() => setIsOpenUpdateCover(true)}>Edit</button>{isOpenUpdateCover && <UpdateCoverFormModal setIsOpenUpdateCover={setIsOpenUpdateCover} id={id} />}
+
                                                         </td>
                                                         <td>{start_date}</td>
                                                         <td>{end_date}</td>
@@ -107,7 +109,7 @@ function UserHome() {
                                 <Table className="border table-striped no-wrap mt-3 align-middle" response border>
                                     <thead>
                                         <tr>
-                                            <th>Edit</th>
+                                            <th>Edit/Delete</th>
                                             <th>Shift Start</th>
                                             <th>Shift End</th>
                                             <th>Availability Start</th>
