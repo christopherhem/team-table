@@ -110,9 +110,28 @@ class MemberOut(BaseModel):
     member_username: str
     role: int
 
+class SafeCoverEventVoOut(BaseModel):
+    id :int
+    owner: str
+    availability_start:datetime
+    availability_end:datetime
+    mono_id:int
+
+class SafeSwapEventVoOut(BaseModel):
+    id :int
+    owner: str
+    shift_start:datetime
+    shift_end:datetime
+    availability_start:datetime
+    availability_end:datetime
+    mono_id:int
+
 class EventsOut(BaseModel):
-    swap_events: Optional[Union[SwapEventVoOut,List[SwapEventVoOut]]]
-    cover_events: Optional[Union[CoverEventVoOut,List[CoverEventVoOut]]]
+    swap_events: List[SafeSwapEventVoOut]
+    cover_events: List[SafeCoverEventVoOut]
+
+
+
 
 class ValidSwapOut(BaseModel):
     user_event : SwapEventVoOut
