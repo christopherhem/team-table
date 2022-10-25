@@ -6,7 +6,7 @@ import requests
 class EventVoRepository:
     def create_swap_event(self, event:EventVoIn, user):
 
-        href = f"localhost:8080/api/table/events/{event.id}"
+        href = f"http://monoservice:8000/api/table/events/{event.id}"
         team = list(event.team_href)[-1]
         with pool.connection() as conn:
             with conn.cursor() as db:
@@ -52,7 +52,7 @@ class EventVoRepository:
 
                 result = db.execute(
                     """
-                    SELECT swap_event_vos(
+                    SELECT
                         id,
                         event_href,
                         owner,
@@ -60,8 +60,8 @@ class EventVoRepository:
                         shift_start,
                         shift_end,
                         availability_start,
-                        availability_end,
-                    )
+                        availability_end
+                    FROM Shift_swap_event_vos
                     WHERE id = %s;
                     """,
                     [id]
@@ -70,7 +70,7 @@ class EventVoRepository:
 
     def create_cover_event(self, event:EventVoIn, user):
 
-        href = f"localhost:8000/api/table/events/{event.id}"
+        href = f"http://monoservice:8000/api/table/events/{event.id}"
         team = list(event.team_href)[-1]
         with pool.connection() as conn:
             with conn.cursor() as db:

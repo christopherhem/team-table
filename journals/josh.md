@@ -40,3 +40,6 @@ I spent the day polishing endpoints and adding a few new ones as louise and chri
 
 ## 10/20/2022
 I finished the base code for the members pub sub though I did not bug test it. I created a few more endpoints for front end requests and then tackled most of the redux endpoint queries for the teams microservice so that those are available for use, though since we have not tried to use them yet we may need to do some troubleshooting/bug fixes.
+
+## 10/24/2022
+Completed members pub sub and bug fixed/fully tested it, made necessary changes to roles model and endpoints, and started work on the comparison logic for creating swap lists. Ran into trouble with date time object comparisons but figured out I was causing an error in a different way, I learned that timestamp objects from sql automatically get imported as datetime objects to python. I also helped with smaller bug fixes/questions that louise and christopher had about backend stuff.
