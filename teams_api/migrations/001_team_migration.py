@@ -175,7 +175,8 @@ steps = [
             owner VARCHAR(50),
             team INT REFERENCES teams(id) ON DELETE CASCADE,
             availability_start TIMESTAMP NOT NULL,
-            availability_end TIMESTAMP NOT NULL
+            availability_end TIMESTAMP NOT NULL,
+            mono_id INT NOT NULL UNIQUE
         );
         """,
         # "Down" SQL statement
@@ -194,7 +195,8 @@ steps = [
             shift_start TIMESTAMP NOT NULL,
             shift_end TIMESTAMP NOT NULL,
             availability_start TIMESTAMP NOT NULL,
-            availability_end TIMESTAMP NOT NULL
+            availability_end TIMESTAMP NOT NULL,
+            mono_id INT NOT NULL UNIQUE
         );
         """,
         # "Down" SQL statement

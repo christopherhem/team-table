@@ -2,7 +2,6 @@ from typing import List, Union
 from models import TeamOut, TeamIn, Error
 from queries.pool import pool
 from datetime import datetime as datetime
-from datetime import *
 
 
 class SwapRepository:
@@ -149,8 +148,8 @@ class SwapRepository:
                 temp.append(team_events)
                 team_events = temp
             valid_swap_list = []
+            print("executing logic for valid covers")
             for event in team_events:
-
                 #the less than/= values here may need to be swapped
                 if event['availability_start'] <= swap['shift_start'] and event['availability_end']>=swap['shift_end']:
                     valid_swap_list.append(event)
@@ -162,6 +161,7 @@ class SwapRepository:
             final = temp
         finaldict = {}
         finaldict['covers_for_user'] = final
+        print(finaldict)
         return finaldict
 
     def to_dict(self,rows,description):
