@@ -25,8 +25,8 @@ def swap_for_swap(
             result = repo.perform_swap(swaps)
             if result == True:
                 headers = request.headers
-                for swap in dict(swaps):
-                    for key in swap:
+                for swap in list(swaps):
+                    for key in dict(swap):
                         if type(swap[key])==datetime:
                             str(swap[key])
                     data = json.dumps(swap)

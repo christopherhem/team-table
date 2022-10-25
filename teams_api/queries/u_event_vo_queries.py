@@ -46,8 +46,7 @@ class EventVoRepository:
                         event.id
                     ]
                 )
-                id = result.fetchone()[0]
-                return self.get_swap_event(id)
+                return self.to_dict(result.fetchall(),result.description)
 
     def delete_swap_event(self,event):
         with pool.connection as conn:
