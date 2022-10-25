@@ -21,11 +21,11 @@ def swap_for_swap(
     repo: SwapRepository = Depends()
 ):
     for swap in swaps:
-        if user['id'] == swap['user_id']:
+        if user['id'] == swap.user_id:
             result = repo.perform_swap(swaps)
             if result == True:
                 headers = request.headers
-                for swap in swaps:
+                for swap in dict(swaps):
                     for key in swap:
                         if type(swap[key])==datetime:
                             str(swap[key])
@@ -68,5 +68,5 @@ def cover_for_swap(
             data = json.dumps(pushevent)
             requests.post("http://pubsub:8000/api/seps/", data = data, headers = headers)
             return result
-        return{"message":"Failed to carry out all or part of cover swap"}
+        return{"message":"Failed to carry out all or part of cover swap"}    
     return {"message":"Current user id does not match id of either event"}

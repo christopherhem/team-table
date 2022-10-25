@@ -20,9 +20,11 @@ class EventVoRepository:
                         shift_start,
                         shift_end,
                         availability_start,
-                        availability_end
+                        availability_end,
+                        mono_id
                     )
                     VALUES(
+                        %s,
                         %s,
                         %s,
                         %s,
@@ -40,11 +42,23 @@ class EventVoRepository:
                         event.shift_start,
                         event.shift_end,
                         event.availability_start,
-                        event.availability_end
+                        event.availability_end,
+                        event.id
                     ]
                 )
                 id = result.fetchone()[0]
                 return self.get_swap_event(id)
+
+    def delete_swap_event(self,event):
+        with pool.connection as conn:
+            with conn.cursor as db:
+                db.execute(
+                    """
+                    DELETE FROM shift_swap_event_vos WHERE mono_id = %s
+                    """,
+                    [event['id']]
+                )
+        return True
 
     def get_swap_event(self, id):
         with pool.connection() as conn:
@@ -68,6 +82,8 @@ class EventVoRepository:
                 )
                 return self.to_dict(result.fetchall(),result.description)
 
+    
+
     def create_cover_event(self, event:EventVoIn, user):
 
         href = f"http://monoservice:8000/api/table/events/{event.id}"
@@ -82,9 +98,11 @@ class EventVoRepository:
                         owner,
                         team,
                         availability_start,
-                        availability_end
+                        availability_end,
+                        mono_id
                     )
                     VALUES(
+                        %s,
                         %s,
                         %s,
                         %s,
@@ -98,11 +116,22 @@ class EventVoRepository:
                         user['account']['username'],
                         team,
                         event.availability_start,
-                        event.availability_end
+                        event.availability_end,
+                        event.id
                     ]
                 )
-                id = result.fetchone()[0]
-                return self.get_cover_event(id)
+                return self.to_dict(result.fetchall(),result.description)
+
+    def delete_cover_event(self,event):
+        with pool.connection as conn:
+            with conn.cursor as db:
+                db.execute(
+                    """
+                    DELETE FROM cover_event_vos WHERE mono_id = %s
+                    """,
+                    [event['id']]
+                )
+        return True
 
     def get_cover_event(self, id):
         with pool.connection() as conn:
@@ -116,7 +145,7 @@ class EventVoRepository:
                         owner,
                         team,
                         availability_start,
-                        availability_end,
+                        availability_end
                     FROM cover_event_vos
                     WHERE id = %s;
                     """,
