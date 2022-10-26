@@ -1,16 +1,13 @@
 import { useState } from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import { TeamDashboard } from './components/teams/team_dash.js';
+import { useGetTokenQuery } from './store/UsersApi.js';
+import { FaBars } from 'react-icons/fa';
 import SignIn from './components/users/signin.js';
 import SignUp from './components/users/signup.js';
-import { TeamDashboard } from './components/teams/team_dash.js';
-
 import Landing from './pages/landing';
 import UserHome from './pages/home';
-
-import { FaBars } from 'react-icons/fa';
 import HomeSidebar from './components/dashboard/HomeSidebar.js';
-
-import { useGetTokenQuery } from './store/UsersApi.js';
 
 import './styles.scss';
 

@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useLogInMutation } from '../../store/UsersApi';
+import { useSignInMutation } from '../../store/UsersApi';
 import {
   Container,
   FormWrap,
@@ -18,11 +18,11 @@ function SignIn() {
     const navigate = useNavigate();
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    const [logIn, result] = useLogInMutation();
+    const [signIn, result] = useSignInMutation();
 
     async function handleSubmit(e) {
       e.preventDefault();
-      logIn(
+      signIn(
         {email, password}
       )
     }

@@ -18,7 +18,6 @@ const NavBar = ({toggle}) => {
 
   useEffect(() => {
     window.addEventListener('scroll', (e)=> {
-      console.log(window.scrollY)
     })
   }, []);
 
