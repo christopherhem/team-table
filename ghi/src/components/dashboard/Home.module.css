@@ -51,3 +51,19 @@
     transform: translateY(-5px);
     box-shadow: 0 10px 20px -10px rgba(24, 90, 219, 0.6);
   }
+
+
+.wrap {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px 20px;
+}
+
+.item1 {
+  flex-grow: 1;
+}
+
+.item2 {
+  flex-grow: 1;
+}

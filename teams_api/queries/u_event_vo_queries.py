@@ -159,26 +159,26 @@ class EventVoRepository:
 
                 result = db.execute(
                     """
-                    SELECT id,owner,shift_start,shift_end,availability_start,availability_end
+                    SELECT id,owner,shift_start,shift_end,availability_start,availability_end, mono_id
                     FROM shift_swap_event_vos
                     WHERE team = %s
                     """,
                     [tid]
                 )
                 events['swap_events']=self.to_dict(result.fetchall(),result.description)
-
         with pool.connection() as conn:
             with conn.cursor() as db:
 
                 result = db.execute(
                     """
-                    SELECT id,owner,availability_start,availability_end
+                    SELECT id,owner,availability_start,availability_end, mono_id
                     FROM cover_event_vos
                     WHERE team = %s
                     """,
                     [tid]
                 )
                 events['cover_events']=self.to_dict(result.fetchall(),result.description)
+        print(events)
         return events
 
     def to_dict(self,rows,description):
