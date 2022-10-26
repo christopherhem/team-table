@@ -21,6 +21,7 @@ import {
   FaSignOutAlt
 } from 'react-icons/fa';
 import { useSignOutMutation } from '../../store/UsersApi';
+import { useGetUsersTeamsQuery } from '../../store/UsersApi';
 
 function SignOutButton() {
   const navigate = useNavigate();
@@ -36,7 +37,7 @@ function SignOutButton() {
     <Link
       className="sidebar-btn"
       style={{ cursor: 'pointer' }}
-      onClick={signOut} 
+      onClick={signOut}
     >
       <FaSignOutAlt />
       <span>Logout</span>
@@ -45,12 +46,19 @@ function SignOutButton() {
 }
 
 const HomeSidebar = ({
-  image,
   collapsed,
   toggled,
   handleToggleSidebar,
   handleCollapsedChange
 }) => {
+  const { data: teamData, isLoading: isLoadingTeam } = useGetUsersTeamsQuery();
+  console.log(teamData)
+
+  if (isLoadingTeam) {
+    return (
+      <progress className="progress is-primary" max="100"></progress>
+    );
+  }
   return (
     <ProSidebar
       collapsed={collapsed}
@@ -95,13 +103,31 @@ const HomeSidebar = ({
             My Home
             <NavLink to="/" />
           </MenuItem>
-          <MenuItem
+          <SubMenu
+            suffix={<span className="badge yellow">1000</span>}
+            title={'Teams'}
+            icon={<FaPeopleArrows />}
+          >
+            {
+              teamData.map((teams) => {
+                const url = new URL(teams.team_href)
+                const splitPaths = url.pathname.split('/')
+                const teamId = splitPaths[splitPaths.length - 1]
+                const teamName = teams.name
+                return (
+                  <MenuItem>
+                  <Link to="/team" state={{ id: teamId }}>{teamName}</Link>
+                  </MenuItem>
+                );
+              })}
+          </SubMenu>
+          {/* <MenuItem
             icon={<FaPeopleArrows />}
             suffix={<span className="badge red">NEW</span>}
           >
             Teams
             <NavLink to="/team" />
-          </MenuItem>
+          </MenuItem> */}
           {/* <MenuItem icon={<FaGem />}>Components </MenuItem> */}
           <MenuItem icon={<FaCalendarDay />}>
             My Events <Link to="/events" />
