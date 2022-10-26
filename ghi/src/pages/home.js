@@ -28,6 +28,7 @@ function UserHome() {
     const [deleteShift, shiftResult] = useDeleteShiftSwapEventMutation();
     const { data: userData, isLoading: isLoadingUser } = useGetTokenQuery();
     const { data: eventData, isLoading: isLoadingEvent } = useGetUserCoverEventsQuery();
+    console.log("Event:", eventData)
     const { data: shiftData, isLoading: isLoadingShift } = useGetUserShiftSwapEventsQuery();
     if (isLoadingEvent || isLoadingShift || isLoadingUser) {
         return (
