@@ -2,7 +2,6 @@ import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom';
 import ErrorNotification from '../../ErrorNotification';
 import { useCreateUsersMutation } from '../../store/UsersApi';
-import { useGetTokenQuery } from '../../store/UsersApi';
 
 import {
     Container,
@@ -25,13 +24,14 @@ function SignUp() {
     const [error, setError] = useState(null);
     const [createUser, result] = useCreateUsersMutation();
 
-    async function handleSubmit(e) {
+    function handleSubmit(e) {
         e.preventDefault();
         createUser({email, username, first_name, last_name, password});
     }
     if (result.isSuccess) {
         console.log("Signup Successful")
-        navigate('/');
+        setTimeout(navigate('/'), 1000)
+        window.location.reload()
     } else if (result.isError) {
         setError(result.error);
     }

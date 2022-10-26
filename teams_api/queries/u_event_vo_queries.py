@@ -81,7 +81,7 @@ class EventVoRepository:
                 )
                 return self.to_dict(result.fetchall(),result.description)
 
-    
+
 
     def create_cover_event(self, event:EventVoIn, user):
 

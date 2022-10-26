@@ -127,8 +127,8 @@ class SafeSwapEventVoOut(BaseModel):
     mono_id:int
 
 class EventsOut(BaseModel):
-    swap_events: List[SafeSwapEventVoOut]
-    cover_events: List[SafeCoverEventVoOut]
+    swap_events: List[SafeSwapEventVoOut] | SafeSwapEventVoOut
+    cover_events: List[SafeCoverEventVoOut] | SafeCoverEventVoOut
 
 class ValidSwapOut(BaseModel):
     user_event : SwapEventVoOut
@@ -152,4 +152,3 @@ class ValidCoverUserListOut(BaseModel):
 
 class ValidUserCoverListOut(BaseModel):
     user_covers: list[ValidUserCoverOut]
-

@@ -1,3 +1,15 @@
+## 10/25/2022
+
+* today I worked ont he edit and delete functionality for the events and got the team dashboard almost finished
+
+I was able to finally get the edit and delete functinality working. It took around 3 hours to figure out what was going wrong with it even with multiple seirs helping. We finally got it working right before lunch though so I was supper excited! I was able to get the team events in the team dashboard page and get it looking nice. Overall, it was a productive day.
+
+## 10/24/2022
+
+* I worked on created the teams page today and get the edit and delete functionality for the events set up
+
+I code most of the day trying to get started on the Team Dashboard. I was able get the team members on the page and then I stopped to try and working the events. I tried to get the edit functionality working on the events in the user dashboard but hit a blocker on passing the id through. It was late so I talked with Tyler a bit about it because I was using modals and he is experienced with them. He was doing it a completely different way than my team so I just decided to wait until the next day to really tackle it.
+
 ## 10/20/2022
 
 * I pair programmed with chris today and made a query to get a users teams

@@ -1,22 +1,18 @@
 import { useState } from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import { TeamDashboard } from './components/teams/team_dash.js';
+import { useGetTokenQuery } from './store/UsersApi.js';
+import { FaBars } from 'react-icons/fa';
 import SignIn from './components/users/signin.js';
 import SignUp from './components/users/signup.js';
-import { TeamDashboard } from './components/teams/team_dash.js';
-
 import Landing from './pages/landing';
 import UserHome from './pages/home';
-
-import { FaBars } from 'react-icons/fa';
 import HomeSidebar from './components/dashboard/HomeSidebar.js';
-
-import { useGetTokenQuery } from './store/UsersApi.js';
 
 import './styles.scss';
 
 function App() {
   const [collapsed, setCollapsed] = useState(false);
-  // const [image, setImage] = useState(false);
   const [toggled, setToggled] = useState(false);
   const { data, error, isLoading } = useGetTokenQuery();
 
@@ -25,15 +21,9 @@ function App() {
       <progress className="progress is-primary" max="100"></progress>
     );
   }
-
   const handleCollapsedChange = () => {
     setCollapsed(!collapsed);
   };
-
-  // const handleImageChange = (checked) => {
-  //   setImage(checked);
-  // };
-
   const handleToggleSidebar = (value) => {
     setToggled(value);
   };
@@ -42,7 +32,6 @@ function App() {
       {data != null ?
         <div className={`app ${toggled ? 'toggled' : ''}`}>
           <HomeSidebar
-            // image={image}
             collapsed={collapsed}
             toggled={toggled}
             handleToggleSidebar={handleToggleSidebar}
@@ -53,14 +42,15 @@ function App() {
               <FaBars />
             </div>
             <Routes>
-              <Route path='/' element={<UserHome />} />
-              <Route path='/team' element={<TeamDashboard />} />
+              <Route forceRefresh={true} path='/' element={<UserHome />} />
+              <Route path='team' element={<TeamDashboard />} />
+  
             </Routes>
           </main>
         </div>
         :
         <Routes>
-          <Route path='/' element={<Landing />} />
+          <Route forceRefresh={true} path='/' element={<Landing />} />
           <Route path='/signin' element={<SignIn />} />
           <Route path="signup" element={<SignUp />} />
         </Routes>

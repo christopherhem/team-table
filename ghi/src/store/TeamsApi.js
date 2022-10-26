@@ -31,7 +31,7 @@ export const teamsApi = createApi({
             invalidatesTags: ['Team'],
         }),
         updateTeam: builder.mutation({
-            query: (tid, data) => ({
+            query: ({tid, ...data}) => ({
                 url: `api/teams/${tid}`,
                 body: data,
                 method: 'PUT',
@@ -71,7 +71,7 @@ export const teamsApi = createApi({
             invalidatesTags:['Roles']
         }),
         updateRole: builder.mutation({
-            query:(tid, rid, data)=>({
+            query:({tid, rid, ...data})=>({
                 url:`api/teams/${tid}/roles/${rid}`,
                 body: data,
                 method: 'PUT',
@@ -104,7 +104,7 @@ export const teamsApi = createApi({
             invalidatesTags: ['Members']
         }),
         updateMember : builder.mutation({
-            query: (tid,mid,data)=>({
+            query: ({tid,mid,...data})=>({
                 url: `api/teams/${tid}/members/${mid}`,
                 body: data,
                 method: "PUT",
@@ -151,7 +151,7 @@ export const teamsApi = createApi({
             invalidatesTags: ['TeamTypes']
         }),
         updateType : builder.mutation({
-            query: (id,data)=>({
+            query: ({id,...data})=>({
                 url: `api/teams/types/${id}`,
                 body: data,
                 method: "PUT",

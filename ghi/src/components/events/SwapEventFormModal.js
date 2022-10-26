@@ -1,4 +1,4 @@
-// Create Event Form Modal 
+// Create Event Form Modal
 import React, { useState } from 'react'
 import styles from "./Modal.module.css"
 import { RiCloseLine } from "react-icons/ri"
@@ -22,7 +22,7 @@ export default function SwapEventFormModal({ setIsOpenSwap }) {
   }
 
 
-  console.log("Data:", data)
+
 
   async function handleSubmit(e) {
     e.preventDefault();
@@ -82,5 +82,3 @@ export default function SwapEventFormModal({ setIsOpenSwap }) {
     </>
   );
 };
-
-

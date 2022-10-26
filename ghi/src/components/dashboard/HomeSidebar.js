@@ -1,3 +1,5 @@
+import { useNavigate } from 'react-router-dom';
+import { useEffect } from 'react';
 import { Link, NavLink } from 'react-router-dom';
 import {
   ProSidebar,
@@ -16,8 +18,31 @@ import {
   FaCalendarDay,
   FaHome,
   FaPencilAlt,
+  FaSignOutAlt
 } from 'react-icons/fa';
-// import sidebarBg from '../assets/bg1.jpg';
+import { useSignOutMutation } from '../../store/UsersApi';
+
+function SignOutButton() {
+  const navigate = useNavigate();
+  const [signOut, { data }] = useSignOutMutation();
+
+  useEffect(() => {
+    if (data) {
+      navigate('/');
+    }
+  }, [data, navigate]);
+
+  return (
+    <Link
+      className="sidebar-btn"
+      style={{ cursor: 'pointer' }}
+      onClick={signOut} 
+    >
+      <FaSignOutAlt />
+      <span>Logout</span>
+    </Link>
+  );
+}
 
 const HomeSidebar = ({
   image,
@@ -28,13 +53,11 @@ const HomeSidebar = ({
 }) => {
   return (
     <ProSidebar
-      // image={image ? sidebarBg : false}
       collapsed={collapsed}
       toggled={toggled}
       onToggle={handleToggleSidebar}
       breakPoint="md"
     >
-      {/* Header */}
       <SidebarHeader>
         <Menu iconShape="circle">
           {collapsed ? (
@@ -56,7 +79,7 @@ const HomeSidebar = ({
                   letterSpacing: '1px'
                 }}
               >
-                Team Table 
+                Team Table
               </div>
             </MenuItem>
           )}
@@ -122,6 +145,7 @@ const HomeSidebar = ({
             <FaUser />
             <span>My Account</span>
           </Link>
+          <SignOutButton />
         </div>
       </SidebarFooter>
     </ProSidebar>

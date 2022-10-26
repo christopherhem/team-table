@@ -53,7 +53,7 @@ export const usersApi = createApi({
             providesTags: ['Token'],
             invalidatesTags: ['UserCoverEventsList']
         }),
-        logIn: builder.mutation({
+        signIn: builder.mutation({
             query: info => {
               let formData = null;
               if (info instanceof HTMLElement) {
@@ -188,5 +188,5 @@ export const {
     useCreateUsersMutation,
     useCreateTokenMutation,
     useSignOutMutation,
-    useLogInMutation,
+    useSignInMutation,
     useGetTokenQuery, } = usersApi;
