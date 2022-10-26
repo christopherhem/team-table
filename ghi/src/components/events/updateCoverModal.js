@@ -24,9 +24,7 @@ export default function UpdateCoverFormModal({ setIsOpenUpdateCover, id }) {
     async function handleSubmit(e) {
       e.preventDefault();
       updateCover({id, availability_start, availability_end })
-      console.log("HEREREE")
       setIsOpenUpdateCover(false);
-      console.log(result)
     }
 
     return (

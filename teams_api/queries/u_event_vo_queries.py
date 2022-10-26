@@ -81,7 +81,7 @@ class EventVoRepository:
                 )
                 return self.to_dict(result.fetchall(),result.description)
 
-    
+
 
     def create_cover_event(self, event:EventVoIn, user):
 
@@ -178,7 +178,6 @@ class EventVoRepository:
                     [tid]
                 )
                 events['cover_events']=self.to_dict(result.fetchall(),result.description)
-        print(events)
         return events
 
     def to_dict(self,rows,description):
