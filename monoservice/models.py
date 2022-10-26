@@ -17,7 +17,6 @@ class CoverEventOut(BaseModel):
     availability_end: datetime
     user_id: int
     team_href: str
-    team_name: str
 
 class ShiftSwapEventIn(BaseModel):
     shift_start: datetime
@@ -40,7 +39,6 @@ class ShiftSwapEventOut(BaseModel):
     availability_end: datetime
     user_id: int
     team_href: str
-    team_name : str
 
 class TableOut(BaseModel):
     events: list[ShiftSwapEventOut]
