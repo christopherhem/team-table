@@ -43,7 +43,7 @@ function App() {
             </div>
             <Routes>
               <Route forceRefresh={true} path='/' element={<UserHome />} />
-              <Route path='/team' element={<TeamDashboard />} />
+              <Route path='team' element={<TeamDashboard />} />
   
             </Routes>
           </main>

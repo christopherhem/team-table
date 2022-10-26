@@ -23,6 +23,7 @@ export function TeamDashboard() {
     }
 
     return (
+      // <h1>Hello Team Page</h1>
         <div>
 
         {/* <SideNavbar /> */}
