@@ -167,16 +167,9 @@ export const teamsApi = createApi({
             }),
             invalidatesTags : ['']
         }),
-        performSwap :builder.mutation({
-            /**
-             *
-             * @param {"user1":username,"user2":username,} data
-             * @returns
-             */
-            query:(data)=>({
-                url:``,
-                body: data,
-                method:"POST",
+        performSwap :builder.query({
+            query:()=>({
+                url:"/api/swaps/",
                 credentials: 'include'
             }),
             invalidatesTags: ['TeamEvents']

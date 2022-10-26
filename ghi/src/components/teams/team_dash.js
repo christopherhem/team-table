@@ -83,7 +83,7 @@ export function TeamDashboard() {
                   </tr>
                 </thead>
                 <tbody>
-                  {
+                  { (eventData.cover_events.length > 1) ?
                     eventData.cover_events.map((cover) => {
                       let start = new DateObject(cover.availability_start)
                       let end = new DateObject(cover.availability_end)
@@ -97,6 +97,13 @@ export function TeamDashboard() {
                         </tr>
                       )
                     })
+                    :
+                    <tr key={eventData.cover_events.id}>
+                      <td>{eventData.cover_events.owner}</td>
+                      <td>{new DateObject(eventData.cover_events.availability_end).format("ddd DD MMM YYYY")}</td>
+                      <td>{new DateObject(eventData.cover_events.availability_end).format("ddd DD MMM YYYY")}</td>
+                    </tr>
+
                   }
                 </tbody>
               </Table>
@@ -112,7 +119,7 @@ export function TeamDashboard() {
                   </tr>
                 </thead>
                 <tbody>
-                  {
+                  { (eventData.swap_events > 1) ?
                     eventData.swap_events.map((swap) => {
                       let shift_s = new DateObject(swap.shift_start)
                       let shift_start = shift_s.format("ddd DD MMM YYYY")
@@ -131,7 +138,14 @@ export function TeamDashboard() {
                           <td>{end_date}</td>
                         </tr>
                       )
-                    })
+                    }):
+                    <tr key={eventData.swap_events.id}>
+                    <td>{eventData.swap_events.owner}</td>
+                    <td>{new DateObject(eventData.swap_events.shift_start).format("ddd DD MMM YYYY")}</td>
+                    <td>{new DateObject(eventData.swap_events.shift_end).format("ddd DD MMM YYYY")}</td>
+                    <td>{new DateObject(eventData.swap_events.availability_start).format("ddd DD MMM YYYY")}</td>
+                    <td>{new DateObject(eventData.swap_events.availability_end).format("ddd DD MMM YYYY")}</td>
+                  </tr>
                   }
                 </tbody>
               </Table>
