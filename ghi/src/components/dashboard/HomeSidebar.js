@@ -1,6 +1,8 @@
 import { useNavigate } from 'react-router-dom';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { Link, NavLink } from 'react-router-dom';
+import styles from "../../components/dashboard/Home.module.css"
+import TeamFormModal from '../teams/TeamFormModal';
 import {
   ProSidebar,
   Menu,
@@ -51,8 +53,8 @@ const HomeSidebar = ({
   handleToggleSidebar,
   handleCollapsedChange
 }) => {
-  const { data: teamData, isLoading: isLoadingTeam } = useGetUsersTeamsQuery();
-  console.log(teamData)
+  const [isOpenTeam, setIsOpenTeam] = useState(false)
+  const { data: teamData, error: teamError, isLoading: isLoadingTeam } = useGetUsersTeamsQuery();
 
   if (isLoadingTeam) {
     return (
@@ -108,7 +110,7 @@ const HomeSidebar = ({
             title={'Teams'}
             icon={<FaPeopleArrows />}
           >
-            {
+            { teamData.length > 1 ?
               teamData.map((teams) => {
                 const url = new URL(teams.team_href)
                 const splitPaths = url.pathname.split('/')
@@ -118,8 +120,16 @@ const HomeSidebar = ({
                   <MenuItem>
                   <Link to="/team" state={{ id: teamId }}>{teamName}</Link>
                   </MenuItem>
-                );
-              })}
+                )
+              }): teamData.length === 1 ?
+              (<MenuItem>
+                <Link to="/team" state={{ id: new URL (teamData.team_href).pathname.split('/')[-2] }}>{teamData.name}</Link>
+              </MenuItem>)
+              :
+              <div>
+                <button className={styles.primaryBtn} onClick={() => setIsOpenTeam(true)}>Create Team</button>{isOpenTeam && <TeamFormModal setIsOpenTeam={setIsOpenTeam} />}
+              </div>
+              }
           </SubMenu>
           {/* <MenuItem
             icon={<FaPeopleArrows />}
