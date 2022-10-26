@@ -43,3 +43,6 @@ I finished the base code for the members pub sub though I did not bug test it. I
 
 ## 10/24/2022
 Completed members pub sub and bug fixed/fully tested it, made necessary changes to roles model and endpoints, and started work on the comparison logic for creating swap lists. Ran into trouble with date time object comparisons but figured out I was causing an error in a different way, I learned that timestamp objects from sql automatically get imported as datetime objects to python. I also helped with smaller bug fixes/questions that louise and christopher had about backend stuff.
+
+## 10/25/2022
+Finished all logic for swaps and began troubleshooting. Logic works for queries to get valid swaps and covers, and logic works on main service to swap events and covers but does not yet update through the pub sub properly. Will continue to resolve issues to get this working.

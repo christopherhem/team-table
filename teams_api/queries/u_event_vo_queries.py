@@ -49,13 +49,13 @@ class EventVoRepository:
                 return self.to_dict(result.fetchall(),result.description)
 
     def delete_swap_event(self,event):
-        with pool.connection as conn:
-            with conn.cursor as db:
+        with pool.connection() as conn:
+            with conn.cursor() as db:
                 db.execute(
                     """
                     DELETE FROM shift_swap_event_vos WHERE mono_id = %s
                     """,
-                    [event['id']]
+                    [event.id]
                 )
         return True
 
@@ -122,13 +122,13 @@ class EventVoRepository:
                 return self.to_dict(result.fetchall(),result.description)
 
     def delete_cover_event(self,event):
-        with pool.connection as conn:
-            with conn.cursor as db:
+        with pool.connection() as conn:
+            with conn.cursor() as db:
                 db.execute(
                     """
                     DELETE FROM cover_event_vos WHERE mono_id = %s
                     """,
-                    [event['id']]
+                    [event.id]
                 )
         return True
 
