@@ -26,10 +26,11 @@ def swap_for_swap(
             if result == True:
                 headers = request.headers
                 for swap in list(swaps):
-                    for key in dict(swap):
-                        if type(swap[key])==datetime:
-                            str(swap[key])
-                    data = json.dumps(swap)
+                    temp = dict(swap)
+                    for key in temp:
+                        if type(temp[key])==datetime:
+                            temp[key] = str(temp[key])
+                    data = json.dumps(temp)
                     requests.delete("http://pubsub:8000/api/seps/",data=data,headers=headers)
                 return True
             return False
@@ -45,18 +46,20 @@ def cover_for_swap(
     repo: SwapRepository = Depends()
 
 ):
-    if user['id'] == cover['user_id'] or user['id'] == swap['user_id']:
+    if user['id'] == cover.user_id or user['id'] == swap.user_id:
         result = repo.perform_cover(cover,swap)
         if result:
             headers = request.headers
-            for key in cover:
-                if type(cover[key]) == datetime:
-                    str(cover[key])
-            for key in swap:
-                if type(swap[key]) == datetime:
-                    str(swap[key])
-            data1 = json.dumps(swap)
-            data2 = json.dumps(cover)
+            tempcover = dict(cover)
+            for key in tempcover:
+                if type(tempcover[key]) == datetime:
+                    tempcover[key] = str(tempcover[key])
+            tempswap = dict(swap)
+            for key in tempswap:
+                if type(tempswap[key]) == datetime:
+                    tempswap[key] = str(tempswap[key])
+            data1 = json.dumps(tempswap)
+            data2 = json.dumps(tempcover)
             requests.delete("http://pubsub:8000/api/seps/",data=data1,headers=headers)
             requests.delete("http://pubsub:8000/api/seps/",data=data2,headers=headers)
             pushevent = {}

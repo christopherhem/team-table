@@ -34,8 +34,8 @@ class SwapRepository:
         return True
 
     def perform_cover(self,cover,swap):
-        covermessage = f"You are now covering a shift from {cover['availability_start']} to {cover['availability_end']} for {cover['team_name']}"
-        swapmessage =  f"Your shift from {swap['shift_start']} to {swap['shift_end']} is now covered. You will be assigned a shift to cover in return soon"
+        covermessage = f"You are now covering a shift from {cover.availability_start} to {cover.availability_end} "
+        swapmessage =  f"Your shift from {swap.shift_start} to {swap.shift_end} is now covered. You will be assigned a shift to cover in return soon"
         with pool.connection() as conn:
             with conn.cursor() as db:
                 db.execute(
@@ -43,7 +43,7 @@ class SwapRepository:
                     INSERT INTO notifications (user_id, message)
                     VALUES (%s,%s)
                     """,
-                    [cover['user_id'],covermessage]
+                    [cover.user_id,covermessage]
                 )
         with pool.connection() as conn:
             with conn.cursor() as db:
@@ -52,7 +52,7 @@ class SwapRepository:
                     INSERT INTO notifications (user_id, message)
                     VALUES (%s,%s)
                     """,
-                    [swap['user_id'],swapmessage]
+                    [swap.user_id,swapmessage]
                 )
         with pool.connection() as conn:
             with conn.cursor() as db:
@@ -60,7 +60,7 @@ class SwapRepository:
                     """
                     DELETE FROM cover_events WHERE id = %s
                     """,
-                    [cover['id']]
+                    [cover.id]
                 )
         with pool.connection() as conn:
             with conn.cursor() as db:
@@ -68,7 +68,7 @@ class SwapRepository:
                     """
                     DELETE FROM shift_swap_events WHERE id = %s
                     """,
-                    [swap['id']]
+                    [swap.id]
                 )
         with pool.connection() as conn:
             with conn.cursor() as db:
@@ -78,7 +78,7 @@ class SwapRepository:
                     VALUES (%s, %s, %s, %s)
                     RETURNING id, availability_start, availability_end, user_id, team_href
                     """,
-                    [swap['availability_start'],swap['availability_end'],swap['user_id'],swap['team_href']]
+                    [swap.availability_start,swap.availability_end,swap.user_id,swap.team_href]
                 )
                 created_cover = self.to_dict(db.fetchall(),db.description) 
         return created_cover
