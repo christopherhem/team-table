@@ -76,3 +76,6 @@ I worked on the dashboard and was able to finally complete it when a user logs i
 ## October 25, 2022
 
 Today we found a bug within the dashboard that dealt with a user still logged in. I was able to implement a code that would check if a token was valid for a user that is logged and if it was true, it would render the User's Dashboard otherwise it would display the main landing page. I'm still occasionally making small tweaks to try to beautify the application. Still have a bunch of other stuff we need to add to make it function time is going by so fast...Trying to be better at managing certain problems and not spending so much time on them. 
+
+## October 26, 2022
+
