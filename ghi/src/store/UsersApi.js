@@ -163,13 +163,6 @@ export const usersApi = createApi({
             }),
             invalidatesTags: ['UserShiftSwapEventsList']
         }),
-        GetUsersTeams: builder.query({
-            query: () => ({
-                url: '/api/main/teams/byuser/',
-                credentials: 'include'
-            }),
-            providesTags: ['UserTeams']
-        })
     }),
 });
 export const {

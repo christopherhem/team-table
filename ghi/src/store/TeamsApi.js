@@ -167,7 +167,7 @@ export const teamsApi = createApi({
             }),
             invalidatesTags : ['']
         }),
-        performSwap :builder.query({
+        getValidSwaps : builder.query({
             query:()=>({
                 url:"/api/swaps/",
                 credentials: 'include'
@@ -213,6 +213,7 @@ export const teamsApi = createApi({
 
 });
 export const {
+    useGetValidSwapsQuery,
     useCreateMemberMutation,
     useCreateRoleMutation,
     useCreateTeamMutation,
