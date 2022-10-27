@@ -9,8 +9,8 @@ import json
 client = TestClient(app)
 
 class TestTeamRepository:
-    def create(name, type, description):
-        result = {'id' : 1, 'name' : name, 'type' : type, 'description' : description, 'pay_level' : 1}
+    def create(self, team, user):
+        result = {'id' : 1, 'name' : team.name, 'type' : team.type, 'description' : team.description, 'pay_level' : 1}
         return result
 
 def get_test_user():
@@ -22,7 +22,7 @@ def test_create_team_route():
     app.dependency_overrides[
         TeamRepository
     ] = TestTeamRepository
-    team = json.dumps({'name' : 'test', 'type' : 1, 'description' : "test description"})
-    response = client.post('api/teams/', data = team)
+    team = ({'name' : 'test', 'type' : 1, 'description' : "test description"})
+    response = client.post('api/teams/', json = team)
     assert response.status_code == 200
     assert response.json() == {'id':1, "name":"test", "type":1,"description": "test description", "pay_level":1} 
