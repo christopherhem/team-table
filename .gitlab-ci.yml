@@ -3,7 +3,8 @@ stages:
   # - build
   # - deploy
 
-
+variables:
+  DATABASE_URL: postgresql://teams:password@postgres/teams
 ##TEST
 teams-api-unit-tests-job:
   stage: test
