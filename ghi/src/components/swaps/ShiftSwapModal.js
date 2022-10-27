@@ -1,8 +1,8 @@
 // Create Event Form Modal
-import React, { useState } from 'react'
+import React, { useState, useCallback } from 'react'
 import styles from '../events/Modal.module.css'
 import { RiCloseLine } from "react-icons/ri"
-import { usePerformSwapMutation } from '../../store/UsersApi';
+import { usePerformSwapMutation, useGetUserShiftSwapEventsQuery, useGetTokenQuery} from '../../store/UsersApi';
 import { useGetValidSwapsQuery } from '../../store/TeamsApi';
 import {
   Container,
@@ -17,32 +17,30 @@ import {
 import DateObject from 'react-date-object';
 
 
-export default function Swap({ setIsOpenSwap }) {
+export default function Swap({ setIsOpenSwap, id }) {
+  console.log(id)
   const [swap, setSwap] = useState([]);
-  const [user_event, setUserEvent] = useState();
   const [valid_swap, setValidSwap] = useState({});
-  const { data, error, isLoading } = useGetValidSwapsQuery();
+  const {data: validData, isLoadingSwaps} = useGetValidSwapsQuery(id);
   const [performSwap, result] = usePerformSwapMutation();
 
-  if (isLoading) {
+  if (isLoadingSwaps ) {
     return (
       <progress className="progress is-primary" max="100"></progress>
     );
   }
-
-
-  const validData = []
-  for (let obj of data.swaps) {
-    if (obj.valid_swaps.length > 0) {
-      validData.push(obj)
-    }
-  }
+console.log(validData)
+//  const validSwapsCallBack = useCallback ((e) => {
+//     const {data: validData} = useGetValidSwapsQuery(e);
+//     console.log(validData)
+//   },
+//   [user_event],);
 
 
   async function handleSubmit(e) {
     e.preventDefault();
     setIsOpenSwap(false);
-    performSwap([{user_event, valid_swap}]);
+    // performSwap([{user_event, valid_swap}]);
   }
 
   return (
@@ -58,17 +56,17 @@ export default function Swap({ setIsOpenSwap }) {
           </button>
           <form className={styles.modalContent} onSubmit={(e) => handleSubmit(e)}>
             <div className="mb-3">
-              <select onChange={e => setUserEvent(e.target.value)} value={user_event} className="form-select" name="user_event" id="user_event">
+              {/* <select onChange={e => setValidSwap(e.target.value)} value={valid_swap} className="form-select" name="valid_swap" id="valid_swap">
                 <option value="">Select a Team</option>
-                {validData.map((obj, index) => {
+                {validData.map((obj) => {
                   return (
-                    <option key={index} value={obj.user_event.mono_id}>{new DateObject(obj.user_event.shift_start).format("ddd DD MMM YYYY hh mm")}</option>
+                    <option key={obj.mono_id} value={obj.mono_id}>{new DateObject(obj.shift_start).format("ddd DD MMM YYYY hh mm")}</option>
                   );
                 })}
-              </select>
+              </select> */}
             </div>
             <div className="mb-3">
-              { user_event ?
+              {/* { user_event ?
               <select onChange={e => setValidSwap(e.target.value)} value={valid_swap} className="form-select" name="valid_swap" id="valid_swap">
                 <option value="">Select a Team</option>
                 {validData.map((shift) => {
@@ -82,7 +80,7 @@ export default function Swap({ setIsOpenSwap }) {
                   }
                     })
                   }
-              </select>: null}
+              </select>: null} */}
 
             </div>
             <div className={styles.modalActions}>

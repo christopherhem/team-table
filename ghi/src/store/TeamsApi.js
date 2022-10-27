@@ -168,8 +168,8 @@ export const teamsApi = createApi({
             invalidatesTags : ['']
         }),
         getValidSwaps : builder.query({
-            query:()=>({
-                url:"/api/swaps/",
+            query:(id)=>({
+                url:`/api/swapbyswap/${id}`,
                 credentials: 'include'
             }),
             invalidatesTags: ['TeamEvents']

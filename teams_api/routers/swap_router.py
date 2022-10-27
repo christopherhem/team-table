@@ -35,12 +35,12 @@ def get_valid_covers_for_user(
 ):
     return repo.get_valid_covers(user)
 
-@router.get("/api/swapbyswap/")
+@router.get("/api/swapbyswap/{event_id}")
 def get_valid_swaps_for_single_swap(
     response:Response,
     request:Request,
     repo:SwapRepository = Depends(),
     user = Depends(get_current_user),
-    user_event = EventVoIn
+    event_id = int
 ):
-    return repo.get_swaps_for_single_swap(user, user_event)
+    return repo.get_swaps_for_single_swap(user, event_id)

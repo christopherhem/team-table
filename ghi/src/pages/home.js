@@ -32,11 +32,9 @@ function UserHome() {
     const { data: userData, isLoading: isLoadingUser } = useGetTokenQuery();
     const { data: eventData, isLoading: isLoadingEvent } = useGetUserCoverEventsQuery();
     const { data: shiftData, isLoading: isLoadingShift } = useGetUserShiftSwapEventsQuery();
-    const {data: swapData, isLoading: isLoadingSwaps} = useGetValidSwapsQuery();
-    const [performSwap, setPerformSwap] = usePerformSwapMutation();
 
 
-    if (isLoadingEvent || isLoadingShift || isLoadingUser || isLoadingSwaps) {
+    if (isLoadingEvent || isLoadingShift || isLoadingUser ) {
         return (
             <progress className="progress is-primary" max="100"></progress>
         );
@@ -47,9 +45,6 @@ function UserHome() {
         setIsOpen(!isOpen)
     }
 
-    const handleClick = () => {
-        performSwap(swapData)
-    }
 
     return (
         <>
@@ -58,13 +53,14 @@ function UserHome() {
             </h1>
             <div>
                 <Card>
-                <button className={styles.primaryBtn} onClick={() => setIsOpenSwap(true)}>Swap Shifts</button>{isOpenSwap && <Swap setIsOpenSwap={setIsOpenSwap} />}
+
                     <CardBody>
                         {/* <button className={styles.editBtn} onClick={handleClick}>Swap Your Shifts!</button> */}
                         <NavLogo tag="h5" color="#6C63FF">Your Cover Events</NavLogo>
                         <Table className="border table-striped no-wrap mt-3 align-middle" response border>
                             <thead>
                                 <tr>
+                                    <th>Swap</th>
                                     <th>Edit</th>
                                     <th>Delete</th>
                                     <th>Availability Start</th>
@@ -102,6 +98,7 @@ function UserHome() {
                         <Table className="border table-striped no-wrap mt-3 align-middle" response border>
                             <thead>
                                 <tr>
+                                    <th>Swap</th>
                                     <th>Edit</th>
                                     <th>Delete</th>
                                     <th>Shift Start</th>
@@ -128,6 +125,9 @@ function UserHome() {
 
                                     return (
                                         <tr key={shift.id}>
+                                            <td>
+                                                <button className={styles.primaryBtn} onClick={() => setIsOpenSwap(true)}>Swap Shifts</button>{isOpenSwap && <Swap setIsOpenSwap={setIsOpenSwap} id={id}/>}
+                                            </td>
                                             <td>
                                                 <button className={styles.editBtn} onClick={() => setIsOpenUpdateShift(true)}>Edit</button>{isOpenUpdateShift && <UpdateShiftFormModal setIsOpenUpdateShift={setIsOpenUpdateShift} id={id} />}
                                             </td>
