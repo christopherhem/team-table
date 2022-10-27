@@ -40,6 +40,8 @@ services:
       - ./teams_api:/app
     depends_on:
       - postgres
+    env_file:
+      - ./.env
     environment:
       DATABASE_URL: postgresql://teams:password@postgres/teams
       WAIT_HOSTS: postgres:5432

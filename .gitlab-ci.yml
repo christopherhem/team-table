@@ -12,6 +12,7 @@ teams-api-unit-tests-job:
     - cd teams_api
     - pip install -r requirements.txt
     - pip install pytest
+    - export DATABASE_URL = 'postgresql://teams:password@postgres/teams'
     - python -m pytest
 
 # monoservice-api-unit-tests-job:
