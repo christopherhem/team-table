@@ -1,5 +1,5 @@
 from fastapi import APIRouter, Depends, status, Response, HTTPException, Request
-from models import ValidCoverUserListOut, ValidUserCoverListOut, ValidSwapListOut
+from models import ValidCoverUserListOut, ValidUserCoverListOut, ValidSwapListOut, EventVoIn
 from typing import Union, List
 from queries.swap_queries import SwapRepository
 from .users_dependencies import get_current_user
@@ -34,3 +34,13 @@ def get_valid_covers_for_user(
     user = Depends(get_current_user)
 ):
     return repo.get_valid_covers(user)
+
+@router.get("/api/swapbyswap/")
+def get_valid_swaps_for_single_swap(
+    response:Response,
+    request:Request,
+    repo:SwapRepository = Depends(),
+    user = Depends(get_current_user),
+    user_event = EventVoIn
+):
+    return repo.get_swaps_for_single_swap(user, user_event)
