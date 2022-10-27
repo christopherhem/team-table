@@ -1,31 +1,22 @@
-// Create Event Form Modal 
+// Create Role Form Modal 
 import React, { useState } from 'react'
 import styles from "../events/Modal.module.css"
 import { RiCloseLine } from "react-icons/ri"
 import { useCreateRoleMutation } from '../../store/TeamsApi';
-import { useGetUsersTeamsQuery } from '../../store/UsersApi';
-
 
 export default function RoleFormModal({ setIsOpenRole }) {
   const [name, setName] = useState('');
   const [team, setTeam] = useState('');
+  const [can_invite, setInvite] = useState(false);
+  const [can_approve, setApprove] = useState(false);
+
   const [createRole, result] = useCreateRoleMutation();
-  const { data, error, isLoading } = useGetUsersTeamsQuery([]);
-
-
-  if (isLoading) {
-    return (
-      <progress className="progress is-primary" max="100"></progress>
-    );
-  }
-
-  console.log("Data:", data)
 
   async function handleSubmit(e) {
     e.preventDefault();
     setIsOpenRole(false)
-    createRole({ name, team });
-    console.log(result)
+    createRole({ name, team, can_invite, can_approve });
+    console.log("Result:", result)
   }
 
   return (
@@ -41,32 +32,35 @@ export default function RoleFormModal({ setIsOpenRole }) {
           </button>
           <form className={styles.modalContent} onSubmit={(e) => handleSubmit(e)}>
             <h6>Enter role name</h6>
-            {/* <input type="text" id="name" value={shift_start} onChange={e => setName(e.target.value)} />
+            <input type="text" id="name" value={name} onChange={e => setName(e.target.value)} />
             <hr></hr>
-            <h6>Enter Team</h6>
-            <div className="mb-3">
-              <select onChange={e => setTeam(e.target.value)} value={team_href} className="form-select" name="team_href" id="team_href">
-                <option value="">Select a Team</option>
-                {data.map((team) => {
-                  return (
-                    <option key={team.team_href} value={team.team_href}>{team.name}</option>
-                  );
-                })}
-              </select> */}
-              {/* </div> */}
-              <div className={styles.modalActions}>
-                <div className={styles.actionsContainer}>
-                  <button type="submit" className={styles.deleteBtn}>
-                    Submit
-                  </button>
-                  <button type="button"
-                    className={styles.cancelBtn}
-                    onClick={() => setIsOpenRole(false)}
-                  >
-                    Cancel
-                  </button>
-                </div>
+            <h6>Enter Team Number</h6>
+            <input onChange={e => setTeam(e.target.value)} value={team} type="number" name="type" id="type">
+            </input>
+            <hr></hr>
+            <div className="checkbox-wrapper">
+            <h6>Privileges</h6>
+              <label> Can Invite
+                <input onChange={e => setInvite(e.target.value)} type="checkbox" checked={can_invite} />
+              </label>
+              <br></br>
+              <label> Can Approve
+                <input onChange={e => setApprove(e.target.value)} type="checkbox" checked={can_approve} />
+              </label>
+            </div>
+            <div className={styles.modalActions}>
+              <div className={styles.actionsContainer}>
+                <button type="submit" className={styles.deleteBtn}>
+                  Submit
+                </button>
+                <button type="button"
+                  className={styles.cancelBtn}
+                  onClick={() => setIsOpenRole(false)}
+                >
+                  Cancel
+                </button>
               </div>
+            </div>
           </form>
         </div>
       </div>
