@@ -16,14 +16,14 @@ teams-api-unit-tests-job:
     - pip install pytest
     - python -m pytest
 
-# monoservice-api-unit-tests-job:
-#   stage: test
-#   image: python:3.10-bullseye
-#   script:
-#     - cd monoservice
-#     - pip install -r requirements.txt
-#     - pip install pytest
-#     - python -m pytest
+monoservice-api-unit-tests-job:
+  stage: test
+  image: python:3.10-bullseye
+  script:
+    - cd monoservice
+    - pip install -r requirements.txt
+    - pip install pytest
+    - python -m pytest
 
 # pubsub-unit-tests-job:
 #   stage: test
