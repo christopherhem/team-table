@@ -1,6 +1,15 @@
+<<<<<<< HEAD
 from models import TeamIn
 from queries.teams_queries import TeamRepository
 
+=======
+from fastapi.testclient import TestClient
+from main import app
+from models import TeamIn
+from queries.teams_queries import TeamRepository
+
+client = TestClient(app)
+>>>>>>> main
 team = TeamIn(name = 'test', type = 1)
 
 def test_create_team():

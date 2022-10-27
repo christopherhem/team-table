@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 stages:
   - test
   # - build
@@ -34,6 +35,15 @@ teams-api-unit-tests-job:
 
 
 ## BUILD
+=======
+# # stages:
+# #   - test
+# #   - build
+# #   - deploy
+
+
+# ## BUILD
+>>>>>>> main
 # build-front-end-job:
 #   stage: build
 #   image: node:lts-bullseye
@@ -141,7 +151,11 @@ teams-api-unit-tests-job:
 
 
 # ## DEPLOY THE UI
+<<<<<<< HEAD
 # pages:  # THIS STEP MUST BE NAMED PAGES
+=======
+# pages:  # THIS STEP MUST BE NAME PAGES
+>>>>>>> main
 #   stage: deploy
 #   rules:
 #     - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH

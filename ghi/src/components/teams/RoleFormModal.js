@@ -1,11 +1,12 @@
 // Create Event Form Modal 
 import React, { useState } from 'react'
-import styles from "./Modal.module.css"
+import styles from "../events/Modal.module.css"
 import { RiCloseLine } from "react-icons/ri"
-import { useCreateRoleMutation, useGetUsersTeamsQuery } from '../../store/UsersApi';
+import { useCreateRoleMutation } from '../../store/TeamsApi';
+import { useGetUsersTeamsQuery } from '../../store/UsersApi';
 
 
-export default function addRoleFormModal({ setIsOpenRole }) {
+export default function RoleFormModal({ setIsOpenRole }) {
   const [name, setName] = useState('');
   const [team, setTeam] = useState('');
   const [createRole, result] = useCreateRoleMutation();
