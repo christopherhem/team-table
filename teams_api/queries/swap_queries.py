@@ -162,6 +162,39 @@ class SwapRepository:
         finaldict['covers_for_user'] = final
         return finaldict
 
+    def get_swaps_for_single_swap(self, user, u_event):
+        with pool.connection() as conn:
+            with conn.cursor() as db:
+                db.execute(
+                        """
+                        SELECT id, event_href, owner, team, availability_start, availability_end
+                        FROM cover_event_vos
+                        WHERE team = %s AND owner != %s                   
+                        """,
+                        [
+                            u_event['team'],
+                            user['account']['username']
+                        ]
+                )
+                team_events = self.to_dict(db.fetchall(),db.description)
+            if type(team_events) != list:
+                temp = []
+                temp.append(team_events)
+                team_events = temp
+            valid_swap_list = []
+            for event in team_events:
+                #the less than/= values here may need to be swapped
+                if event['availability_start'] <= swap['shift_start'] and event['availability_end']>=swap['shift_end']:
+                    valid_swap_list.append(event)
+            partial_out = {'user_event' : swap, 'valid_swaps': valid_swap_list}
+            final.append(partial_out)
+        if type(final)!=list:
+            temp = []
+            temp.append(final)
+            final = temp
+        finaldict = {}
+        finaldict['covers_for_user'] = final
+        return finaldict
     def to_dict(self,rows,description):
         lst = []
         columns = [desc[0] for desc in description]
