@@ -10,7 +10,7 @@ class SwapRepository:
             with conn.cursor() as db:
                 result = db.execute(
                 """
-                SELECT id, event_href, owner, team, shift_start, shift_end, availability_start, availability_end
+                SELECT id, event_href, owner, team, shift_start, shift_end, availability_start, availability_end, mono_id
                 FROM shift_swap_event_vos
                 WHERE owner = %s
                 """,
@@ -27,9 +27,9 @@ class SwapRepository:
                 with conn.cursor() as db:
                     result = db.execute(
                         """
-                        SELECT id, event_href, owner, team, shift_start, shift_end, availability_start, availability_end
+                        SELECT id, event_href, owner, team, shift_start, shift_end, availability_start, availability_end, mono_id
                         FROM shift_swap_event_vos
-                        WHERE team = %s AND owner != %s                   
+                        WHERE team = %s AND owner != %s
                         """,
                         [
                             swap['team'],
@@ -63,7 +63,7 @@ class SwapRepository:
             with conn.cursor() as db:
                 result = db.execute(
                 """
-                SELECT id, event_href, owner, team, availability_start, availability_end
+                SELECT id, event_href, owner, team, availability_start, availability_end, mono_id
                 FROM cover_event_vos
                 WHERE owner = %s
                 """,
@@ -80,9 +80,9 @@ class SwapRepository:
                 with conn.cursor() as db:
                     result = db.execute(
                         """
-                        SELECT id, event_href, owner, team, shift_start, shift_end, availability_start, availability_end
+                        SELECT id, event_href, owner, team, shift_start, shift_end, availability_start, availability_end, mono_id
                         FROM shift_swap_event_vos
-                        WHERE team = %s AND owner != %s                   
+                        WHERE team = %s AND owner != %s
                         """,
                         [
                             cover['team'],
@@ -116,7 +116,7 @@ class SwapRepository:
             with conn.cursor() as db:
                 result = db.execute(
                 """
-                SELECT id, event_href, owner, team, shift_start, shift_end, availability_start, availability_end
+                SELECT id, event_href, owner, team, shift_start, shift_end, availability_start, availability_end, mono_id
                 FROM shift_swap_event_vos
                 WHERE owner = %s
                 """,
@@ -133,9 +133,9 @@ class SwapRepository:
                 with conn.cursor() as db:
                     result = db.execute(
                         """
-                        SELECT id, event_href, owner, team, availability_start, availability_end
+                        SELECT id, event_href, owner, team, availability_start, availability_end, mono_id
                         FROM cover_event_vos
-                        WHERE team = %s AND owner != %s                   
+                        WHERE team = %s AND owner != %s
                         """,
                         [
                             swap['team'],

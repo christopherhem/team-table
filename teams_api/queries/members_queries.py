@@ -17,7 +17,7 @@ class MemberRepository:
                     return self.to_dict(result.fetchall(),result.description)
         except:
             return{"message" : "Error in member_queries get_all"}
-    
+
     def get_members_by_team(self, tid):
         try:
             with pool.connection() as conn:
@@ -25,15 +25,22 @@ class MemberRepository:
                     result = db.execute(
                         """
                         SELECT id, team
-                        FROM roles 
+                        FROM roles
                         WHERE team = %s
                         """,
                         [tid]
                     )
                     role_dics = self.to_dict(result.fetchall(),result.description)
+                    print(role_dics)
+            if type(role_dics) != list:
+                temp =[]
+                temp.append(role_dics)
+                role_dics = temp
             role_ids = []
             for dic in role_dics:
+                print(dic)
                 role_ids.append(dic['id'])
+
             members = []
             for rid in role_ids:
                 with pool.connection() as conn:
@@ -50,7 +57,7 @@ class MemberRepository:
             return members
         except Exception as e:
             return {"message": f"Error in member_queries get_members_by_team: {e}"}
-    
+
     def get_one(self, id)->Union[Error, MemberOut]:
         try:
             with pool.connection() as conn:

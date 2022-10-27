@@ -15,7 +15,7 @@ def add_member(
     request: Request,
     repo: MemberRepository = Depends(),
     user = Depends(get_current_user)
-    
+
     ):
     created_member = repo.create(member)
     headers = request.headers
@@ -24,13 +24,14 @@ def add_member(
     requests.post("http://pubsub:8000/api/surps/", data = data, headers = headers)
     return created_member
 
-    
 
-@router.get("/api/teams/{id}/members", response_model = Union[Error, l[MemberOut]])
+
+@router.get("/api/teams/{tid}/members", response_model = Union[Error, l[MemberOut]])
 def get_members(
+    tid: int,
     repo : MemberRepository = Depends(),
 ):
-    return repo.get_all()
+    return repo.get_members_by_team(tid)
 
 @router.get("/api/teams/{id}/members/{uid}", response_model = Union[Error, MemberOut])
 def get_member(
@@ -57,6 +58,6 @@ def edit_member(
     uid:int,
     member:MemberIn,
     repo: MemberRepository = Depends()
-    
+
 ):
     return repo.update(uid,member)

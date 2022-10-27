@@ -1,10 +1,11 @@
 import { useGetMembersQuery, useGetTeamQuery, useGetEventsQuery } from "../../store/TeamsApi"
+import TeamFormModal from "./TeamFormModal";
 import { Card, CardBody, CardTitle, CardSubtitle, Table } from "reactstrap";
 import { NavLogo } from '../navbar/NavbarElements';
 import { useLocation } from "react-router-dom";
 import { useState } from "react";
 import DateObject from "react-date-object";
-import TeamFormModal from "./TeamFormModal";
+
 
 import styles from "../../components/dashboard/Home.module.css"
 
@@ -15,7 +16,7 @@ export function TeamDashboard() {
     const {data: eventData, isLoading: isLoadingEvents} = useGetEventsQuery(id)
     const {data: teamData, isLoading: isLoadingTeam} = useGetTeamQuery(id)
     const {data: membersData, isLoading: isLoadingMembers} = useGetMembersQuery(id)
-
+    console.log("Members", membersData)
     if (isLoadingTeam || isLoadingMembers || isLoadingEvents) {
         return (
             <progress className="progress is-primary" max="100"></progress>
@@ -23,11 +24,7 @@ export function TeamDashboard() {
     }
 
     return (
-      // <h1>Hello Team Page</h1>
         <div>
-
-        {/* <SideNavbar /> */}
-        {/* <NavBar toggle={toggle} /> */}
         <h1 className="">
             {teamData.name}
         </h1>
@@ -97,13 +94,14 @@ export function TeamDashboard() {
                         </tr>
                       )
                     })
-                    :
+                    : (eventData.cover_events.length === 1) ?
                     <tr key={eventData.cover_events.id}>
                       <td>{eventData.cover_events.owner}</td>
                       <td>{new DateObject(eventData.cover_events.availability_end).format("ddd DD MMM YYYY")}</td>
                       <td>{new DateObject(eventData.cover_events.availability_end).format("ddd DD MMM YYYY")}</td>
                     </tr>
-
+                    :
+                    null
                   }
                 </tbody>
               </Table>
@@ -138,7 +136,7 @@ export function TeamDashboard() {
                           <td>{end_date}</td>
                         </tr>
                       )
-                    }):
+                    }): (eventData.swap_events.length === 1) ?
                     <tr key={eventData.swap_events.id}>
                     <td>{eventData.swap_events.owner}</td>
                     <td>{new DateObject(eventData.swap_events.shift_start).format("ddd DD MMM YYYY")}</td>
@@ -146,6 +144,8 @@ export function TeamDashboard() {
                     <td>{new DateObject(eventData.swap_events.availability_start).format("ddd DD MMM YYYY")}</td>
                     <td>{new DateObject(eventData.swap_events.availability_end).format("ddd DD MMM YYYY")}</td>
                   </tr>
+                  :
+                  null
                   }
                 </tbody>
               </Table>

@@ -122,8 +122,9 @@ const HomeSidebar = ({
                   </MenuItem>
                 )
               }): teamData.length === 1 ?
+
               (<MenuItem>
-                <Link to="/team" state={{ id: new URL (teamData.team_href).pathname.split('/')[-2] }}>{teamData.name}</Link>
+                <Link to="/team" state={{ id: new URL(teamData.team_href).pathname.split('/')[-2] }}>{teamData.name}</Link>
               </MenuItem>)
               :
               <div>

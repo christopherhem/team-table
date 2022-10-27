@@ -51,7 +51,7 @@ export const usersApi = createApi({
                 credentials: 'include',
             }),
             providesTags: ['Token'],
-            invalidatesTags: ['UserCoverEventsList']
+            invalidatesTags: ['UserCoverEventsList', 'UserShiftSwapEventsList']
         }),
         signIn: builder.mutation({
             query: info => {
@@ -72,7 +72,7 @@ export const usersApi = createApi({
             },
             providesTags: ['User'],
             invalidatesTags: result => {
-              return (result && ['Token']) || [];
+              return (result && ['Token', 'UserCoverEventsList', 'UserShiftSwapEventsList']) || [];
             },
             // async onQueryStarted(arg, { dispatch, queryFulfilled }) {
             //   try {
@@ -87,7 +87,7 @@ export const usersApi = createApi({
                 method: 'delete',
                 credentials: 'include',
             }),
-            invalidatesTags: ['Token'],
+            invalidatesTags: ['Token', 'UserCoverEventsList', 'UserShiftSwapEventsList'],
         }),
         getUserCoverEvents: builder.query({
             query: () => ({
@@ -169,10 +169,20 @@ export const usersApi = createApi({
                 credentials: 'include'
             }),
             providesTags: ['UserTeams']
+        }),
+        PerformSwap: builder.mutation({
+            query: (data) => ({
+                url: "/api/main/swap/",
+                method: 'post',
+                body: data,
+                credentials: 'include'
+            }),
+            invalidatesTags: ['UserCoverEventsList', 'UserShiftSwapEventsList']
         })
     }),
 });
 export const {
+    usePerformSwapMutation,
     useGetUsersTeamsQuery,
     useDeleteShiftSwapEventMutation,
     useDeleteCoverEventMutation,

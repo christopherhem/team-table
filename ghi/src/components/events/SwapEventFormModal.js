@@ -5,7 +5,7 @@ import { RiCloseLine } from "react-icons/ri"
 import { useCreateShiftSwapEventMutation, useGetUsersTeamsQuery } from '../../store/UsersApi';
 
 
-export default function SwapEventFormModal({ setIsOpenSwap }) {
+export default function SwapEventFormModal({ setIsOpenShift }) {
   const [shift_start, setShiftStart] = useState('');
   const [shift_end, setShiftEnd] = useState('');
   const [availability_start, setAvailStart] = useState('');
@@ -26,20 +26,20 @@ export default function SwapEventFormModal({ setIsOpenSwap }) {
 
   async function handleSubmit(e) {
     e.preventDefault();
-    setIsOpenSwap(false)
+    setIsOpenShift(false)
     createShift({ shift_start, shift_end, availability_start, availability_end, team_href });
     console.log(result)
   }
 
   return (
     <>
-      <div className={styles.darkBG} onClick={() => setIsOpenSwap(false)} />
+      <div className={styles.darkBG} onClick={() => setIsOpenShift(false)} />
       <div className={styles.centered}>
         <div className={styles.modal}>
           <div className={styles.modalHeader}>
             <h2 className={styles.heading}>Create a swap event</h2>
           </div>
-          <button className={styles.closeBtn} onClick={() => setIsOpenSwap(false)}>
+          <button className={styles.closeBtn} onClick={() => setIsOpenShift(false)}>
             <RiCloseLine style={{ marginBottom: "-3px" }} />
           </button>
           <form className={styles.modalContent} onSubmit={(e) => handleSubmit(e)}>
@@ -70,7 +70,7 @@ export default function SwapEventFormModal({ setIsOpenSwap }) {
                   </button>
                   <button type="button"
                     className={styles.cancelBtn}
-                    onClick={() => setIsOpenSwap(false)}
+                    onClick={() => setIsOpenShift(false)}
                   >
                     Cancel
                   </button>
