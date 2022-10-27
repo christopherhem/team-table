@@ -124,3 +124,8 @@ class MemberIn(BaseModel):
     member_username: str
     role: int
     team_href : str
+
+class NotificationOut(BaseModel):
+    id : int
+    message : str
+    seen : bool

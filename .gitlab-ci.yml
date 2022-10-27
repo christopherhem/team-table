@@ -1,10 +1,39 @@
-# # stages:
-# #   - test
-# #   - build
-# #   - deploy
+#stages:
+  # - test
+  # - build
+  # - deploy
 
 
-# ## BUILD
+##TEST
+# teams-api-unit-tests-job:
+#   stage: test
+#   image: python:3.10-bullseye
+#   script:
+#     - cd teams_api
+#     - pip install -r requirements.txt
+#     - pip install pytest
+#     - python -m pytest
+
+# monoservice-api-unit-tests-job:
+#   stage: test
+#   image: python:3.10-bullseye
+#   script:
+#     - cd monoservice
+#     - pip install -r requirements.txt
+#     - pip install pytest
+#     - python -m pytest
+
+# pubsub-unit-tests-job:
+#   stage: test
+#   image: python:3.10-bullseye
+#   script:
+#     - cd simplepubsub
+#     - pip install -r requirements.txt
+#     - pip install pytest
+#     - python -m pytest
+
+
+## BUILD
 # build-front-end-job:
 #   stage: build
 #   image: node:lts-bullseye
@@ -112,7 +141,7 @@
 
 
 # ## DEPLOY THE UI
-# pages:  # THIS STEP MUST BE NAME PAGES
+# pages:  # THIS STEP MUST BE NAMED PAGES
 #   stage: deploy
 #   rules:
 #     - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
