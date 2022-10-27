@@ -5,6 +5,7 @@ stages:
 
 variables:
   DATABASE_URL: postgresql://teams:password@postgres/teams
+  SIGNING_KEY: test123486a8sdf234245dsfg
 ##TEST
 teams-api-unit-tests-job:
   stage: test
