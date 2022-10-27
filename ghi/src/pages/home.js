@@ -31,9 +31,9 @@ function UserHome() {
     const [deleteShift, shiftResult] = useDeleteShiftSwapEventMutation();
     const { data: userData, isLoading: isLoadingUser } = useGetTokenQuery();
     const { data: eventData, isLoading: isLoadingEvent } = useGetUserCoverEventsQuery();
-    console.log("Event:", eventData)
     const { data: shiftData, isLoading: isLoadingShift } = useGetUserShiftSwapEventsQuery();
     const {data: swapData, isLoading: isLoadingSwaps} = useGetValidSwapsQuery();
+    const [performSwap, setPerformSwap] = usePerformSwapMutation();
 
 
     if (isLoadingEvent || isLoadingShift || isLoadingUser || isLoadingSwaps) {
@@ -41,11 +41,16 @@ function UserHome() {
             <progress className="progress is-primary" max="100"></progress>
         );
     }
-    console.log(swapData)
+
     const user = userData.user.first_name
     const toggle = () => {
         setIsOpen(!isOpen)
     }
+
+    const handleClick = () => {
+        performSwap(swapData)
+    }
+
     return (
         <>
             <h1 className="">
@@ -53,40 +58,9 @@ function UserHome() {
             </h1>
             <div>
                 <Card>
-                {/* <button className={styles.primaryBtn} onClick={() => setIsOpenSwap(true)}>Swap Shifts</button>{isOpenSwap && <Swap setIsOpenSwap={setIsOpenSwap} />} */}
+                <button className={styles.primaryBtn} onClick={() => setIsOpenSwap(true)}>Swap Shifts</button>{isOpenSwap && <Swap setIsOpenSwap={setIsOpenSwap} />}
                     <CardBody>
-                        <Table className="border table-striped no-wrap mt-3 align-middle" response border>
-                            <thead>
-                                <tr>
-                                {
-                                    swapData.swaps.map((shift) =>{
-                                        return (
-                                                <th key={shift.user_event.mono_id}>
-                                                    {new DateObject(shift.user_event.shift_start).format("ddd DD MMM YYYY")}
-                                                </th>
-                                        )
-                                    })
-                                }
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {
-                                    swapData.swaps.map((shift) => {
-                                        return (
-                                            shift.valid_swaps.map((swap) =>{
-                                                console.log("ID", swap)
-                                                return (
-                                                    <tr key={swap.mono_id}>
-                                                        <td>{swap.owner}</td>
-                                                        <td>{swap.owner}</td>
-                                                    </tr>
-                                            )
-                                                }
-                                            )
-                                        )})
-                                }
-                            </tbody>
-                        </Table>
+                        {/* <button className={styles.editBtn} onClick={handleClick}>Swap Your Shifts!</button> */}
                         <NavLogo tag="h5" color="#6C63FF">Your Cover Events</NavLogo>
                         <Table className="border table-striped no-wrap mt-3 align-middle" response border>
                             <thead>
