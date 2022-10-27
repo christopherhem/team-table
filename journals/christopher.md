@@ -79,3 +79,4 @@ Today we found a bug within the dashboard that dealt with a user still logged in
 
 ## October 26, 2022
 
+I worked on handling team dashboard and all the create forms for team, members, and roles. I pair-programmed with Louise. I was also able to write my individual unit test that was required. I'm continuing to learn more and more through the frustrations and definitely feeling mentally fatigued at this moment. I haven't had much rest due to other personal/family situations, but I'm trying my best to give everything I have for my team, this project, and this program. The race isn't over but we're pressing forward. Onwards.

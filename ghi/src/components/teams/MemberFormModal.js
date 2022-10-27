@@ -1,13 +1,13 @@
 // Create Event Form Modal 
 import React, { useState } from 'react'
-import styles from "./Modal.module.css"
+import styles from "../events/Modal.module.css"
 import { RiCloseLine } from "react-icons/ri"
 import { useCreateMemberMutation } from '../../store/TeamsApi';
 import { useGetRolesQuery } from '../../store/TeamsApi';
 
 
 
-export default function addMemberFormModal({ setIsOpenMember }) {
+export default function MemberFormModal({ setIsOpenMember }) {
   const [member_username, setMember] = useState('');
   const [role, setRole] = useState('');
   const [createMember, result] = useCreateMemberMutation();
