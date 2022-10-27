@@ -41,7 +41,7 @@ export default function RoleFormModal({ setIsOpenRole }) {
           </button>
           <form className={styles.modalContent} onSubmit={(e) => handleSubmit(e)}>
             <h6>Enter role name</h6>
-            <input type="text" id="name" value={shift_start} onChange={e => setName(e.target.value)} />
+            {/* <input type="text" id="name" value={shift_start} onChange={e => setName(e.target.value)} />
             <hr></hr>
             <h6>Enter Team</h6>
             <div className="mb-3">
@@ -52,8 +52,8 @@ export default function RoleFormModal({ setIsOpenRole }) {
                     <option key={team.team_href} value={team.team_href}>{team.name}</option>
                   );
                 })}
-              </select>
-              </div>
+              </select> */}
+              {/* </div> */}
               <div className={styles.modalActions}>
                 <div className={styles.actionsContainer}>
                   <button type="submit" className={styles.deleteBtn}>

@@ -41,22 +41,22 @@ export default function MemberFormModal({ setIsOpenMember }) {
           <form className={styles.modalContent} onSubmit={(e) => handleSubmit(e)}>
             <h6>Select a member</h6>
             <div className="mb-3">
-              <select onChange={e => setMember(e.target.value)} value={team_href} className="form-select" name="member_username" id="member_username">
+              {/* <select onChange={e => setMember(e.target.value)} value={team_href} className="form-select" name="member_username" id="member_username">
                 <option value="">Select a member</option>
                 {data.map((member) => {
                   return (
                     <option key={member.member_username} value={member.member_username}>{member.member_username}</option>
                   );
                 })}
-              </select>
-              <select onChange={e => setRole(e.target.value)} value={team_href} className="form-select" name="role" id="role">
+              </select> */}
+              {/* <select onChange={e => setRole(e.target.value)} value={team_href} className="form-select" name="role" id="role">
                 <option value="">Select a role</option>
                 {data.map((role) => {
                   return (
                     <option key={role.name} value={role.name}>{role.name}</option>
                   );
                 })}
-              </select>
+              </select> */}
             </div>
 
             <div className={styles.modalActions}>
