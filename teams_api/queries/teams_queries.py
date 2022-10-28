@@ -28,7 +28,6 @@ class TeamRepository:
                     """,
                     [
                         team.name,
-                        team.type,
                         team.description
                     ]
                 )

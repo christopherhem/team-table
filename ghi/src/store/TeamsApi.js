@@ -95,8 +95,8 @@ export const teamsApi = createApi({
             providesTags: ['Members']
         }),
         createMember : builder.mutation({
-            query: (tid,data) =>({
-                url: `api/teams/${tid}/members/`,
+            query: (data) =>({
+                url: `api/teams/members/`,
                 body: data,
                 method: "POST",
                 credentials: 'include'
