@@ -1,8 +1,5 @@
-from typing import List, Union
-from models import Error
-from models import ShiftSwapEventOut
 from queries.pool import pool
-from datetime import datetime
+
 
 
 class NotificationRepository:
@@ -74,7 +71,7 @@ class NotificationRepository:
                         [id]
                     )
             return True
-        else: 
+        else:
             return False
 
 

@@ -2,13 +2,9 @@ from queries.pool import pool
 from models import (
     CoverEventIn,
     CoverEventUpdateIn,
-    CoverEventOut,
-    ShiftSwapEventOut,
     ShiftSwapEventIn,
-    EventTypeOut,
-    TableOut,
 )
-import requests
+
 
 class EventQueries:
     def get_cover_event_table(self):

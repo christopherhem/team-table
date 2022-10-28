@@ -13,14 +13,14 @@ from typing import (
     Union
 )
 from queries.users_queries import *
-
 import os
-
 from fastapi.security import OAuth2PasswordBearer
 from jose import JWTError, jwt
 from jwtdown_fastapi.authentication import Token
 from authenticator import authenticator
 from pydantic import BaseModel
+
+
 class UserForm(BaseModel):
     username: str
     password: str
@@ -57,7 +57,6 @@ async def get_current_user(
         token = cookie_token
     try:
         payload = jwt.decode(token, SIGNING_KEY, algorithms=[ALGORITHM])
-        print(payload)
         email = payload.get("email")
         if email is None:
             raise credentials_exception
@@ -129,8 +128,8 @@ async def get_token(
     user: User = Depends(authenticator.try_get_current_account_data)
 ) -> UserToken | None:
     if user and authenticator.cookie_name in request.cookies:
-        return { 
+        return {
             "access_token": request.cookies[authenticator.cookie_name],
             "type": "Bearer",
-            "user": user, 
+            "user": user,
         }

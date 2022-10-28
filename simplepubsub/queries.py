@@ -1,9 +1,8 @@
 import os
 from psycopg_pool import ConnectionPool
 pool = ConnectionPool(conninfo=os.environ["DATABASE_URL"])
-from pydantic import BaseModel
 from models import Error, SubUrlOut, SubUrlIn
-from typing import  List, Optional, Union
+from typing import  List,  Union
 
 class TeamSubQueries:
     def add_sub(

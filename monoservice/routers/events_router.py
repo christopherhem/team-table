@@ -1,7 +1,6 @@
 from fastapi import APIRouter, Depends, Response, Request
-from fastapi.middleware.cors import CORSMiddleware
-from typing import Optional, List, Union
-import os, requests, json
+from typing import List, Union
+import requests, json
 from queries.events_queries import EventQueries
 from authenticator import authenticator
 from models import (
@@ -137,7 +136,7 @@ def delete_cover_event(
     id: int,
     repo: EventQueries = Depends()
 ):
-    record = repo.delete_cover_event(id)
+    repo.delete_cover_event(id)
     return True
 
 @router.delete("/api/table/shift_swap_events/{id}", response_model=bool)
@@ -145,7 +144,7 @@ def delete_cover_event(
     id: int,
     repo: EventQueries = Depends()
 ):
-    record = repo.delete_shift_swap_event(id)
+    repo.delete_shift_swap_event(id)
     return True
 
 @router.get("/api/table/event_types", response_model=List[EventTypeOut])

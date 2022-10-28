@@ -1,6 +1,5 @@
-from datetime import datetime
 from pydantic import BaseModel
-from typing import Optional, List
+from typing import Optional
 
 class Error(BaseModel):
     message:str
@@ -29,7 +28,7 @@ class TeamVoIn(BaseModel):
     pay_level : int
 
 class MemberIn(BaseModel):
-    id: int 
-    member_username: str 
-    role: int 
+    id: int
+    member_username: str
+    role: int
     team_href: str

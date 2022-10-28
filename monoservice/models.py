@@ -1,5 +1,5 @@
 from pydantic import BaseModel
-from typing import Literal, Optional
+from typing import Optional
 from datetime import datetime
 
 class CoverEventIn(BaseModel):
@@ -80,7 +80,6 @@ class TeamVoIn(BaseModel):
     id: int
     name: str
     description : Optional[str]
-    #{"id": 11, "name": "team16", "type": 1, "description": "yes", "pay_level": 1}
 
 class Error(BaseModel):
     message: str
