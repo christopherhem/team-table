@@ -71,5 +71,5 @@ def cover_for_swap(
             data = json.dumps(pushevent)
             requests.post("http://pubsub:8000/api/seps/", data = data, headers = headers)
             return result
-        return{"message":"Failed to carry out all or part of cover swap"}    
+        return{"message":"Failed to carry out all or part of cover swap"}
     return {"message":"Current user id does not match id of either event"}
