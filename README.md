@@ -18,9 +18,10 @@ The team dashboard displays the information for an individual team, including al
 
 ## Setup
   - clone the repository
-  - You will need a pg-admin and a postgres-data volume, 
+  - You will need a pg-admin and a postgres-data volume, as well as a top level .env file
     - docker volume create pg-admin
     - docker volume create postgres-data
+    - create a top level env file and paste this into it: TEAM_DATABASE_URL=postgresql://teams:password@postgres/teams
   - docker-compose build
   - docker-compose up
   - website hosted locally on localhost:3000
