@@ -173,8 +173,7 @@ class SwapRepository:
                     """,
                     [event_id]
                 )
-                u_event = self.to_dict(db.fetchall(), db.description)
-
+                u_event = self.to_dict(db.fetchall(), db.description)   
         with pool.connection() as conn:
             with conn.cursor() as db:
                 db.execute(
@@ -213,7 +212,7 @@ class SwapRepository:
                     [event_id]
                 )
                 u_event = self.to_dict(db.fetchall(), db.description)
-
+        print(u_event)
         with pool.connection() as conn:
             with conn.cursor() as db:
                 db.execute(

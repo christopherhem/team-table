@@ -104,7 +104,7 @@ function UserHome() {
                                     eventData.map((cover) => {
                                         const url = new URL(cover.team_href)
                                         const splitPaths = url.pathname.split('/')
-                                        const teamId = splitPaths[splitPaths.length - 1]
+                                        const teamId = splitPaths[splitPaths.length -1]
                                         let start = new DateObject(cover.availability_start)
                                         let end = new DateObject(cover.availability_end)
                                         let start_date = start.format("ddd DD MMM YYYY")

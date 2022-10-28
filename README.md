@@ -33,6 +33,7 @@ The team dashboard displays the information for an individual team, including al
   - pipeline currently only has one stage; Test, which successfully runs the tests on gitlab
     - you are welcome to make a comment somewhere in the code, save, add, commit, and push to test this functionality
   - tests are located in the 'test' folders in both the monoservice and the teams service.
+  
 ## MVP
   - Front page
     - Signup page on nav bar

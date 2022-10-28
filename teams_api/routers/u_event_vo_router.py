@@ -20,10 +20,15 @@ def new_event_vo(
     repo: EventVoRepository = Depends(),
     user = Depends(get_current_user)
 ):
-    if event.shift_start:
-        record = repo.create_swap_event(event,user)
+    print('Event:',event)
+    if not event.user_id or event.user_id == None:
+        validated_id = user['account']['id']
     else:
-        record = repo.create_cover_event(event,user)
+        validated_id = event.user_id
+    if not event.shift_start or event.shift_start == None:
+        record = repo.create_cover_event(event, validated_id)
+    else:
+        record = repo.create_swap_event(event, validated_id)
     if record is None:
         response.status_code = 404
     else:
@@ -36,10 +41,10 @@ def delete_event_vo(
     repo: EventVoRepository = Depends(),
     user = Depends(get_current_user)
 ):
-    if event.shift_start:
-        record = repo.delete_swap_event(event)
-    else:
+    if not event.shift_start or event.shift_start == None:
         record = repo.delete_cover_event(event)
+    else:
+        record = repo.delete_swap_event(event) 
     if record is None:
         response.status_code = 404
     else:
