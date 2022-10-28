@@ -40,13 +40,11 @@ export default function RoleFormModal({ setIsOpenRole }) {
             <hr></hr>
             <div className="checkbox-wrapper">
             <h6>Privileges</h6>
-              <label> Can Invite
+              <label> Can Invite</label>
                 <input onChange={e => setInvite(e.target.value)} type="checkbox" checked={can_invite} />
-              </label>
               <br></br>
-              <label> Can Approve
-                <input onChange={e => setApprove(e.target.value)} type="checkbox" checked={can_approve} />
-              </label>
+              <label> Can Approve</label>
+                <input onChange={e => setApprove(e.target.value)} value="true" type="checkbox" checked={can_approve} />
             </div>
             <div className={styles.modalActions}>
               <div className={styles.actionsContainer}>
