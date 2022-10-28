@@ -52,7 +52,7 @@ export const FormContent = styled.div`
 export const Form = styled.form`
   background: #33305A;
   max-width: 800px;
-  height: 100%;
+  ${'' /* height: 100%; */}
   width: 50%;
   z-index: 1;
   display: grid;
