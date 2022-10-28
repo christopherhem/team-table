@@ -17,22 +17,19 @@ def get_user_notifications(
 ):
     return repo.get_notifications_by_user(user)
 
-@router.put("/api/notifications/", response_model = bool)
+@router.put("/api/notifications/{id}", response_model = bool)
 def update_status(
-    request :Request,
     response: Response,
-    notification = NotificationOut,
+    id: int,
     user = Depends(authenticator.get_current_account_data),
     repo: NotificationRepository = Depends()
 ):
-    return repo.update_seen(user['id'], notification.id)
+    return repo.update_seen(user['id'], id)
 
-@router.delete("/api/notifications/", response_model = bool)
-def update_status(
-    request :Request,
-    response: Response,
-    notification = NotificationOut,
+@router.delete("/api/notifications/{id}", response_model = bool)
+def delete_notification(
+    id: int,
     user = Depends(authenticator.get_current_account_data),
     repo: NotificationRepository = Depends()
 ):
-    return repo.delete(user['id'], notification.id)
+    return repo.delete(user['id'], id)
