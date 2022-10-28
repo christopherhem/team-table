@@ -92,7 +92,7 @@ function UserHome() {
                                     eventData.map((cover) => {
                                         const url = new URL(cover.team_href)
                                         const splitPaths = url.pathname.split('/')
-                                        const teamId = splitPaths[splitPaths.length - 1]
+                                        const teamId = splitPaths[splitPaths.length -1]
                                         let start = new DateObject(cover.availability_start)
                                         let end = new DateObject(cover.availability_end)
                                         let start_date = start.format("ddd DD MMM YYYY")
@@ -127,7 +127,7 @@ function UserHome() {
                                     })}
                             </tbody>
                         </Table>
-                        <button className={styles.primaryBtn} onClick={() => setIsOpenCover(true)}>Create Cover Event</button>{isOpenCover && <CoverEventFormModal setIsOpenCover={setIsOpenCover} />}
+                        <button className={styles.secPrimaryBtn} onClick={() => setIsOpenCover(true)}>Create Cover Event</button>{isOpenCover && <CoverEventFormModal setIsOpenCover={setIsOpenCover} />}
                         <TableLogo tag="h5" color="#6C63FF">Your Shift Swap Events</TableLogo>
                         <Table className="border table-striped no-wrap mt-3 align-middle" response border>
                             <thead>
@@ -187,7 +187,7 @@ function UserHome() {
                                 })}
                             </tbody>
                         </Table>
-                        <button className={styles.primaryBtn} onClick={() => setIsOpenShift(true)}>Create Swap Event</button>{isOpenShift && <SwapEventFormModal setIsOpenShift={setIsOpenShift} />}
+                        <button className={styles.secPrimaryBtn} onClick={() => setIsOpenShift(true)}>Create Swap Event</button>{isOpenShift && <SwapEventFormModal setIsOpenShift={setIsOpenShift} />}
                     </CardBody>
                 </Card>
             </div>

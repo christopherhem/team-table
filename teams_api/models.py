@@ -54,6 +54,7 @@ class EventVoIn(BaseModel):
     shift_end: Optional[datetime]
     availability_start: datetime
     availability_end: datetime
+    user_id : Optional[int]
 
 class CoverEventVoOut(BaseModel):
     id : int

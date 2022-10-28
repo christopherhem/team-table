@@ -4,10 +4,10 @@ from queries.pool import pool
 import requests
 
 class EventVoRepository:
-    def create_swap_event(self, event:EventVoIn, user):
+    def create_swap_event(self, event:EventVoIn, uid):
 
         href = f"http://monoservice:8000/api/table/events/{event.id}"
-        team = list(event.team_href)[-1]
+        team = event.team_href.split('/')[-1]
         with pool.connection() as conn:
             with conn.cursor() as db:
 
@@ -37,7 +37,7 @@ class EventVoRepository:
                     """,
                     [
                         href,
-                        user['account']['username'],
+                        uid,
                         team,
                         event.shift_start,
                         event.shift_end,
@@ -83,10 +83,10 @@ class EventVoRepository:
 
 
 
-    def create_cover_event(self, event:EventVoIn, user):
+    def create_cover_event(self, event:EventVoIn, uid):
 
         href = f"http://monoservice:8000/api/table/events/{event.id}"
-        team = list(event.team_href)[-1]
+        team = event.team_href.split('/')[-1]
         with pool.connection() as conn:
             with conn.cursor() as db:
 
@@ -112,7 +112,7 @@ class EventVoRepository:
                     """,
                     [
                         href,
-                        user['account']['username'],
+                        uid,
                         team,
                         event.availability_start,
                         event.availability_end,

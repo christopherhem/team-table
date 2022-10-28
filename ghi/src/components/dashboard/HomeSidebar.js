@@ -55,6 +55,12 @@ const HomeSidebar = ({
 }) => {
   const [isOpenTeam, setIsOpenTeam] = useState(false)
   const { data: teamData, isLoading: isLoadingTeam } = useGetUsersTeamsQuery();
+  let teamNumber = 0
+  if (teamData != null) {
+    teamNumber = teamData.length
+  } else {
+    teamNumber = 0
+  }
 
   if (isLoadingTeam) {
     return (
@@ -105,7 +111,7 @@ const HomeSidebar = ({
             <NavLink to="/" />
           </MenuItem>
           <SubMenu
-            suffix={<span className="badge yellow">1000</span>}
+            suffix={<span className="badge yellow">{teamNumber}</span>}
             title={'Teams'}
             icon={<FaPeopleArrows />}
           >
@@ -125,18 +131,6 @@ const HomeSidebar = ({
                 <button className={styles.primaryBtn} onClick={() => setIsOpenTeam(true)}>Create Team</button>{isOpenTeam && <TeamFormModal setIsOpenTeam={setIsOpenTeam} />}
               </div>
             }
-          </SubMenu>
-          <MenuItem icon={<FaCalendarDay />}>
-            My Events <Link to="/events" />
-          </MenuItem>
-          <SubMenu
-            suffix={<span className="badge yellow">3</span>}
-            title={'Create Event'}
-            icon={<FaPencilAlt />}
-          >
-            <MenuItem>Cover</MenuItem>
-            <MenuItem>Swap</MenuItem>
-            <MenuItem>Availability</MenuItem>
           </SubMenu>
         </Menu>
       </SidebarContent>

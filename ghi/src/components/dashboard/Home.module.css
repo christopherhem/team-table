@@ -8,7 +8,20 @@
     font-size: 0.8rem;
     border: none;
     color: white;
-    background: #185adb;
+    background: #BA63FF;
+    transition: all 0.25s ease;
+  }
+
+  .secPrimaryBtn {
+    margin: 20px 10px;
+    cursor: pointer;
+    font-weight: 500;
+    padding: 13px 25px;
+    border-radius: 15px;
+    font-size: 0.8rem;
+    border: none;
+    color: black;
+    background: #F6FF63;
     transition: all 0.25s ease;
   }
 
@@ -26,7 +39,7 @@
     font-size: 0.8rem;
     border: none;
     color: black;
-    background: #5dd2f5;
+    background: #63A8FF;
     transition: all 0.25s ease;
   }
 
@@ -44,7 +57,7 @@
     font-size: 0.8rem;
     border: none;
     color: black;
-    background: #a60303;
+    background: #FF63A8;
     transition: all 0.25s ease;
   }
 
@@ -62,7 +75,7 @@
     font-size: 0.8rem;
     border: none;
     color: black;
-    background: #03a64c;
+    background: #63FFBA;
     transition: all 0.25s ease;
   }
 
