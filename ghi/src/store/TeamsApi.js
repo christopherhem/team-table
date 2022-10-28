@@ -174,6 +174,11 @@ export const teamsApi = createApi({
             }),
             providesTags:['ValidSwapList']
         }),
+        getValidCoverSwaps: builder.query({
+            query:(id) =>({
+                url:
+            })
+        })
         /* TEMPLATES
         get : builder.query({
             query:()=>({
