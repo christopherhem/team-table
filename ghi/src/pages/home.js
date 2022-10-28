@@ -19,6 +19,7 @@ import { useGetTokenQuery,
 import UpdateShiftFormModal from '../components/events/updateSwapModal';
 import { FaBars, FaTrash, FaCheck } from 'react-icons/fa';
 import Swap from '../components/swaps/ShiftSwapModal';
+import CoverSwap from '../components/swaps/CoverSwapModal';
 
 
 import './styles.scss';
@@ -115,7 +116,7 @@ function UserHome() {
                                                 <button className={styles.primaryBtn} onClick={() => {
                                                     setCoverId(cover.id)
                                                     setIsOpenCoverSwap(true)
-                                                } }>Cover a Shift</button>{isOpenCoverSwap && coverId ? <Swap i={coverId} handleClose={() => {
+                                                }}>Cover a Shift</button>{isOpenCoverSwap && coverId ? <CoverSwap i={coverId} handleClose={() => {
                                                     setIsOpenCoverSwap(false)
                                                     setCoverId(null)
                                                    }} />: null}

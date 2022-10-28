@@ -207,7 +207,7 @@ class SwapRepository:
                 db.execute(
                     """
                     SELECT id, event_href, owner, team, availability_start, availability_end, mono_id
-                    FROM cover_event
+                    FROM cover_event_vos
                     WHERE mono_id = %s
                     """,
                     [event_id]

@@ -165,7 +165,13 @@ class EventVoRepository:
                     """,
                     [tid]
                 )
-                events['swap_events']=self.to_dict(result.fetchall(),result.description)
+                swap_events = self.to_dict(result.fetchall(),result.description)
+                if type(swap_events) != list:
+                    temp = []
+                    temp.append(swap_events)
+                    swap_events = temp
+                events['swap_events'] = swap_events
+
         with pool.connection() as conn:
             with conn.cursor() as db:
 
@@ -177,7 +183,12 @@ class EventVoRepository:
                     """,
                     [tid]
                 )
-                events['cover_events']=self.to_dict(result.fetchall(),result.description)
+                cover_events = self.to_dict(result.fetchall(),result.description)
+                if type(cover_events) != list:
+                    temp =[]
+                    temp.append(cover_events)
+                    cover_events = temp
+                events['cover_events']= cover_events
         return events
 
     def to_dict(self,rows,description):
