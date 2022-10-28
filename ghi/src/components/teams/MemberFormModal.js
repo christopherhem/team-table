@@ -14,6 +14,8 @@ export default function MemberFormModal({ setIsOpenMember }) {
     setIsOpenMember(false);
     createMember({ member_username, role });
     console.log("Result:", result)
+    console.log("MEMBER:", member_username)
+    console.log("Role:", role)
   }
 
   return (
@@ -30,10 +32,10 @@ export default function MemberFormModal({ setIsOpenMember }) {
           <form className={styles.modalContent} onSubmit={(e) => handleSubmit(e)}>
             <div className="mb-3">
               <h6>Enter Member's Username</h6>
-              <input onChange={e => setMember(e.target.value)} value={member_username} type="text" name="role" id="role">
+              <input onChange={e => setMember(e.target.value)} value={member_username} type="text" name="member_username" id="member_username">
               </input>
               <h6>Enter Role</h6>
-              <input onChange={e => setRole(e.target.value)} value={role} type="number" name="type" id="role">
+              <input onChange={e => setRole(e.target.value)} value={role} type="number" name="role" id="role">
               </input>
             </div>
             <div className={styles.modalActions}>
