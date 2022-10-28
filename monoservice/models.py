@@ -18,6 +18,14 @@ class CoverEventOut(BaseModel):
     user_id: int
     team_href: str
 
+class UserCoverEventOut(BaseModel):
+    id: int
+    availability_start: datetime
+    availability_end: datetime
+    user_id: int
+    team_href: str
+    team_name: str
+
 class ShiftSwapEventIn(BaseModel):
     shift_start: datetime
     shift_end: datetime
@@ -31,6 +39,16 @@ class ShiftSwapEventUpdateIn(BaseModel):
     availability_start: datetime
     availability_end: datetime
 
+class UserShiftSwapEventOut(BaseModel):
+    id: int
+    shift_start: datetime
+    shift_end: datetime
+    availability_start: datetime
+    availability_end: datetime
+    user_id: int
+    team_href: str
+    team_name: str
+
 class ShiftSwapEventOut(BaseModel):
     id: int
     shift_start: datetime
@@ -39,6 +57,7 @@ class ShiftSwapEventOut(BaseModel):
     availability_end: datetime
     user_id: int
     team_href: str
+    team_name: str
 
 class TableOut(BaseModel):
     events: list[ShiftSwapEventOut]

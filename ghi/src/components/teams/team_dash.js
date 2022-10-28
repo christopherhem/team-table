@@ -68,19 +68,6 @@ export function TeamDashboard() {
                       })}
                   </tbody>
                 </Table>
-                <NavLogo tag="h5" color="#6C63FF">Notifications</NavLogo>
-                <Table className="border table-striped no-wrap mt-3 align-middle col-6" response border>
-                  <thead>
-                    <tr>
-                      <th>Team Notifications</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr>
-                      <td> some notification</td>
-                    </tr>
-                  </tbody>
-                </Table>
               </div>
               {/* </CardBody>
               </Card> */}
@@ -111,13 +98,14 @@ export function TeamDashboard() {
                         </tr>
                       )
                     })
-                    :
+                    : (eventData.cover_events.length === 1) ?
                     <tr key={eventData.cover_events.id}>
                       <td>{eventData.cover_events.owner}</td>
                       <td>{new DateObject(eventData.cover_events.availability_end).format("ddd DD MMM YYYY")}</td>
                       <td>{new DateObject(eventData.cover_events.availability_end).format("ddd DD MMM YYYY")}</td>
                     </tr>
-
+                    :
+                    null
                   }
                 </tbody>
               </Table>
@@ -152,14 +140,16 @@ export function TeamDashboard() {
                           <td>{end_date}</td>
                         </tr>
                       )
-                    }) :
+                    }): (eventData.swap_events.length === 1) ?
                     <tr key={eventData.swap_events.id}>
-                      <td>{eventData.swap_events.owner}</td>
-                      <td>{new DateObject(eventData.swap_events.shift_start).format("ddd DD MMM YYYY")}</td>
-                      <td>{new DateObject(eventData.swap_events.shift_end).format("ddd DD MMM YYYY")}</td>
-                      <td>{new DateObject(eventData.swap_events.availability_start).format("ddd DD MMM YYYY")}</td>
-                      <td>{new DateObject(eventData.swap_events.availability_end).format("ddd DD MMM YYYY")}</td>
-                    </tr>
+                    <td>{eventData.swap_events.owner}</td>
+                    <td>{new DateObject(eventData.swap_events.shift_start).format("ddd DD MMM YYYY")}</td>
+                    <td>{new DateObject(eventData.swap_events.shift_end).format("ddd DD MMM YYYY")}</td>
+                    <td>{new DateObject(eventData.swap_events.availability_start).format("ddd DD MMM YYYY")}</td>
+                    <td>{new DateObject(eventData.swap_events.availability_end).format("ddd DD MMM YYYY")}</td>
+                  </tr>
+                  :
+                  null
                   }
                 </tbody>
               </Table>

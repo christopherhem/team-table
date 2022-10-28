@@ -1,7 +1,7 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 import os
-from routers import events_router, team_vo_router, users_router, swap_router
+from routers import events_router, team_vo_router, users_router, swap_router, notification_router
 from authenticator import authenticator
 
 app = FastAPI()
@@ -21,3 +21,4 @@ app.include_router(users_router.router)
 app.include_router(team_vo_router.router)
 app.include_router(authenticator.router)
 app.include_router(swap_router.router)
+app.include_router(notification_router.router)

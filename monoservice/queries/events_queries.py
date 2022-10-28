@@ -51,7 +51,25 @@ class EventQueries:
                     ORDER BY e.shift_start
                     """,
                 )
-                return self.to_dict(db.fetchall(), db.description)
+                events =  self.to_dict(db.fetchall(), db.description)
+        if type(events) != list:
+            temp = []
+            temp.append(events)
+            events = temp
+        for dic in events:
+            with pool.connection() as conn:
+                with conn.cursor() as db:
+                    result = db.execute(
+                        """
+                        SELECT name
+                        FROM teams_vo
+                        WHERE team_href = %s
+
+                        """,
+                        [dic['team_href']]
+                    )
+                    dic['team_name'] = str(result.fetchone()).strip("(',)")
+        return events
 
     def get_user_cover_events(self, user):
         with pool.connection() as conn:

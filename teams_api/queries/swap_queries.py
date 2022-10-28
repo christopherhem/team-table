@@ -10,7 +10,7 @@ class SwapRepository:
             with conn.cursor() as db:
                 result = db.execute(
                 """
-                SELECT id, event_href, owner, team, shift_start, shift_end, availability_start, availability_end
+                SELECT id, event_href, owner, team, shift_start, shift_end, availability_start, availability_end, mono_id
                 FROM shift_swap_event_vos
                 WHERE owner = %s
                 """,
@@ -27,9 +27,9 @@ class SwapRepository:
                 with conn.cursor() as db:
                     result = db.execute(
                         """
-                        SELECT id, event_href, owner, team, shift_start, shift_end, availability_start, availability_end
+                        SELECT id, event_href, owner, team, shift_start, shift_end, availability_start, availability_end, mono_id
                         FROM shift_swap_event_vos
-                        WHERE team = %s AND owner != %s                   
+                        WHERE team = %s AND owner != %s
                         """,
                         [
                             swap['team'],
@@ -63,7 +63,7 @@ class SwapRepository:
             with conn.cursor() as db:
                 result = db.execute(
                 """
-                SELECT id, event_href, owner, team, availability_start, availability_end
+                SELECT id, event_href, owner, team, availability_start, availability_end, mono_id
                 FROM cover_event_vos
                 WHERE owner = %s
                 """,
@@ -80,9 +80,9 @@ class SwapRepository:
                 with conn.cursor() as db:
                     result = db.execute(
                         """
-                        SELECT id, event_href, owner, team, shift_start, shift_end, availability_start, availability_end
+                        SELECT id, event_href, owner, team, shift_start, shift_end, availability_start, availability_end, mono_id
                         FROM shift_swap_event_vos
-                        WHERE team = %s AND owner != %s                   
+                        WHERE team = %s AND owner != %s
                         """,
                         [
                             cover['team'],
@@ -116,7 +116,7 @@ class SwapRepository:
             with conn.cursor() as db:
                 result = db.execute(
                 """
-                SELECT id, event_href, owner, team, shift_start, shift_end, availability_start, availability_end
+                SELECT id, event_href, owner, team, shift_start, shift_end, availability_start, availability_end, mono_id
                 FROM shift_swap_event_vos
                 WHERE owner = %s
                 """,
@@ -133,9 +133,9 @@ class SwapRepository:
                 with conn.cursor() as db:
                     result = db.execute(
                         """
-                        SELECT id, event_href, owner, team, availability_start, availability_end
+                        SELECT id, event_href, owner, team, availability_start, availability_end, mono_id
                         FROM cover_event_vos
-                        WHERE team = %s AND owner != %s                   
+                        WHERE team = %s AND owner != %s
                         """,
                         [
                             swap['team'],
@@ -162,15 +162,26 @@ class SwapRepository:
         finaldict['covers_for_user'] = final
         return finaldict
 
-    def get_swaps_for_single_swap(self, user, u_event):
-        u_event['team'] = u_event['team_href'].split('/')[-1]
+    def get_swaps_for_single_swap(self, user, event_id):
+        with pool.connection() as conn:
+            with conn.cursor() as db:
+                db.execute(
+                    """
+                    SELECT id, event_href, owner, team, shift_start, shift_end, availability_start, availability_end, mono_id
+                    FROM shift_swap_event_vos
+                    WHERE mono_id = %s
+                    """,
+                    [event_id]
+                )
+                u_event = self.to_dict(db.fetchall(), db.description)
+
         with pool.connection() as conn:
             with conn.cursor() as db:
                 db.execute(
                         """
-                        SELECT id, event_href, owner, team, availability_start, availability_end
-                        FROM cover_event_vos
-                        WHERE team = %s AND owner != %s                   
+                        SELECT id, event_href, owner, team, shift_start, shift_end, availability_start, availability_end, mono_id
+                        FROM shift_swap_event_vos
+                        WHERE team = %s AND owner != %s
                         """,
                         [
                             u_event['team'],

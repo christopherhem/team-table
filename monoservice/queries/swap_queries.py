@@ -80,7 +80,7 @@ class SwapRepository:
                     """,
                     [swap.availability_start,swap.availability_end,swap.user_id,swap.team_href]
                 )
-                created_cover = self.to_dict(db.fetchall(),db.description) 
+                created_cover = self.to_dict(db.fetchall(),db.description)
         return created_cover
 
     def to_dict(self,rows,description):

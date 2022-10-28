@@ -131,18 +131,18 @@ class EventsOut(BaseModel):
     cover_events: List[SafeCoverEventVoOut] | SafeCoverEventVoOut
 
 class ValidSwapOut(BaseModel):
-    user_event : SwapEventVoOut
-    valid_swaps : list[SwapEventVoOut]
+    user_event : SafeSwapEventVoOut
+    valid_swaps : list[SafeSwapEventVoOut]
 
 class ValidCoverUserOut(BaseModel):
     #model for user getting a swap event covered
-    user_event: SwapEventVoOut
-    valid_swaps : list[CoverEventVoOut]
+    user_event: SafeSwapEventVoOut
+    valid_swaps : list[SafeCoverEventVoOut]
 
 class ValidUserCoverOut(BaseModel):
     #model for user getting swap events to cover
-    user_event:CoverEventVoOut
-    valid_swaps: list[SwapEventVoOut]
+    user_event: SafeCoverEventVoOut
+    valid_swaps: list[SafeSwapEventVoOut]
 
 class ValidSwapListOut(BaseModel):
     swaps : list[ValidSwapOut]
