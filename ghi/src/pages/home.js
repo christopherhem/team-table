@@ -132,7 +132,7 @@ function UserHome() {
                                     })}
                             </tbody>
                         </Table>
-                        <button className={styles.primaryBtn} onClick={() => setIsOpenCover(true)}>Create Cover Event</button>{isOpenCover && <CoverEventFormModal setIsOpenCover={setIsOpenCover} />}
+                        <button className={styles.secPrimaryBtn} onClick={() => setIsOpenCover(true)}>Create Cover Event</button>{isOpenCover && <CoverEventFormModal setIsOpenCover={setIsOpenCover} />}
                         <TableLogo tag="h5" color="#6C63FF">Your Shift Swap Events</TableLogo>
                         <Table className="border table-striped no-wrap mt-3 align-middle" response border>
                             <thead>
@@ -189,7 +189,7 @@ function UserHome() {
                                 })}
                             </tbody>
                         </Table>
-                        <button className={styles.primaryBtn} onClick={() => setIsOpenShift(true)}>Create Swap Event</button>{isOpenShift && <SwapEventFormModal setIsOpenShift={setIsOpenShift} />}
+                        <button className={styles.secPrimaryBtn} onClick={() => setIsOpenShift(true)}>Create Swap Event</button>{isOpenShift && <SwapEventFormModal setIsOpenShift={setIsOpenShift} />}
                     </CardBody>
                 </Card>
             </div>

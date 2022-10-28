@@ -55,6 +55,13 @@ const HomeSidebar = ({
 }) => {
   const [isOpenTeam, setIsOpenTeam] = useState(false)
   const { data: teamData, error: teamError, isLoading: isLoadingTeam } = useGetUsersTeamsQuery();
+  let teamNumber = 0
+  if (teamData != null) {
+    teamNumber = teamData.length
+  } else {
+    teamNumber = 0
+  }
+  
 
   if (isLoadingTeam) {
     return (
@@ -106,7 +113,7 @@ const HomeSidebar = ({
             <NavLink to="/" />
           </MenuItem>
           <SubMenu
-            suffix={<span className="badge yellow">1000</span>}
+            suffix={<span className="badge yellow">{teamNumber}</span>}
             title={'Teams'}
             icon={<FaPeopleArrows />}
           >
@@ -135,7 +142,7 @@ const HomeSidebar = ({
             <NavLink to="/team" />
           </MenuItem> */}
           {/* <MenuItem icon={<FaGem />}>Components </MenuItem> */}
-          <MenuItem icon={<FaCalendarDay />}>
+          {/* <MenuItem icon={<FaCalendarDay />}>
             My Events <Link to="/events" />
           </MenuItem>
           <SubMenu
@@ -146,7 +153,7 @@ const HomeSidebar = ({
             <MenuItem>Cover</MenuItem>
             <MenuItem>Swap</MenuItem>
             <MenuItem>Availability</MenuItem>
-          </SubMenu>
+          </SubMenu> */}
           {/* <SubMenu
             prefix={<span className="badge gray">3</span>}
             title={'With Prefix'}
