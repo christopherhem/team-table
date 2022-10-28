@@ -42,6 +42,18 @@ export const NavLogo = styled(LinkR)`
     text-decoration: none;
 `
 
+export const TableLogo = styled.h1`
+    color: #6C63FF;
+    justify-self: flex-start;
+    cursor: pointer;
+    font-size: 1.65rem;
+    display: flex;
+    align-items: center;
+    margin-left: 24px;
+    font-weight: bold;
+    text-decoration: none;
+`
+
 export const MobileIcon = styled.div`
     display: none;
 
@@ -90,7 +102,7 @@ export const NavLinks = styled(LinkS)`
 export const NavButton = styled.nav`
     display: flex;
     align-items: center;
-    
+
 
     @media screen and (max-width: 768px) {
         display: none;
@@ -114,7 +126,7 @@ export const NavBtnLink = styled(LinkR)`
     &:hover {
         transition: all 0.2s ease-in-out;
         background: #fff;
-        color: #6C63FF;  
+        color: #6C63FF;
     }
 `
 
