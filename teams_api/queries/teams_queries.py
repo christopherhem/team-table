@@ -20,7 +20,7 @@ class TeamRepository:
                     )
                     VALUES(
                         %s,
-                        %s,
+                        1,
                         %s,
                         1
                     )
