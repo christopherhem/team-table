@@ -49,7 +49,7 @@ def get_valid_swaps_for_single_swap(
 def get_valid_swaps_for_single_cover(
     response: Response,
     request: Request,
-    repo:SwapRepository=Depends(),
+    repo: SwapRepository= Depends(),
     user = Depends(get_current_user),
     event_id = int
 ):

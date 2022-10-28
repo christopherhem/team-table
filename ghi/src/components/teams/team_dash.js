@@ -1,6 +1,6 @@
 import { useGetMembersQuery, useGetTeamQuery, useGetEventsQuery } from "../../store/TeamsApi"
 import { Card, CardBody, CardTitle, CardSubtitle, Table } from "reactstrap";
-import { NavLogo } from '../navbar/NavbarElements';
+import { TableLogo } from '../navbar/NavbarElements';
 import { useLocation } from "react-router-dom";
 import { useState } from "react";
 import DateObject from "react-date-object";
@@ -8,7 +8,7 @@ import TeamFormModal from "./TeamFormModal";
 import RoleFormModal from "./RoleFormModal";
 import MemberFormModal from "./MemberFormModal";
 import styles from "../../components/dashboard/Home.module.css"
-import { FlexContainer } from "../navbar/NavbarElements";
+import { FlexContainer, NavLogo } from "../navbar/NavbarElements";
 
 export function TeamDashboard() {
   const [isOpenTeam, setIsOpenTeam] = useState(false)
@@ -74,7 +74,7 @@ export function TeamDashboard() {
 
               {/* <Card className={styles.item2}>
                 <CardBody> */}
-              <NavLogo tag="h5" color="#6C63FF">Cover Events</NavLogo>
+              <TableLogo tag="h5" color="#6C63FF">Cover Events</TableLogo>
               <Table className="border table-striped no-wrap mt-3 align-middle col-6" response border>
                 <thead>
                   <tr>
@@ -109,7 +109,7 @@ export function TeamDashboard() {
                   }
                 </tbody>
               </Table>
-              <NavLogo tag="h5" color="#6C63FF">Shift Swap Events</NavLogo>
+              <TableLogo tag="h5" color="#6C63FF">Shift Swap Events</TableLogo>
               <Table className="border table-striped no-wrap mt-3 align-middle col-6" response border>
                 <thead>
                   <tr>

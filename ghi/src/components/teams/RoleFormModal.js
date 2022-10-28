@@ -19,7 +19,6 @@ export default function RoleFormModal({ setIsOpenRole }) {
     const team = parseInt(id)
     const can_invite = Boolean(invite)
     const can_approve = Boolean(approve)
-
     // let data = {}
     // data['"name"'] = name
     // data['"team"'] = team

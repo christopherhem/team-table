@@ -1,27 +1,29 @@
-#stages:
-  # - test
+stages:
+  - test
   # - build
   # - deploy
 
-
+variables:
+  DATABASE_URL: postgresql://teams:password@postgres/teams
+  SIGNING_KEY: test123486a8sdf234245dsfg
 ##TEST
-# teams-api-unit-tests-job:
-#   stage: test
-#   image: python:3.10-bullseye
-#   script:
-#     - cd teams_api
-#     - pip install -r requirements.txt
-#     - pip install pytest
-#     - python -m pytest
+teams-api-unit-tests-job:
+  stage: test
+  image: python:3.10-bullseye
+  script:
+    - cd teams_api
+    - pip install -r requirements.txt
+    - pip install pytest
+    - python -m pytest
 
-# monoservice-api-unit-tests-job:
-#   stage: test
-#   image: python:3.10-bullseye
-#   script:
-#     - cd monoservice
-#     - pip install -r requirements.txt
-#     - pip install pytest
-#     - python -m pytest
+monoservice-api-unit-tests-job:
+  stage: test
+  image: python:3.10-bullseye
+  script:
+    - cd monoservice
+    - pip install -r requirements.txt
+    - pip install pytest
+    - python -m pytest
 
 # pubsub-unit-tests-job:
 #   stage: test

@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import DateObject from "react-date-object";
 import { useState } from 'react';
 import { Card, CardBody, Table } from "reactstrap";
-import { NavLogo } from '../components/navbar/NavbarElements';
+import { TableLogo } from '../components/navbar/NavbarElements';
 import CoverEventFormModal from '../components/events/CoverEventFormModal';
 import SwapEventFormModal from '../components/events/SwapEventFormModal';
 import UpdateCoverFormModal from '../components/events/updateCoverModal';
@@ -64,7 +64,7 @@ function UserHome() {
                 <Card>
 
                     <CardBody>
-                        <NavLogo tag="h5" color="#6C63FF">Notifications</NavLogo>
+                        <TableLogo tag="h5" color="#6C63FF">Notifications</TableLogo>
                         <Table className="border table-striped no-wrap mt-3 align-middle col-6" response border>
                         <thead>
                             <tr>
@@ -84,7 +84,7 @@ function UserHome() {
                             }
                         </tbody>
                         </Table>
-                        <NavLogo tag="h5" color="#6C63FF">Your Cover Events</NavLogo>
+                        <TableLogo tag="h5" color="#6C63FF">Your Cover Events</TableLogo>
                         <Table className="border table-striped no-wrap mt-3 align-middle" response border>
                             <thead>
                                 <tr>
@@ -121,7 +121,7 @@ function UserHome() {
                             </tbody>
                         </Table>
                         <button className={styles.primaryBtn} onClick={() => setIsOpenCover(true)}>Create Cover Event</button>{isOpenCover && <CoverEventFormModal setIsOpenCover={setIsOpenCover} />}
-                        <NavLogo tag="h5" color="#6C63FF">Your Shift Swap Events</NavLogo>
+                        <TableLogo tag="h5" color="#6C63FF">Your Shift Swap Events</TableLogo>
                         <Table className="border table-striped no-wrap mt-3 align-middle" response border>
                             <thead>
                                 <tr>

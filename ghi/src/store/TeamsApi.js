@@ -62,14 +62,12 @@ export const teamsApi = createApi({
             providesTags: ['Roles']
         }),
         createRole: builder.mutation({
-            query: (data)=>{
-                return {
+            query: (data)=>({
                 url: `api/teams/roles`,
                 body: data,
                 method: "POST",
                 credentials: 'include'
-                }
-            },
+            }),
             invalidatesTags:['Roles']
         }),
         updateRole: builder.mutation({
