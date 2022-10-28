@@ -30,8 +30,8 @@ function UserHome() {
     const [isOpenUpdateCover, setIsOpenUpdateCover] = useState(false);
     const [isOpenCover, setIsOpenCover] = useState(false);
     const [isOpenShift, setIsOpenShift] = useState(false);
-    // const [seenNote, setSeenNote] = useState(false)
-    // const [updateNotification, setupdateNotification] = useUpdateNotificationMutation();
+    const [seenNote, setSeenNote] = useState(false)
+    const [updateNotification, setupdateNotification] = useUpdateNotificationMutation();
     const [isOpen, setIsOpen] = useState(false);
     const [deleteCover, coverResult] = useDeleteCoverEventMutation();
     const [deleteShift, shiftResult] = useDeleteShiftSwapEventMutation();
@@ -78,7 +78,7 @@ function UserHome() {
                                     return (
                                     <tr key={item.id}>
                                         <td>{item.message}</td>
-                                        {/* <td><button className={styles.seenBtn} onClick={() => setSeenNote(true)}><FaCheck /></button></td> */}
+                                        <td><button className={styles.seenBtn} onClick={() => setSeenNote(true)}><FaCheck /></button></td>
                                     </tr>
                                 )}})
                             }
