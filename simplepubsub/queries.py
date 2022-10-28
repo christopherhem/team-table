@@ -3,10 +3,6 @@ from psycopg_pool import ConnectionPool
 pool = ConnectionPool(conninfo=os.environ["DATABASE_URL"])
 from models import Error, SubUrlOut, SubUrlIn
 from typing import  List,  Union
-<<<<<<< HEAD
-
-=======
->>>>>>> main
 
 class TeamSubQueries:
     def add_sub(
