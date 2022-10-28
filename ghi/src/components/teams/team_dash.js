@@ -1,6 +1,5 @@
 import { useGetMembersQuery, useGetTeamQuery, useGetEventsQuery } from "../../store/TeamsApi"
 import { Card, CardBody, Table } from "reactstrap";
-import { TableLogo } from '../navbar/NavbarElements';
 import { useLocation } from "react-router-dom";
 import { useState } from "react";
 import DateObject from "react-date-object";
@@ -8,7 +7,7 @@ import TeamFormModal from "./TeamFormModal";
 import RoleFormModal from "./RoleFormModal";
 import MemberFormModal from "./MemberFormModal";
 import styles from "../../components/dashboard/Home.module.css"
-import { FlexContainer, NavLogo } from "../navbar/NavbarElements";
+import { FlexContainer, TableLogo} from "../navbar/NavbarElements";
 
 export function TeamDashboard() {
   const [isOpenTeam, setIsOpenTeam] = useState(false)
@@ -41,7 +40,7 @@ export function TeamDashboard() {
               </FlexContainer>
 
               <div className={styles.item2}>
-                <NavLogo tag="h5" color="#6C63FF">Members</NavLogo>
+                <TableLogo tag="h5" color="#6C63FF">Members</TableLogo>
                 <Table className="border table-striped no-wrap mt-3 align-middle col-6" response border>
                   <thead>
                     <tr>
