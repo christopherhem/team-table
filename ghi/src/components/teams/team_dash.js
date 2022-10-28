@@ -69,19 +69,6 @@ export function TeamDashboard() {
                       })}
                   </tbody>
                 </Table>
-                <NavLogo tag="h5" color="#6C63FF">Notifications</NavLogo>
-                <Table className="border table-striped no-wrap mt-3 align-middle col-6" response border>
-                  <thead>
-                    <tr>
-                      <th>Team Notifications</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr>
-                      <td> some notification</td>
-                    </tr>
-                  </tbody>
-                </Table>
               </div>
               {/* </CardBody>
               </Card> */}

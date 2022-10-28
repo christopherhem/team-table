@@ -41,6 +41,8 @@ class ShiftSwapEventUpdateIn(BaseModel):
 
 class UserShiftSwapEventOut(BaseModel):
     id: int
+    shift_start: datetime
+    shift_end: datetime
     availability_start: datetime
     availability_end: datetime
     user_id: int
@@ -55,6 +57,7 @@ class ShiftSwapEventOut(BaseModel):
     availability_end: datetime
     user_id: int
     team_href: str
+    team_name: str
 
 class TableOut(BaseModel):
     events: list[ShiftSwapEventOut]

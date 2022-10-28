@@ -179,12 +179,12 @@ class SwapRepository:
             with conn.cursor() as db:
                 db.execute(
                         """
-                        SELECT id, event_href, owner, team, shift_start, shift_end, availability_start, availability_end
+                        SELECT id, event_href, owner, team, shift_start, shift_end, availability_start, availability_end, mono_id
                         FROM shift_swap_event_vos
                         WHERE team = %s AND owner != %s
                         """,
                         [
-                            event_id,
+                            u_event['team'],
                             user['account']['username']
                         ]
                 )

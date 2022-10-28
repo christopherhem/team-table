@@ -8,39 +8,48 @@ import CoverEventFormModal from '../components/events/CoverEventFormModal';
 import SwapEventFormModal from '../components/events/SwapEventFormModal';
 import UpdateCoverFormModal from '../components/events/updateCoverModal';
 import styles from "../components/dashboard/Home.module.css"
-import { useGetTokenQuery, useGetUserCoverEventsQuery, useGetUserShiftSwapEventsQuery, useDeleteCoverEventMutation, useDeleteShiftSwapEventMutation } from '../store/UsersApi';
+import { useGetTokenQuery,
+    useGetUserCoverEventsQuery,
+    useGetUserShiftSwapEventsQuery,
+    useDeleteCoverEventMutation,
+    useDeleteShiftSwapEventMutation,
+    useGetUserNotificationsQuery,
+    useUpdateNotificationMutation,
+} from '../store/UsersApi';
 import UpdateShiftFormModal from '../components/events/updateSwapModal';
-import { FaBars, FaTrash } from 'react-icons/fa';
+import { FaBars, FaTrash, FaCheck } from 'react-icons/fa';
 import Swap from '../components/swaps/ShiftSwapModal';
-import { useGetValidSwapsQuery } from '../store/TeamsApi';
-import { usePerformSwapMutation } from '../store/UsersApi';
+
 
 import './styles.scss';
 
 function UserHome() {
+    const [shiftId, setShiftId] = useState(null);
     const [isOpenSwap, setIsOpenSwap] = useState(false);
     const [isOpenUpdateShift, setIsOpenUpdateShift] = useState(false);
     const [isOpenUpdateCover, setIsOpenUpdateCover] = useState(false);
     const [isOpenCover, setIsOpenCover] = useState(false);
     const [isOpenShift, setIsOpenShift] = useState(false);
+    // const [seenNote, setSeenNote] = useState(false)
+    // const [updateNotification, setupdateNotification] = useUpdateNotificationMutation();
     const [isOpen, setIsOpen] = useState(false);
-    const [collapsed, setCollapsed] = useState(false);
-    const [image, setImage] = useState(false);
-    const [toggled, setToggled] = useState(false);
     const [deleteCover, coverResult] = useDeleteCoverEventMutation();
     const [deleteShift, shiftResult] = useDeleteShiftSwapEventMutation();
     const { data: userData, isLoading: isLoadingUser } = useGetTokenQuery();
     const { data: eventData, isLoading: isLoadingEvent } = useGetUserCoverEventsQuery();
     const { data: shiftData, isLoading: isLoadingShift } = useGetUserShiftSwapEventsQuery();
+    const { data: notificationData, isLoading: isLoadingNotifications} = useGetUserNotificationsQuery();
 
 
-    if (isLoadingEvent || isLoadingShift || isLoadingUser ) {
+    if (isLoadingEvent || isLoadingShift || isLoadingUser || isLoadingNotifications) {
         return (
             <progress className="progress is-primary" max="100"></progress>
         );
     }
 
+    const unseenNotifications = notificationData.filter((notification) => notification.seen === false)
     const user = userData.user.first_name
+
     const toggle = () => {
         setIsOpen(!isOpen)
     }
@@ -55,12 +64,30 @@ function UserHome() {
                 <Card>
 
                     <CardBody>
-                        {/* <button className={styles.editBtn} onClick={handleClick}>Swap Your Shifts!</button> */}
+                        <NavLogo tag="h5" color="#6C63FF">Notifications</NavLogo>
+                        <Table className="border table-striped no-wrap mt-3 align-middle col-6" response border>
+                        <thead>
+                            <tr>
+                            <th>Your Notifications</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {
+                                unseenNotifications.map((item) => {
+                                    if (item.seen === false) {
+                                    return (
+                                    <tr key={item.id}>
+                                        <td>{item.message}</td>
+                                        {/* <td><button className={styles.seenBtn} onClick={() => setSeenNote(true)}><FaCheck /></button></td> */}
+                                    </tr>
+                                )}})
+                            }
+                        </tbody>
+                        </Table>
                         <NavLogo tag="h5" color="#6C63FF">Your Cover Events</NavLogo>
                         <Table className="border table-striped no-wrap mt-3 align-middle" response border>
                             <thead>
                                 <tr>
-                                    <th>Swap</th>
                                     <th>Edit</th>
                                     <th>Delete</th>
                                     <th>Availability Start</th>
@@ -121,23 +148,30 @@ function UserHome() {
                                     let end = new DateObject(shift.availability_end)
                                     let start_date = start.format("ddd DD MMM YYYY")
                                     let end_date = end.format("ddd DD MMM YYYY")
-                                    const id = shift.id
 
                                     return (
                                         <tr key={shift.id}>
                                             <td>
-                                                <button className={styles.primaryBtn} onClick={() => setIsOpenSwap(true)}>Swap Shifts</button>{isOpenSwap && <Swap setIsOpenSwap={setIsOpenSwap} id={id}/>}
+                                                <button className={styles.primaryBtn} onClick={() => {
+                                                    setShiftId(shift.id)
+                                                    setIsOpenSwap(true)
+                                                } }>Swap Shifts</button>{isOpenSwap && shiftId ? <Swap i={shiftId} handleClose={() => {
+                                                    setIsOpenSwap(false)
+                                                    setShiftId(null)
+                                                   }} />: null}
                                             </td>
                                             <td>
-                                                <button className={styles.editBtn} onClick={() => setIsOpenUpdateShift(true)}>Edit</button>{isOpenUpdateShift && <UpdateShiftFormModal setIsOpenUpdateShift={setIsOpenUpdateShift} id={id} />}
+                                                <button className={styles.editBtn} onClick={() => {
+                                                    setShiftId(shift.id)
+                                                    setIsOpenUpdateShift(true)
+                                                    }}>Edit</button>{isOpenUpdateShift && shiftId ? <UpdateShiftFormModal setIsOpenUpdateShift={setIsOpenUpdateShift} i={shiftId} />: null}
                                             </td>
-                                            <td><button className={styles.deleteBtn} onClick={() => deleteShift(id)}><FaTrash /></button></td>
+                                            <td><button className={styles.deleteBtn} onClick={() => deleteShift(shift.id)}><FaTrash /></button></td>
                                             <td>{shift_start}</td>
                                             <td>{shift_end}</td>
                                             <td>{start_date}</td>
                                             <td>{end_date}</td>
                                             <td><Link to="/team" state={{ id: teamId }}>{shift.team_name}</Link></td>
-
                                         </tr>
                                     );
                                 })}

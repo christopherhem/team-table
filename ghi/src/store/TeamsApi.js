@@ -19,7 +19,7 @@ export const teamsApi = createApi({
             return headers;
         }
     }),
-    tagTypes:['Team','Token','Roles','Members','Permissions','TeamEvents','TeamTypes','EventTypes'],
+    tagTypes:['Team','Token','Roles','Members','Permissions','TeamEvents','TeamTypes','EventTypes', 'ValidSwapList'],
     endpoints: builder=>({
         createTeam: builder.mutation({
             query: data => ({
@@ -172,7 +172,7 @@ export const teamsApi = createApi({
                 url:`/api/swapbyswap/${id}`,
                 credentials: 'include'
             }),
-            invalidatesTags: ['TeamEvents']
+            providesTags:['ValidSwapList']
         }),
         /* TEMPLATES
         get : builder.query({
