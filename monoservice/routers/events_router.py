@@ -1,7 +1,6 @@
 from fastapi import APIRouter, Depends, Response, Request
-from fastapi.middleware.cors import CORSMiddleware
-from typing import Optional, List, Union
-import os, requests, json
+from typing import List, Union
+import requests, json
 from queries.events_queries import EventQueries
 from authenticator import authenticator
 from models import (
@@ -152,14 +151,30 @@ def update_shift_swap_event(
 
 
 @router.delete("/api/table/cover_events/{id}", response_model=bool)
+<<<<<<< HEAD
 def delete_cover_event(id: int, repo: EventQueries = Depends()):
     record = repo.delete_cover_event(id)
+=======
+def delete_cover_event(
+    id: int,
+    repo: EventQueries = Depends()
+):
+    repo.delete_cover_event(id)
+>>>>>>> 6c37336 (cleaned up monoservice and pubsub import and prints)
     return True
 
 
 @router.delete("/api/table/shift_swap_events/{id}", response_model=bool)
+<<<<<<< HEAD
 def delete_cover_event(id: int, repo: EventQueries = Depends()):
     record = repo.delete_shift_swap_event(id)
+=======
+def delete_cover_event(
+    id: int,
+    repo: EventQueries = Depends()
+):
+    repo.delete_shift_swap_event(id)
+>>>>>>> 6c37336 (cleaned up monoservice and pubsub import and prints)
     return True
 
 

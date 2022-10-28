@@ -9,9 +9,7 @@ from fastapi import (
 )
 from typing import List, Optional, Union
 from queries.users_queries import *
-
 import os
-
 from fastapi.security import OAuth2PasswordBearer
 from jose import JWTError, jwt
 from jwtdown_fastapi.authentication import Token
@@ -61,7 +59,6 @@ async def get_current_user(
         token = cookie_token
     try:
         payload = jwt.decode(token, SIGNING_KEY, algorithms=[ALGORITHM])
-        print(payload)
         email = payload.get("email")
         if email is None:
             raise credentials_exception

@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Depends, status, Response, HTTPException, Request
+from fastapi import APIRouter, Depends, Response, Request
 from queries.swap_queries import SwapRepository
 from typing import Union, List
 from authenticator import authenticator

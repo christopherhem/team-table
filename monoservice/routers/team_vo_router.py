@@ -1,9 +1,16 @@
 from fastapi import APIRouter, Depends, Response
-from fastapi.middleware.cors import CORSMiddleware
-import os
 from queries.teamvo_queries import TeamVORepository
+<<<<<<< HEAD
 from models import TeamVoOut, TeamVoIn, MemberIn
 from typing import List, Union
+=======
+from models import (
+    TeamVoOut,
+    TeamVoIn,
+    MemberIn
+)
+from typing import List
+>>>>>>> 6c37336 (cleaned up monoservice and pubsub import and prints)
 from authenticator import authenticator
 
 router = APIRouter()

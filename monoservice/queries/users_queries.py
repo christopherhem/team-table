@@ -1,17 +1,14 @@
 from pydantic import BaseModel
 from typing import List, Optional, Union
 from queries.pool import pool
-from models import User, UserIn, UserOut, UserPut, Error
+from models import User, UserIn, UserOut,  Error
 
 
 class UserQueries:
     def get_all(self) -> Union[Error, List[User]]:
         try:
-            # connect the database
             with pool.connection() as conn:
-                # get a cursor (something to run SQL with)
                 with conn.cursor() as db:
-                    # Run our SELECT statement
                     result = db.execute(
                         """
                         SELECT id
@@ -32,11 +29,8 @@ class UserQueries:
             return {"message": "Could not get all users"}
 
     def get_one(self, user_id: int) -> Optional[UserOut]:
-        # connect the database
         with pool.connection() as conn:
-            # get a cursor (something to run SQL with)
             with conn.cursor() as db:
-                # Run our SELECT statement
                 result = db.execute(
                     """
                     SELECT id
@@ -52,18 +46,14 @@ class UserQueries:
                     """,
                     [user_id],
                 )
-                # We're only trying to get one
                 record = result.fetchone()
                 if record is None:
                     return None
                 return self.record_to_user_out(record)
 
     def get_user(self, email: str) -> Optional[User]:
-        # connect the database
         with pool.connection() as conn:
-            # get a cursor (something to run SQL with)
             with conn.cursor() as db:
-                # Run our SELECT statement
                 result = db.execute(
                     """
                     SELECT id
@@ -86,11 +76,8 @@ class UserQueries:
                 return self.record_to_user_out(record)
 
     def create(self, user: UserIn, hashed_password: str) -> Union[User, Error]:
-        # connect the database
         with pool.connection() as conn:
-            # get a cursor (something to run SQL with)
             with conn.cursor() as db:
-                # Run our INSERT statement
                 result = db.execute(
                     """
                     INSERT INTO users (
@@ -130,28 +117,26 @@ class UserQueries:
 
     def update(self, user_id: int, user: UserIn, hp) -> Union[UserOut, Error]:
         try:
-            # connect the database
             with pool.connection() as conn:
-                # get a cursor (something to run SQL with)
                 with conn.cursor() as db:
                     db.execute(
                         """
                         UPDATE users
-                        SET 
-                            hashed_password = %s, 
-                            first_name = %s, 
-                            last_name = %s, 
-                            email = %s, 
-                            phone_number = %s, 
+                        SET
+                            hashed_password = %s,
+                            first_name = %s,
+                            last_name = %s,
+                            email = %s,
+                            phone_number = %s,
                             profile_picture_href = %s
                         WHERE id = %s
-                        RETURNING 
+                        RETURNING
                             id,
-                            username, 
-                            first_name, 
-                            last_name, 
-                            email, 
-                            phone_number, 
+                            username,
+                            first_name,
+                            last_name,
+                            email,
+                            phone_number,
                             profile_picture_href
                         """,
                         [
@@ -171,9 +156,7 @@ class UserQueries:
 
     def delete(self, user_id: int) -> bool:
         try:
-            # connect the database
             with pool.connection() as conn:
-                # get a cursor (something to run SQL with)
                 with conn.cursor() as db:
                     db.execute(
                         """
