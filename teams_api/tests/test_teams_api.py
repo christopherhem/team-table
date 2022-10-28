@@ -20,7 +20,7 @@ def get_test_user():
 
 app.dependency_overrides[get_current_user] = get_test_user
 
-# def test_create_team_route(): #does not currently work due to pub sub request
+# def test_create_team_route(): #does not currently work on pipeline due to pub sub request
 #     app.dependency_overrides[
 #         TeamRepository
 #     ] = TestTeamRepository
