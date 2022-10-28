@@ -83,24 +83,6 @@ export default function Swap({ handleClose, i }) {
                 })}
               </select>
             </div>
-            <div className="mb-3">
-              {/* { user_event ?
-              <select onChange={e => setValidSwap(e.target.value)} value={valid_swap} className="form-select" name="valid_swap" id="valid_swap">
-                <option value="">Select a Team</option>
-                {validData.map((shift) => {
-                  console.log("SHIFT", shift.valid_swaps)
-                  if (shift.user_event.mono_id === user_event) {
-                    shift.valid_swaps.map((vs) => {
-                      return (
-                        <option key={vs.mono_id} value={vs.mono_id}>{new DateObject(swap.shift_start).format("ddd DD MMM YYYY hh mm")}</option>
-                      );
-                    })
-                  }
-                    })
-                  }
-              </select>: null} */}
-
-            </div>
             <div className={styles.modalActions}>
               <div className={styles.actionsContainer}>
                 <button className={styles.deleteBtn}>

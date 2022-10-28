@@ -25,6 +25,7 @@ import './styles.scss';
 
 function UserHome() {
     const [shiftId, setShiftId] = useState(null);
+    const [isOpenCoverSwap, setIsOpenCoverSwap] = useState(false);
     const [isOpenSwap, setIsOpenSwap] = useState(false);
     const [isOpenUpdateShift, setIsOpenUpdateShift] = useState(false);
     const [isOpenUpdateCover, setIsOpenUpdateCover] = useState(false);
