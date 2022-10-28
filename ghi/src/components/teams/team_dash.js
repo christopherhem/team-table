@@ -50,7 +50,7 @@ export function TeamDashboard() {
               </FlexContainer>
 
               <div className={styles.item2}>
-                <NavLogo tag="h5" color="#6C63FF">Members ({membersData.length})</NavLogo>
+                <NavLogo tag="h5" color="#6C63FF">Members</NavLogo>
                 <Table className="border table-striped no-wrap mt-3 align-middle col-6" response border>
                   <thead>
                     <tr>
