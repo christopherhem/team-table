@@ -1,18 +1,22 @@
 from pydantic import BaseModel
 from typing import Optional
 
+
 class Error(BaseModel):
-    message:str
+    message: str
+
 
 class SubUrlIn(BaseModel):
-    url:str
+    url: str
+
 
 class SubUrlOut(BaseModel):
-    id:int
-    url:str
+    id: int
+    url: str
+
 
 class EventVoIn(BaseModel):
-    id : int
+    id: int
     team_href: str
     shift_start: Optional[str]
     shift_end: Optional[str]
@@ -20,12 +24,14 @@ class EventVoIn(BaseModel):
     availability_end: str
     user_id: Optional[int]
 
+
 class TeamVoIn(BaseModel):
-    id : int
-    name : str
-    type : int
-    description : Optional[str]
-    pay_level : int
+    id: int
+    name: str
+    type: int
+    description: Optional[str]
+    pay_level: int
+
 
 class MemberIn(BaseModel):
     id: int
