@@ -28,7 +28,6 @@ export default function SwapEventFormModal({ setIsOpenShift }) {
     e.preventDefault();
     setIsOpenShift(false)
     createShift({ shift_start, shift_end, availability_start, availability_end, team_href });
-    console.log(result)
   }
 
   return (
@@ -62,20 +61,20 @@ export default function SwapEventFormModal({ setIsOpenShift }) {
                   );
                 })}
               </select>
+            </div>
+            <div className={styles.modalActions}>
+              <div className={styles.actionsContainer}>
+                <button type="submit" className={styles.deleteBtn}>
+                  Submit
+                </button>
+                <button type="button"
+                  className={styles.cancelBtn}
+                  onClick={() => setIsOpenShift(false)}
+                >
+                  Cancel
+                </button>
               </div>
-              <div className={styles.modalActions}>
-                <div className={styles.actionsContainer}>
-                  <button type="submit" className={styles.deleteBtn}>
-                    Submit
-                  </button>
-                  <button type="button"
-                    className={styles.cancelBtn}
-                    onClick={() => setIsOpenShift(false)}
-                  >
-                    Cancel
-                  </button>
-                </div>
-              </div>
+            </div>
           </form>
         </div>
       </div>

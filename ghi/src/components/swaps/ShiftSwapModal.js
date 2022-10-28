@@ -2,27 +2,15 @@
 import React, { useState, useEffect } from 'react'
 import styles from '../events/Modal.module.css'
 import { RiCloseLine } from "react-icons/ri"
-import { usePerformSwapMutation, useGetAllShiftSwapEventsQuery} from '../../store/UsersApi';
+import { usePerformSwapMutation } from '../../store/UsersApi';
 import { useGetValidSwapsQuery } from '../../store/TeamsApi';
-import {
-  Container,
-  FormWrap,
-  Icon,
-  FormContent,
-  Form,
-  FormH1,
-  FormButton,
-  CreateInput
-} from '../users/SignUpElements.js';
 import DateObject from "react-date-object";
 
 
 export default function Swap({ handleClose, i }) {
-
-  const [swap, setSwap] = useState([]);
   const [valid_swap, setValidSwap] = useState(null);
   const [events, setEvents] = useState([])
-  const {data: validData, isLoading: isLoadingSwaps} = useGetValidSwapsQuery(i);
+  const { data: validData, isLoading: isLoadingSwaps } = useGetValidSwapsQuery(i);
   const [performSwap, result] = usePerformSwapMutation();
 
   const fetchEvents = async () => {
@@ -36,23 +24,19 @@ export default function Swap({ handleClose, i }) {
 
   async function handleSubmit(e) {
     e.preventDefault();
-    // console.log("ID", i)
     let u_event = events.filter((event) => event.id === i)
     let s_event = events.filter((event) => event.id === parseInt(valid_swap))
     let swap = []
     swap.push(u_event[0])
     swap.push(s_event[0])
-    console.log(swap)
     performSwap(swap);
-
-
-    // handleClose();
+    handleClose();
   }
   useEffect(() => {
     fetchEvents();
   }, [])
 
-  if (isLoadingSwaps ) {
+  if (isLoadingSwaps) {
     return (
       <progress className="progress is-primary" max="100"></progress>
     );
@@ -64,7 +48,7 @@ export default function Swap({ handleClose, i }) {
       <div className={styles.centered}>
         <div className={styles.modal}>
           <div className={styles.modalHeader}>
-            <h2 className={styles.heading}>Create a cover event</h2>
+            <h2 className={styles.heading}>Swap Shifts</h2>
           </div>
           <button className={styles.closeBtn} onClick={() => handleClose()}>
             <RiCloseLine style={{ marginBottom: "-3px" }} />
@@ -72,7 +56,7 @@ export default function Swap({ handleClose, i }) {
           <form className={styles.modalContent} onSubmit={(e) => handleSubmit(e)}>
             <div className="mb-3">
               <select onChange={e => setValidSwap(e.target.value)} value={valid_swap} className="form-select" name="valid_swap" id="valid_swap">
-                <option value="">Select a Team</option>
+                <option value="">Select a Swap Event</option>
                 {validData.map((obj) => {
                   const date1 = new Date(obj.shift_start)
                   const date2 = new Date(obj.shift_end)
