@@ -19,6 +19,7 @@ export function TeamDashboard() {
   const { data: eventData, isLoading: isLoadingEvents } = useGetEventsQuery(id)
   const { data: teamData, isLoading: isLoadingTeam } = useGetTeamQuery(id)
   const { data: membersData, isLoading: isLoadingMembers } = useGetMembersQuery(id)
+  console.log(id)
 
   if (isLoadingTeam || isLoadingMembers || isLoadingEvents) {
     return (
@@ -45,7 +46,7 @@ export function TeamDashboard() {
             <div className={styles.item1}>
               <FlexContainer>
                 <button className={styles.primaryBtn} onClick={() => setIsOpenTeam(true)}>Create Team</button>{isOpenTeam && <TeamFormModal setIsOpenTeam={setIsOpenTeam} />}
-                <button className={styles.primaryBtn} onClick={() => setIsOpenMember(true)}>Create Member</button>{isOpenMember && <MemberFormModal setIsOpenMember={setIsOpenMember} />}
+                <button className={styles.primaryBtn} onClick={() => setIsOpenMember(true)}>Create Member</button>{isOpenMember && <MemberFormModal setIsOpenMember={setIsOpenMember} id={id} />}
                 <button className={styles.primaryBtn} onClick={() => setIsOpenRole(true)}>Create Role</button>{isOpenRole && <RoleFormModal setIsOpenRole={setIsOpenRole} />}
               </FlexContainer>
 

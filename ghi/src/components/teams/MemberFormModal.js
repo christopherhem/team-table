@@ -1,5 +1,6 @@
 // Create Event Form Modal 
 import React, { useState } from 'react'
+import { useLocation } from 'react-router-dom';
 import styles from "../events/Modal.module.css"
 import { RiCloseLine } from "react-icons/ri"
 import { useCreateMemberMutation, useGetRolesQuery } from '../../store/TeamsApi';
@@ -7,9 +8,11 @@ import { useCreateMemberMutation, useGetRolesQuery } from '../../store/TeamsApi'
 export default function MemberFormModal({ setIsOpenMember }) {
   const [member_username, setMember] = useState('');
   const [role, setRole] = useState('');
+  const location = useLocation()
+  const { id } = location.state
   const [createMember, result] = useCreateMemberMutation();
-  const [data, error, isLoading] = useGetRolesQuery
-  console.log(data)
+  const {data, error, isLoading} = useGetRolesQuery(id)
+  console.log("Data:", data)
 
   if (isLoading) {
     return (
@@ -20,9 +23,8 @@ export default function MemberFormModal({ setIsOpenMember }) {
   async function handleSubmit(e) {
     e.preventDefault();
     setIsOpenMember(false);
-    createMember({ member_username, role });
-    console.log("Result:", result)
-    console.log("MEMBER:", member_username)
+    createMember({ member_username, role })
+    console.log("Member:", member_username)
     console.log("Role:", role)
   }
 
@@ -48,7 +50,7 @@ export default function MemberFormModal({ setIsOpenMember }) {
                 <option value="">Select a Team</option>
                 {data.map((roles) => {
                   return (
-                    <option key={roles.name} value={roles.name}>{roles.name}</option>
+                    <option key={roles.id} value={roles.id}>{roles.name}</option>
                   );
                 })}
               </select>
