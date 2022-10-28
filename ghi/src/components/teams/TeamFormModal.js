@@ -33,9 +33,6 @@ export default function TeamFormModal({ setIsOpenTeam }) {
               <h6>Enter team name</h6>
               <input onChange={e => setTeamName(e.target.value)} value={name} type="text" name="name" id="name">
               </input>
-              <h6>Enter type</h6>
-              <input onChange={e => setTeamType(e.target.value)} value={type} type="number" name="type" id="type">
-              </input>
               <h6>Enter description</h6>
               <textarea onChange={e => setDescription(e.target.value)} value={description} type="text" name="description" id="description">
               </textarea>
