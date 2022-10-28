@@ -3,8 +3,9 @@ from models import MemberIn, MemberOut, Error
 from queries.pool import pool
 import os
 
+
 class MemberRepository:
-    def get_all(self)->Union[Error, List[MemberOut]]:
+    def get_all(self) -> Union[Error, List[MemberOut]]:
         try:
             with pool.connection() as conn:
                 with conn.cursor() as db:
@@ -14,9 +15,9 @@ class MemberRepository:
                         FROM members
                         """
                     )
-                    return self.to_dict(result.fetchall(),result.description)
+                    return self.to_dict(result.fetchall(), result.description)
         except:
-            return{"message" : "Error in member_queries get_all"}
+            return {"message": "Error in member_queries get_all"}
 
     def get_members_by_team(self, tid):
         with pool.connection() as conn:
@@ -27,16 +28,16 @@ class MemberRepository:
                     FROM roles
                     WHERE team = %s
                     """,
-                    [tid]
+                    [tid],
                 )
-                role_dics = self.to_dict(result.fetchall(),result.description)
+                role_dics = self.to_dict(result.fetchall(), result.description)
         if type(role_dics) != list:
-            temp =[]
+            temp = []
             temp.append(role_dics)
             role_dics = temp
         role_ids = []
         for dic in role_dics:
-            role_ids.append(dic['id'])
+            role_ids.append(dic["id"])
         lst = []
         for rid in role_ids:
             with pool.connection() as conn:
@@ -47,11 +48,11 @@ class MemberRepository:
                         FROM members
                         WHERE role = %s
                         """,
-                        [rid]
+                        [rid],
                     )
-                    members = self.to_dict(result.fetchall(),result.description)
+                    members = self.to_dict(result.fetchall(), result.description)
 
-            if type(members)!=list:
+            if type(members) != list:
                 temp = []
                 temp.append(members)
                 members = temp
@@ -59,10 +60,7 @@ class MemberRepository:
                 lst.append(member)
         return lst
 
-
-
-
-    def get_one(self, id)->Union[Error, MemberOut]:
+    def get_one(self, id) -> Union[Error, MemberOut]:
         try:
             with pool.connection() as conn:
                 with conn.cursor() as db:
@@ -72,12 +70,13 @@ class MemberRepository:
                         FROM members
                         WHERE id=%s;
                         """,
-                        [id]
+                        [id],
                     )
                     return self.to_dict(result.fetchall(), result.description)
         except:
-            return{"message" : "Error in member_queries get_one"}
-    def create(self, member:MemberIn):
+            return {"message": "Error in member_queries get_one"}
+
+    def create(self, member: MemberIn):
         with pool.connection() as conn:
             with conn.cursor() as db:
 
@@ -93,12 +92,9 @@ class MemberRepository:
                     )
                     RETURNING id, member_username, role;
                     """,
-                    [
-                        member.member_username,
-                        member.role
-                    ]
+                    [member.member_username, member.role],
                 )
-                created_member = self.to_dict(result.fetchall(),result.description)
+                created_member = self.to_dict(result.fetchall(), result.description)
         with pool.connection() as conn:
             with conn.cursor() as db:
                 result = db.execute(
@@ -107,10 +103,12 @@ class MemberRepository:
                     FROM roles
                     WHERE id = %s
                     """,
-                    [member.role]
+                    [member.role],
                 )
-                team_id = self.to_dict(result.fetchall(),result.description)['team']
-        created_member['team_href'] = os.environ["INTERNAL_REFERENCE_URL"]+"api/teams/"+str(team_id)
+                team_id = self.to_dict(result.fetchall(), result.description)["team"]
+        created_member["team_href"] = (
+            os.environ["INTERNAL_REFERENCE_URL"] + "api/teams/" + str(team_id)
+        )
         return created_member
 
     def delete(self, id):
@@ -121,17 +119,14 @@ class MemberRepository:
                     DELETE FROM members
                     WHERE id = %s
                     """,
-                    [id]
+                    [id],
                 )
 
-    def update(self, id:int, data:MemberIn)->Union[Error,MemberOut]:
+    def update(self, id: int, data: MemberIn) -> Union[Error, MemberOut]:
         try:
             with pool.connection() as conn:
                 with conn.cursor() as db:
-                    params = [
-                        data.role,
-                        id
-                    ]
+                    params = [data.role, id]
                     result = db.execute(
                         """
                         UPDATE members
@@ -139,19 +134,19 @@ class MemberRepository:
                         WHERE id = %s
                         RETURNING id, member_username, role
                         """,
-                        params
+                        params,
                     )
-                    return self.to_dict(result.fetchall(),result.description)
+                    return self.to_dict(result.fetchall(), result.description)
         except:
-            return {"message":"Error in members_queries.update"}
+            return {"message": "Error in members_queries.update"}
 
-    def to_dict(self,rows,description):
+    def to_dict(self, rows, description):
         lst = []
         columns = [desc[0] for desc in description]
         for row in rows:
             item = {}
             for i in range(len(row)):
-                item[columns[i]]=row[i]
+                item[columns[i]] = row[i]
             lst.append(item)
         if len(lst) == 1:
             lst = lst[0]
