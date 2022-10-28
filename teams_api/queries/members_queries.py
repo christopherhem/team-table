@@ -54,7 +54,12 @@ class MemberRepository:
                             [rid]
                         )
                         members.append(self.to_dict(result.fetchall(),result.description))
+            if type(members)!=list:
+                temp = []
+                temp.append(members)
+                members = temp
             return members
+        
         except Exception as e:
             return {"message": f"Error in member_queries get_members_by_team: {e}"}
 
