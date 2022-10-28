@@ -199,6 +199,15 @@ export const usersApi = createApi({
             }),
             invalidatesTags: ['UserCoverEventsList', 'UserShiftSwapEventsList']
         }),
+        PerformCoverSwap: builder.mutation({
+            query: (data) => ({
+                url: "/api/main/cover/",
+                method: 'post',
+                body: data,
+                credentials: 'include'
+            }),
+            invalidatesTags: ['UserCoverEventsList', 'UserShiftSwapEventsList']
+        }),
         GetUserNotifications: builder.query({
             query: () => ({
                 url: "/api/notifications/",
@@ -218,6 +227,7 @@ export const usersApi = createApi({
     }),
 });
 export const {
+    usePerformCoverSwapMutation,
     useUpdateNotificationMutation,
     useGetUserNotificationsQuery,
     useGetAllShiftSwapEventsQuery,
@@ -240,5 +250,5 @@ export const {
     useCreateTokenMutation,
     useSignOutMutation,
     useSignInMutation,
-    useGetTokenQuery 
+    useGetTokenQuery
 } = usersApi;

@@ -19,7 +19,7 @@ export const teamsApi = createApi({
             return headers;
         }
     }),
-    tagTypes:['Team','Token','Roles','Members','Permissions','TeamEvents','TeamTypes','EventTypes', 'ValidSwapList'],
+    tagTypes:['ValidCoverSwaps', 'Team','Token','Roles','Members','Permissions','TeamEvents','TeamTypes','EventTypes', 'ValidSwapList'],
     endpoints: builder=>({
         createTeam: builder.mutation({
             query: data => ({
@@ -95,8 +95,8 @@ export const teamsApi = createApi({
             providesTags: ['Members']
         }),
         createMember : builder.mutation({
-            query: (tid,data) =>({
-                url: `api/teams/${tid}/members/`,
+            query: (data) =>({
+                url: `api/teams/members/`,
                 body: data,
                 method: "POST",
                 credentials: 'include'
@@ -174,45 +174,18 @@ export const teamsApi = createApi({
             }),
             providesTags:['ValidSwapList']
         }),
-        /* TEMPLATES
-        get : builder.query({
-            query:()=>({
-                url: ``,
+        getValidCoverSwaps: builder.query({
+            query:(id) =>({
+                url: "/api/swapbycover/{event_id}",
                 credentials: 'include'
             }),
-            providesTags: ['']
-        }),
-        create : builder.mutation({
-            query: (data)=>({
-                url: ``,
-                body: data,
-                method: "POST",
-                credentials: 'include'
-            }),
-            invalidatesTags: ['']
-        }),
-        update : builder.mutation({
-            query: (data)=>({
-                url: ``,
-                body: data,
-                method: "PUT",
-                credentials: 'include'
-            }),
-            invalidatesTags: ['']
-        }),
-        delete : builder.mutation({
-            query: ()=>({
-                url: ``,
-                method: 'DELETE',
-                credentials: 'include'
-            }),
-            invalidatesTags : ['']
-        }),
-        */
+            providesTags: ['ValidCoverSwaps']
+        })
     }),
 
 });
 export const {
+    useGetValidCoverSwapsQuery,
     useGetValidSwapsQuery,
     useCreateMemberMutation,
     useCreateRoleMutation,

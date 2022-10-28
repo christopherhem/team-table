@@ -19,46 +19,48 @@ class MemberRepository:
             return{"message" : "Error in member_queries get_all"}
 
     def get_members_by_team(self, tid):
-        try:
+        with pool.connection() as conn:
+            with conn.cursor() as db:
+                result = db.execute(
+                    """
+                    SELECT id, team
+                    FROM roles
+                    WHERE team = %s
+                    """,
+                    [tid]
+                )
+                role_dics = self.to_dict(result.fetchall(),result.description)
+        if type(role_dics) != list:
+            temp =[]
+            temp.append(role_dics)
+            role_dics = temp
+        role_ids = []
+        for dic in role_dics:
+            role_ids.append(dic['id'])
+        lst = []
+        for rid in role_ids:
             with pool.connection() as conn:
                 with conn.cursor() as db:
                     result = db.execute(
                         """
-                        SELECT id, team
-                        FROM roles
-                        WHERE team = %s
+                        SELECT id, member_username, role
+                        FROM members
+                        WHERE role = %s
                         """,
-                        [tid]
+                        [rid]
                     )
-                    role_dics = self.to_dict(result.fetchall(),result.description)
-            if type(role_dics) != list:
-                temp =[]
-                temp.append(role_dics)
-                role_dics = temp
-            role_ids = []
-            for dic in role_dics:
-                role_ids.append(dic['id'])
+                    members = self.to_dict(result.fetchall(),result.description)
 
-            for rid in role_ids:
-                with pool.connection() as conn:
-                    with conn.cursor() as db:
-                        result = db.execute(
-                            """
-                            SELECT id, member_username, role
-                            FROM members
-                            WHERE role = %s
-                            """,
-                            [rid]
-                        )
-                        members = self.to_dict(result.fetchall(),result.description)
             if type(members)!=list:
                 temp = []
                 temp.append(members)
                 members = temp
-            return members
-        
-        except Exception as e:
-            return {"message": f"Error in member_queries get_members_by_team: {e}"}
+            for member in members:
+                lst.append(member)
+        return lst
+
+
+
 
     def get_one(self, id)->Union[Error, MemberOut]:
         try:

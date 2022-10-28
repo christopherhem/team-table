@@ -24,7 +24,9 @@ import Swap from '../components/swaps/ShiftSwapModal';
 import './styles.scss';
 
 function UserHome() {
+    const [coverId, setCoverId] = useState(null);
     const [shiftId, setShiftId] = useState(null);
+    const [isOpenCoverSwap, setIsOpenCoverSwap] = useState(false);
     const [isOpenSwap, setIsOpenSwap] = useState(false);
     const [isOpenUpdateShift, setIsOpenUpdateShift] = useState(false);
     const [isOpenUpdateCover, setIsOpenUpdateCover] = useState(false);
@@ -88,6 +90,7 @@ function UserHome() {
                         <Table className="border table-striped no-wrap mt-3 align-middle" response border>
                             <thead>
                                 <tr>
+                                    <th>Swap</th>
                                     <th>Edit</th>
                                     <th>Delete</th>
                                     <th>Availability Start</th>
@@ -108,6 +111,15 @@ function UserHome() {
                                         const id = cover.id
                                         return (
                                             <tr key={cover.id}>
+                                                <td>
+                                                <button className={styles.primaryBtn} onClick={() => {
+                                                    setCoverId(cover.id)
+                                                    setIsOpenCoverSwap(true)
+                                                } }>Cover a Shift</button>{isOpenCoverSwap && coverId ? <Swap i={coverId} handleClose={() => {
+                                                    setIsOpenCoverSwap(false)
+                                                    setCoverId(null)
+                                                   }} />: null}
+                                                </td>
                                                 <td>
                                                     <button className={styles.editBtn} onClick={() => setIsOpenUpdateCover(true)}>Edit</button>{isOpenUpdateCover && <UpdateCoverFormModal setIsOpenUpdateCover={setIsOpenUpdateCover} id={id} />}
                                                 </td>

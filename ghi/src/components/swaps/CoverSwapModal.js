@@ -1,9 +1,9 @@
-// Create Event Form Modal
+
 import React, { useState, useEffect } from 'react'
 import styles from '../events/Modal.module.css'
 import { RiCloseLine } from "react-icons/ri"
-import { usePerformSwapMutation, useGetAllShiftSwapEventsQuery} from '../../store/UsersApi';
-import { useGetValidSwapsQuery } from '../../store/TeamsApi';
+import { usePerformCoverSwapMutation, useGetAllShiftSwapEventsQuery} from '../../store/UsersApi';
+import { useGetValidCoverSwapsQuery} from '../../store/TeamsApi';
 import {
   Container,
   FormWrap,
@@ -18,15 +18,13 @@ import DateObject from "react-date-object";
 
 
 export default function Swap({ handleClose, i }) {
-
-  const [swap, setSwap] = useState([]);
   const [valid_swap, setValidSwap] = useState(null);
   const [events, setEvents] = useState([])
-  const {data: validData, isLoading: isLoadingSwaps} = useGetValidSwapsQuery(i);
-  const [performSwap, result] = usePerformSwapMutation();
+  const {data: validData, isLoading: isLoadingCoverSwaps} = useGetValidCoverSwapsQuery(i);
+  const [performCoverSwap, result] = usePerformCoverSwapMutation();
 
   const fetchEvents = async () => {
-    const url = "http://localhost:8080/api/table/shift_swap_events/"
+    const url = "http://localhost:8080/api/table/cover_events/"
     const response = await fetch(url)
     if (response.ok) {
       const theJson = await response.json()
@@ -43,7 +41,7 @@ export default function Swap({ handleClose, i }) {
     swap.push(u_event[0])
     swap.push(s_event[0])
     console.log(swap)
-    performSwap(swap);
+    performCoverSwap(swap);
 
 
     // handleClose();
@@ -52,7 +50,7 @@ export default function Swap({ handleClose, i }) {
     fetchEvents();
   }, [])
 
-  if (isLoadingSwaps ) {
+  if (isLoadingCoverSwaps ) {
     return (
       <progress className="progress is-primary" max="100"></progress>
     );

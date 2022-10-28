@@ -8,7 +8,7 @@ import requests, json
 router = APIRouter()
 
 
-@router.post("/api/teams/{id}/members", response_model = MemberOut)
+@router.post("/api/teams/members", response_model = MemberOut)
 def add_member(
     member:MemberIn,
     response: Response,
@@ -20,7 +20,6 @@ def add_member(
     created_member = repo.create(member)
     headers = request.headers
     data = json.dumps(created_member)
-    print(data)
     requests.post("http://pubsub:8000/api/surps/", data = data, headers = headers)
     return created_member
 
@@ -31,6 +30,7 @@ def get_members(
     tid: int,
     repo : MemberRepository = Depends(),
 ):
+
     return repo.get_members_by_team(tid)
 
 @router.get("/api/teams/{id}/members/{uid}", response_model = Union[Error, MemberOut])
