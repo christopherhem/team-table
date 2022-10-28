@@ -53,4 +53,5 @@ def get_valid_swaps_for_single_cover(
     user = Depends(get_current_user),
     event_id = int
 ):
+    print(event_id)
     return repo.get_swaps_for_single_cover(user, event_id)

@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from 'react'
 import styles from '../events/Modal.module.css'
 import { RiCloseLine } from "react-icons/ri"
-import { usePerformCoverSwapMutation, useGetAllShiftSwapEventsQuery} from '../../store/UsersApi';
+import { usePerformCoverSwapMutation, useGetAllCoverEventsQuery} from '../../store/UsersApi';
 import { useGetValidCoverSwapsQuery} from '../../store/TeamsApi';
 import {
   Container,
@@ -17,37 +17,50 @@ import {
 import DateObject from "react-date-object";
 
 
-export default function Swap({ handleClose, i }) {
+export default function CoverSwap({ handleClose, i }) {
   const [valid_swap, setValidSwap] = useState(null);
-  const [events, setEvents] = useState([])
+  const [shiftSwapEvents, setShiftSwapEvents] = useState(null);
+  const [coverEvents, setCoverEvents] = useState([])
   const {data: validData, isLoading: isLoadingCoverSwaps} = useGetValidCoverSwapsQuery(i);
   const [performCoverSwap, result] = usePerformCoverSwapMutation();
 
-  const fetchEvents = async () => {
+
+  const fetchCoverEvents = async () => {
     const url = "http://localhost:8080/api/table/cover_events/"
     const response = await fetch(url)
     if (response.ok) {
       const theJson = await response.json()
-      setEvents(theJson)
+      console.log(theJson)
+      setCoverEvents(theJson)
+    }
+  }
+
+  const fetchShiftSwapEvents = async () => {
+    const url = "http://localhost:8080/api/table/shift_swap_events/"
+    const response = await fetch(url)
+    if (response.ok) {
+      const ssData = await response.json()
+      console.log(ssData)
+      setShiftSwapEvents(ssData)
     }
   }
 
   async function handleSubmit(e) {
     e.preventDefault();
-    // console.log("ID", i)
-    let u_event = events.filter((event) => event.id === i)
-    let s_event = events.filter((event) => event.id === parseInt(valid_swap))
-    let swap = []
-    swap.push(u_event[0])
-    swap.push(s_event[0])
-    console.log(swap)
-    performCoverSwap(swap);
+    let u_event = coverEvents.filter((event) => event.id === i)
+    let s_event = shiftSwapEvents.filter((event) => event.id === parseInt(valid_swap))
+    let obj = {}
+    obj['cover'] = u_event[0]
+    obj['swap'] = s_event[0]
+    console.log(obj)
+    performCoverSwap(obj);
 
 
     // handleClose();
   }
   useEffect(() => {
-    fetchEvents();
+    fetchCoverEvents();
+    fetchShiftSwapEvents();
   }, [])
 
   if (isLoadingCoverSwaps ) {
@@ -55,6 +68,7 @@ export default function Swap({ handleClose, i }) {
       <progress className="progress is-primary" max="100"></progress>
     );
   }
+
 
   return (
     <>

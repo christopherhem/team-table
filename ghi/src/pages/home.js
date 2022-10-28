@@ -19,6 +19,7 @@ import { useGetTokenQuery,
 import UpdateShiftFormModal from '../components/events/updateSwapModal';
 import { FaBars, FaTrash, FaCheck } from 'react-icons/fa';
 import Swap from '../components/swaps/ShiftSwapModal';
+import CoverSwap from '../components/swaps/CoverSwapModal';
 
 
 import './styles.scss';
@@ -103,7 +104,7 @@ function UserHome() {
                                     eventData.map((cover) => {
                                         const url = new URL(cover.team_href)
                                         const splitPaths = url.pathname.split('/')
-                                        const teamId = splitPaths[splitPaths.length - 1]
+                                        const teamId = splitPaths[splitPaths.length -1]
                                         let start = new DateObject(cover.availability_start)
                                         let end = new DateObject(cover.availability_end)
                                         let start_date = start.format("ddd DD MMM YYYY")
@@ -115,7 +116,7 @@ function UserHome() {
                                                 <button className={styles.primaryBtn} onClick={() => {
                                                     setCoverId(cover.id)
                                                     setIsOpenCoverSwap(true)
-                                                } }>Cover a Shift</button>{isOpenCoverSwap && coverId ? <Swap i={coverId} handleClose={() => {
+                                                }}>Cover a Shift</button>{isOpenCoverSwap && coverId ? <CoverSwap i={coverId} handleClose={() => {
                                                     setIsOpenCoverSwap(false)
                                                     setCoverId(null)
                                                    }} />: null}

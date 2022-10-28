@@ -176,7 +176,7 @@ export const teamsApi = createApi({
         }),
         getValidCoverSwaps: builder.query({
             query:(id) =>({
-                url: "/api/swapbycover/{event_id}",
+                url: `/api/swapbycover/${id}`,
                 credentials: 'include'
             }),
             providesTags: ['ValidCoverSwaps']

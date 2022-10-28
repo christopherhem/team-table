@@ -15,7 +15,7 @@ export const usersApi = createApi({
           }
 
     }),
-    tagTypes: ['UserNotifications', 'AllShiftSwapEvents', 'Dashboard', 'User', 'Token', 'UserCoverEventsList', 'UserShiftSwapEventsList', 'CoverEvent', 'ShiftSwapEvent', 'UserTeams'],
+    tagTypes: [ 'AllCoverEvents', 'UserNotifications', 'AllShiftSwapEvents', 'Dashboard', 'User', 'Token', 'UserCoverEventsList', 'UserShiftSwapEventsList', 'CoverEvent', 'ShiftSwapEvent', 'UserTeams'],
     endpoints: builder => ({
         createUsers: builder.mutation({
             query: data => ({
@@ -123,6 +123,10 @@ export const usersApi = createApi({
             query: () => "/api/table/shift_swap_events/",
             providesTags: ['AllShiftSwapEvents']
         }),
+        getAllCoverEvents: builder.query({
+            query: () => "/api/table/coverevents/",
+            providesTags: ['AllCoverEvents']
+        }),
         getCoverEvent: builder.query({
             query: (id) => `/api/table/cover_events/${id}`,
             providesTags: ['CoverEvent']
@@ -197,7 +201,7 @@ export const usersApi = createApi({
                 body: data,
                 credentials: 'include'
             }),
-            invalidatesTags: ['UserCoverEventsList', 'UserShiftSwapEventsList']
+            invalidatesTags: ['UserCoverEventsList', 'UserShiftSwapEventsList', 'UserNotifications']
         }),
         PerformCoverSwap: builder.mutation({
             query: (data) => ({
@@ -206,7 +210,7 @@ export const usersApi = createApi({
                 body: data,
                 credentials: 'include'
             }),
-            invalidatesTags: ['UserCoverEventsList', 'UserShiftSwapEventsList']
+            invalidatesTags: ['UserCoverEventsList', 'UserShiftSwapEventsList', 'UserNotifications']
         }),
         GetUserNotifications: builder.query({
             query: () => ({
@@ -227,6 +231,7 @@ export const usersApi = createApi({
     }),
 });
 export const {
+    useGetAllCoverEventsQuery,
     usePerformCoverSwapMutation,
     useUpdateNotificationMutation,
     useGetUserNotificationsQuery,
