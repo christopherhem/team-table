@@ -1,5 +1,11 @@
+## 10/28/2022
+Started the day helping chris with back end bug resolution for forms he was working on, the endpoints were working as expected but redux was causing problems sending the data in the format that the back end was expecting. We ended up changing the routes to make the information that needed to be sent simpler which seemed to resolve the issue. I then started work on a python function that could be called to populate databases for testing purposes, but decided to focus on other things as I began to encounter problems and louise and chris still needed help with some bugs. Helped louise with some troubleshooting of her unit test and continued to help chris with forms issues. Then pair programmed with louise to get cover functionality working and have events display correctly on the team dashboard. 
+
+## 10/27/2022
+I started work again on CICD and unit tests, did bug resolution and traced back what was causing errors including environmental variables that needed to be included. Stopped this to make and test some endpoints that louise needed for the front end. Pair programmed with louise to get the swap functionality working on the front end for our MVP. I learned more about how much I hate redux. Finished CICD and got pipeline working for valid tests - both my test and chris' test are working in pipeline.
+
 ## 10/26/2022
-Spent a few hours looking into unit tests and CICD after I finished fully resolving all the issues with swap internal messaging and data transfer between services. After I got a good grast on CICD and started implementing tests (trying to anyway) I went over everything I learned with louise and chris, then spent the rest of the day pair programming with louise on the front end to try to implement swaps
+Spent a few hours looking into unit tests and CICD after I finished fully resolving all the issues with swap internal messaging and data transfer between services. After I got a good grasp on CICD and started implementing tests (trying to anyway) I went over everything I learned with louise and chris, then spent the rest of the day pair programming with louise on the front end to try to implement swaps
 
 ## 10/25/2022
 Finished all logic for swaps and began troubleshooting. Logic works for queries to get valid swaps and covers, and logic works on main service to swap events and covers but does not yet update through the pub sub properly. Will continue to resolve issues to get this working.
