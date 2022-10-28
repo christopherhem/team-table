@@ -62,4 +62,5 @@ The team dashboard displays the information for an individual team, including al
   - true shift management functionality
   - darkmode?
   - messaging
+  - display events on a calendar
 
