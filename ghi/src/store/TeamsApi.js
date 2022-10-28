@@ -55,9 +55,9 @@ export const teamsApi = createApi({
             providesTags: ['Team'],
         }),
         getRoles: builder.query({
-            query: (tid)=>({
-               url: `api/teams/${tid}/roles`,
-               credentials:'include'
+            query: (tid)=> ({
+                url: `api/teams/${tid}/roles`,
+                credentials:'include'
             }),
             providesTags: ['Roles']
         }),
