@@ -10,7 +10,7 @@ steps = [
         # "Down" SQL statement
         """
         DROP TABLE team_types;
-        """
+        """,
     ],
     [
         """
@@ -18,7 +18,7 @@ steps = [
         VALUES ('shift_swapping_team')
         """,
         """
-        """
+        """,
     ],
     [
         """
@@ -30,7 +30,7 @@ steps = [
         """,
         """
         DROP TABLE event_types;
-        """
+        """,
     ],
     [
         """
@@ -38,7 +38,7 @@ steps = [
         VALUES('shift_swap_events','shift_swap_event_vos')
         """,
         """
-        """
+        """,
     ],
     [
         """
@@ -46,7 +46,7 @@ steps = [
         VALUES('cover_events','cover_event_vos')
         """,
         """
-        """
+        """,
     ],
     [
         """
@@ -58,7 +58,7 @@ steps = [
         """,
         """
         DROP TABLE event_types_team_types;
-        """
+        """,
     ],
     [
         """
@@ -66,15 +66,15 @@ steps = [
         VALUES (1,1)
         """,
         """
-        """
+        """,
     ],
     [
-       """
+        """
         INSERT INTO event_types_team_types (team_type, event_type)
         VALUES (1,2)
         """,
         """
-        """ 
+        """,
     ],
     [
         """
@@ -87,7 +87,7 @@ steps = [
         """,
         """
         DROP TABLE pay_levels;
-        """
+        """,
     ],
     [
         """
@@ -95,7 +95,7 @@ steps = [
         VALUES('Free',10,3)
         """,
         """
-        """
+        """,
     ],
     [
         # "Up" SQL statement
@@ -111,7 +111,7 @@ steps = [
         # "Down" SQL statement
         """
         DROP TABLE teams;
-        """
+        """,
     ],
     # [
     #     """
@@ -137,7 +137,7 @@ steps = [
         """,
         """
         DROP TABLE roles;
-        """
+        """,
     ],
     [
         """
@@ -152,7 +152,7 @@ steps = [
         """,
         """
         DROP TABLE permissions;
-        """
+        """,
     ],
     [
         """
@@ -164,7 +164,7 @@ steps = [
         """,
         """
         DROP TABLE members;
-        """
+        """,
     ],
     [
         # "Up" SQL statement
@@ -182,7 +182,7 @@ steps = [
         # "Down" SQL statement
         """
         DROP TABLE cover_event_vos;
-        """
+        """,
     ],
     [
         # "Up" SQL statement
@@ -202,6 +202,6 @@ steps = [
         # "Down" SQL statement
         """
         DROP TABLE shift_swap_event_vos;
-        """
-    ]
+        """,
+    ],
 ]

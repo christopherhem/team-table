@@ -1,15 +1,18 @@
 from pydantic import BaseModel
-from typing import Literal, Optional
+from typing import Optional
 from datetime import datetime
+
 
 class CoverEventIn(BaseModel):
     availability_start: datetime
     availability_end: datetime
     team_href: str
 
+
 class CoverEventUpdateIn(BaseModel):
     availability_start: datetime
     availability_end: datetime
+
 
 class CoverEventOut(BaseModel):
     id: int
@@ -17,6 +20,7 @@ class CoverEventOut(BaseModel):
     availability_end: datetime
     user_id: int
     team_href: str
+
 
 class UserCoverEventOut(BaseModel):
     id: int
@@ -26,6 +30,7 @@ class UserCoverEventOut(BaseModel):
     team_href: str
     team_name: str
 
+
 class ShiftSwapEventIn(BaseModel):
     shift_start: datetime
     shift_end: datetime
@@ -33,11 +38,13 @@ class ShiftSwapEventIn(BaseModel):
     availability_end: datetime
     team_href: str
 
+
 class ShiftSwapEventUpdateIn(BaseModel):
     shift_start: datetime
     shift_end: datetime
     availability_start: datetime
     availability_end: datetime
+
 
 class UserShiftSwapEventOut(BaseModel):
     id: int
@@ -49,6 +56,7 @@ class UserShiftSwapEventOut(BaseModel):
     team_href: str
     team_name: str
 
+
 class ShiftSwapEventOut(BaseModel):
     id: int
     shift_start: datetime
@@ -59,16 +67,20 @@ class ShiftSwapEventOut(BaseModel):
     team_href: str
     team_name: str
 
+
 class TableOut(BaseModel):
     events: list[ShiftSwapEventOut]
+
 
 class EventTypeOut(BaseModel):
     id: int
     name: str
 
+
 class UserVoOut(BaseModel):
     href: str
     first_name: str
+
 
 class TeamVoOut(BaseModel):
     id: int
@@ -76,14 +88,24 @@ class TeamVoOut(BaseModel):
     name: str
     description: str
 
+
 class TeamVoIn(BaseModel):
     id: int
     name: str
+<<<<<<< HEAD
+    description: Optional[str]
+    # {"id": 11, "name": "team16", "type": 1, "description": "yes", "pay_level": 1}
+
+=======
     description : Optional[str]
-    #{"id": 11, "name": "team16", "type": 1, "description": "yes", "pay_level": 1}
+<<<<<<< HEAD
+=======
+>>>>>>> 6c37336 (cleaned up monoservice and pubsub import and prints)
+>>>>>>> main
 
 class Error(BaseModel):
     message: str
+
 
 class User(BaseModel):
     id: int
@@ -95,6 +117,7 @@ class User(BaseModel):
     phone_number: str | None
     profile_picture_href: str | None
 
+
 class UserIn(BaseModel):
     username: str
     password: str
@@ -103,6 +126,7 @@ class UserIn(BaseModel):
     email: str
     phone_number: str | None
     profile_picture_href: str | None
+
 
 class UserOut(BaseModel):
     id: int
@@ -113,6 +137,7 @@ class UserOut(BaseModel):
     phone_number: str | None
     profile_picture_href: str | None
 
+
 class UserPut(BaseModel):
     id: int
     hashed_password: Optional[str]
@@ -122,13 +147,15 @@ class UserPut(BaseModel):
     phone_number: Optional[str]
     profile_picture_href: Optional[str]
 
+
 class MemberIn(BaseModel):
-    id : int
+    id: int
     member_username: str
     role: int
-    team_href : str
+    team_href: str
+
 
 class NotificationOut(BaseModel):
-    id : int
-    message : str
-    seen : bool
+    id: int
+    message: str
+    seen: bool

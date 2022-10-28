@@ -5,8 +5,9 @@ from queries.pool import pool
 from .roles_queries import *
 from .members_queries import *
 
+
 class TeamRepository:
-    def create(self, team:TeamIn, user):
+    def create(self, team: TeamIn, user):
         with pool.connection() as conn:
             with conn.cursor() as db:
 
@@ -26,18 +27,24 @@ class TeamRepository:
                     )
                     RETURNING id, name, type, description, pay_level ;
                     """,
-                    [
-                        team.name,
-                        team.description
-                    ]
+                    [team.name, team.description],
                 )
-                created_team = self.to_dict(result.fetchall(),result.description)
-        owner_role = RolesQueries.create(self, RolesIn(name = "Owner", team = created_team['id'], can_invite = True, can_approve = True))
-        MemberRepository.create(self, MemberIn(member_username = user['account']['username'], role = owner_role['id']))
+                created_team = self.to_dict(result.fetchall(), result.description)
+        owner_role = RolesQueries.create(
+            self,
+            RolesIn(
+                name="Owner", team=created_team["id"], can_invite=True, can_approve=True
+            ),
+        )
+        MemberRepository.create(
+            self,
+            MemberIn(
+                member_username=user["account"]["username"], role=owner_role["id"]
+            ),
+        )
         return created_team
 
-
-    def get_all(self)->Union[Error, List[TeamOut], TeamOut]:
+    def get_all(self) -> Union[Error, List[TeamOut], TeamOut]:
         try:
             with pool.connection() as conn:
                 with conn.cursor() as db:
@@ -52,11 +59,11 @@ class TeamRepository:
                         FROM teams;
                         """
                     )
-                    return self.to_dict(result.fetchall(),result.description)
+                    return self.to_dict(result.fetchall(), result.description)
         except:
-            return{"message" : "Error in team_queries TeamRepository.get_all"}
+            return {"message": "Error in team_queries TeamRepository.get_all"}
 
-    def get_team(self, id)->Union[Error, TeamOut]:
+    def get_team(self, id) -> Union[Error, TeamOut]:
         try:
             with pool.connection() as conn:
                 with conn.cursor() as db:
@@ -71,11 +78,11 @@ class TeamRepository:
                         FROM teams
                         WHERE id=%s
                         """,
-                        [id]
+                        [id],
                     )
-                    return self.to_dict(result.fetchall(),result.description)
+                    return self.to_dict(result.fetchall(), result.description)
         except Exception as e:
-            return{"message" : str(e)}
+            return {"message": str(e)}
 
     def delete_team(self, id):
         with pool.connection() as conn:
@@ -85,19 +92,13 @@ class TeamRepository:
                     DELETE FROM teams
                     WHERE id = %s
                     """,
-                    [id]
+                    [id],
                 )
 
     def update_team(self, id, data):
         with pool.connection() as conn:
             with conn.cursor() as db:
-                params = [
-                    data.name,
-                    data.type,
-                    data.description,
-                    data.pay_level,
-                    id
-                ]
+                params = [data.name, data.type, data.description, data.pay_level, id]
                 result = db.execute(
                     """
                     UPDATE teams
@@ -110,15 +111,15 @@ class TeamRepository:
                     """,
                     params,
                 )
-                return self.to_dict(result.fetchall(),result.description)
+                return self.to_dict(result.fetchall(), result.description)
 
-    def to_dict(self,rows,description):
+    def to_dict(self, rows, description):
         lst = []
         columns = [desc[0] for desc in description]
         for row in rows:
             item = {}
             for i in range(len(row)):
-                item[columns[i]]=row[i]
+                item[columns[i]] = row[i]
             lst.append(item)
         if len(lst) == 1:
             lst = lst[0]

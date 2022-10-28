@@ -1,23 +1,23 @@
 import React, { useEffect } from 'react'
 import { FaBars } from 'react-icons/fa'
 import { animateScroll as scroll } from 'react-scroll';
-import { 
-  Nav, 
-  NavbarContainer, 
-  NavLogo, 
-  MobileIcon, 
-  NavMenu, 
-  NavItem, 
+import {
+  Nav,
+  NavbarContainer,
+  NavLogo,
+  MobileIcon,
+  NavMenu,
+  NavItem,
   NavLinks,
   NavButton,
   NavBtnLink,
-  FlexContainer, 
+  FlexContainer,
 } from './NavbarElements';
 
-const NavBar = ({toggle}) => {
+const NavBar = ({ toggle }) => {
 
   useEffect(() => {
-    window.addEventListener('scroll', (e)=> {
+    window.addEventListener('scroll', (e) => {
     })
   }, []);
 
@@ -27,17 +27,17 @@ const NavBar = ({toggle}) => {
 
   return (
     <>
-      <Nav> 
+      <Nav>
         <NavbarContainer>
           <NavLogo onClick={toggleHome} to='/'>
-          TeamTable
+            TeamTable
           </NavLogo>
           <MobileIcon onClick={toggle}>
             <FaBars />
           </MobileIcon>
           <NavMenu>
             <NavItem>
-              <NavLinks 
+              <NavLinks
                 to="about"
                 smooth={true}
                 duration={100}
@@ -49,37 +49,37 @@ const NavBar = ({toggle}) => {
               </NavLinks>
             </NavItem>
             <NavItem>
-            <NavLinks 
-              to="discover"
-              smooth={true}
-              duration={100}
-              spy={true}
-              exact='true'
-              offset={-80}
-            >
-              Discover
-            </NavLinks>
+              <NavLinks
+                to="discover"
+                smooth={true}
+                duration={100}
+                spy={true}
+                exact='true'
+                offset={-80}
+              >
+                Discover
+              </NavLinks>
             </NavItem>
             <NavItem>
-            <NavLinks 
-              to="services"
-              smooth={true}
-              duration={100}
-              spy={true}
-              exact='true'
-              offset={-150}
-            >
-            Services
-            </NavLinks>
+              <NavLinks
+                to="services"
+                smooth={true}
+                duration={100}
+                spy={true}
+                exact='true'
+                offset={-150}
+              >
+                Services
+              </NavLinks>
             </NavItem>
           </NavMenu>
           <FlexContainer >
-          <NavButton>
-            <NavBtnLink to="signup">Sign Up</NavBtnLink>
-          </NavButton>
-          <NavButton>
-            <NavBtnLink to="signin">Sign In</NavBtnLink>
-          </NavButton>
+            <NavButton>
+              <NavBtnLink to="signup">Sign Up</NavBtnLink>
+            </NavButton>
+            <NavButton>
+              <NavBtnLink to="signin">Sign In</NavBtnLink>
+            </NavButton>
           </FlexContainer>
         </NavbarContainer>
       </Nav>

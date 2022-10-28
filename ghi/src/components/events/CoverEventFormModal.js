@@ -1,19 +1,8 @@
-// Create Event Form Modal
 import React, { useState } from 'react'
 import styles from "./Modal.module.css"
 import { RiCloseLine } from "react-icons/ri"
 import { useCreateCoverEventMutation } from '../../store/UsersApi';
 import { useGetUsersTeamsQuery } from '../../store/UsersApi';
-import {
-  Container,
-  FormWrap,
-  Icon,
-  FormContent,
-  Form,
-  FormH1,
-  FormButton,
-  CreateInput
-} from '../users/SignUpElements.js';
 
 
 export default function CoverEventFormModal({ setIsOpenCover }) {
@@ -21,7 +10,7 @@ export default function CoverEventFormModal({ setIsOpenCover }) {
   const [availability_end, setEnd] = useState('');
   const [team_href, setTeam] = useState('');
   const [createCover, result] = useCreateCoverEventMutation();
-  const { data, error, isLoading } = useGetUsersTeamsQuery({});
+  const { data, isLoading } = useGetUsersTeamsQuery({});
 
   if (isLoading) {
     return (
@@ -33,7 +22,6 @@ export default function CoverEventFormModal({ setIsOpenCover }) {
     e.preventDefault();
     setIsOpenCover(false);
     createCover({ availability_start, availability_end, team_href });
-    console.log(result)
   }
 
   return (

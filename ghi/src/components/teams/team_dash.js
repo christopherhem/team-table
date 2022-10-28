@@ -1,6 +1,5 @@
 import { useGetMembersQuery, useGetTeamQuery, useGetEventsQuery } from "../../store/TeamsApi"
-import { Card, CardBody, CardTitle, CardSubtitle, Table } from "reactstrap";
-import { TableLogo } from '../navbar/NavbarElements';
+import { Card, CardBody, Table } from "reactstrap";
 import { useLocation } from "react-router-dom";
 import { useState } from "react";
 import DateObject from "react-date-object";
@@ -8,7 +7,7 @@ import TeamFormModal from "./TeamFormModal";
 import RoleFormModal from "./RoleFormModal";
 import MemberFormModal from "./MemberFormModal";
 import styles from "../../components/dashboard/Home.module.css"
-import { FlexContainer, NavLogo } from "../navbar/NavbarElements";
+import { FlexContainer, TableLogo} from "../navbar/NavbarElements";
 
 export function TeamDashboard() {
   const [isOpenTeam, setIsOpenTeam] = useState(false)
@@ -19,30 +18,20 @@ export function TeamDashboard() {
   const { data: eventData, isLoading: isLoadingEvents } = useGetEventsQuery(id)
   const { data: teamData, isLoading: isLoadingTeam } = useGetTeamQuery(id)
   const { data: membersData, isLoading: isLoadingMembers } = useGetMembersQuery(id)
-  console.log(id)
 
   if (isLoadingTeam || isLoadingMembers || isLoadingEvents) {
     return (
       <progress className="progress is-primary" max="100"></progress>
     );
   }
-  console.log(eventData.swap_events)
   return (
     <div>
-      {/* <SideNavbar /> */}
-      {/* <NavBar toggle={toggle} /> */}
       <h1 className="">
         {teamData.name}
       </h1>
       <div>
-
-        {/* // className={styles.wrap}> */}
         <Card>
           <CardBody className={styles.wrap}>
-            {/* <div className={styles.wrap}> */}
-            {/* <Card className={styles.item1}>
-                <CardBody> */}
-
             <div className={styles.item1}>
               <FlexContainer>
                 <button className={styles.primaryBtn} onClick={() => setIsOpenTeam(true)}>Create Team</button>{isOpenTeam && <TeamFormModal setIsOpenTeam={setIsOpenTeam} />}
@@ -51,7 +40,7 @@ export function TeamDashboard() {
               </FlexContainer>
 
               <div className={styles.item2}>
-                <NavLogo tag="h5" color="#6C63FF">Members</NavLogo>
+                <TableLogo tag="h5" color="#6C63FF">Members</TableLogo>
                 <Table className="border table-striped no-wrap mt-3 align-middle col-6" response border>
                   <thead>
                     <tr>
@@ -70,11 +59,6 @@ export function TeamDashboard() {
                   </tbody>
                 </Table>
               </div>
-              {/* </CardBody>
-              </Card> */}
-
-              {/* <Card className={styles.item2}>
-                <CardBody> */}
               <TableLogo tag="h5" color="#6C63FF">Cover Events</TableLogo>
               <Table className="border table-striped no-wrap mt-3 align-middle col-6" response border>
                 <thead>
@@ -86,22 +70,21 @@ export function TeamDashboard() {
                 </thead>
                 <tbody>
                   {
-                  (eventData.cover_events.length >= 1) ?
-                    eventData.cover_events.map((cover) => {
-                      let start = new DateObject(cover.availability_start)
-                      let end = new DateObject(cover.availability_end)
-                      let start_date = start.format("ddd DD MMM YYYY")
-                      let end_date = end.format("ddd DD MMM YYYY")
-                      return (
-                        <tr key={cover.id}>
-                          <td>{cover.owner}</td>
-                          <td>{start_date}</td>
-                          <td>{end_date}</td>
-                        </tr>
-                      )
-                    })
-                    :
-                    null
+                    (eventData.cover_events.length >= 1) ?
+                      eventData.cover_events.map((cover) => {
+                        let start = new DateObject(cover.availability_start)
+                        let end = new DateObject(cover.availability_end)
+                        let start_date = start.format("ddd DD MMM YYYY")
+                        let end_date = end.format("ddd DD MMM YYYY")
+                        return (
+                          <tr key={cover.id}>
+                            <td>{cover.owner}</td>
+                            <td>{start_date}</td>
+                            <td>{end_date}</td>
+                          </tr>
+                        )
+                      })
+                      : null
                   }
                 </tbody>
               </Table>
@@ -136,15 +119,12 @@ export function TeamDashboard() {
                           <td>{end_date}</td>
                         </tr>
                       )
-                    }): null
+                    }) : null
 
                   }
                 </tbody>
               </Table>
             </div>
-            {/* </CardBody>
-              </Card> */}
-            {/* </div> */}
           </CardBody>
         </Card>
       </div>

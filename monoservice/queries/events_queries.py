@@ -2,13 +2,13 @@ from queries.pool import pool
 from models import (
     CoverEventIn,
     CoverEventUpdateIn,
-    CoverEventOut,
-    ShiftSwapEventOut,
     ShiftSwapEventIn,
-    EventTypeOut,
-    TableOut,
 )
-import requests
+
+<<<<<<< HEAD
+=======
+
+>>>>>>> main
 
 class EventQueries:
     def get_cover_event_table(self):
@@ -30,7 +30,7 @@ class EventQueries:
                     ORDER BY e.availability_start
                     """,
                 )
-                events =  self.to_dict(db.fetchall(), db.description)
+                events = self.to_dict(db.fetchall(), db.description)
         if type(events) != list:
             temp = []
             temp.append(events)
@@ -45,9 +45,9 @@ class EventQueries:
                         WHERE team_href = %s
 
                         """,
-                        [dic['team_href']]
+                        [dic["team_href"]],
                     )
-                    dic['team_name'] = str(result.fetchone()).strip("(',)")
+                    dic["team_name"] = str(result.fetchone()).strip("(',)")
         return events
 
     def get_shift_swap_event_table(self):
@@ -69,7 +69,7 @@ class EventQueries:
                     ORDER BY e.shift_start
                     """,
                 )
-                events =  self.to_dict(db.fetchall(), db.description)
+                events = self.to_dict(db.fetchall(), db.description)
         if type(events) != list:
             temp = []
             temp.append(events)
@@ -84,9 +84,9 @@ class EventQueries:
                         WHERE team_href = %s
 
                         """,
-                        [dic['team_href']]
+                        [dic["team_href"]],
                     )
-                    dic['team_name'] = str(result.fetchone()).strip("(',)")
+                    dic["team_name"] = str(result.fetchone()).strip("(',)")
         return events
 
     def get_user_cover_events(self, user):
@@ -100,9 +100,9 @@ class EventQueries:
                     FROM cover_events
                     WHERE user_id = %s;
                     """,
-                    [user["id"]]
+                    [user["id"]],
                 )
-                cover_events =  self.to_dict(result.fetchall(), result.description)
+                cover_events = self.to_dict(result.fetchall(), result.description)
         if type(cover_events) != list:
             temp = []
             temp.append(cover_events)
@@ -117,12 +117,11 @@ class EventQueries:
                         WHERE team_href = %s
 
                         """,
-                        [dic['team_href']]
+                        [dic["team_href"]],
                     )
-                    dic['team_name'] = str(result.fetchone()).strip("(',)")
+                    dic["team_name"] = str(result.fetchone()).strip("(',)")
 
         return cover_events
-
 
     def get_user_shift_swap_events(self, user):
         with pool.connection() as conn:
@@ -135,9 +134,9 @@ class EventQueries:
                     FROM shift_swap_events as e
                     WHERE e.user_id = %s;
                     """,
-                    [user["id"]]
+                    [user["id"]],
                 )
-                events =  self.to_dict(result.fetchall(), result.description)
+                events = self.to_dict(result.fetchall(), result.description)
         if type(events) != list:
             temp = []
             temp.append(events)
@@ -152,9 +151,9 @@ class EventQueries:
                         WHERE team_href = %s
 
                         """,
-                        [dic['team_href']]
+                        [dic["team_href"]],
                     )
-                    dic['team_name'] = str(result.fetchone()).strip("(',)")
+                    dic["team_name"] = str(result.fetchone()).strip("(',)")
         return events
 
     def get_cover_event(self, id):
@@ -172,7 +171,7 @@ class EventQueries:
                         ON (tm.href=e.team_href)
                     WHERE e.id=%s
                     """,
-                    [id]
+                    [id],
                 )
                 return self.to_dict(db.fetchall(), db.description)
 
@@ -192,7 +191,7 @@ class EventQueries:
                         ON (tm.href=e.team_href)
                     WHERE e.id=%s
                     """,
-                    [id]
+                    [id],
                 )
                 return self.to_dict(db.fetchall(), db.description)
 
@@ -211,10 +210,10 @@ class EventQueries:
                         cover_event.availability_start,
                         cover_event.availability_end,
                         user["id"],
-                        cover_event.team_href
+                        cover_event.team_href,
                     ],
                 )
-                event =  self.to_dict(db.fetchall(), db.description)
+                event = self.to_dict(db.fetchall(), db.description)
 
         with pool.connection() as conn:
             with conn.cursor() as db:
@@ -224,9 +223,9 @@ class EventQueries:
                     FROM teams_vo
                     WHERE team_href = %s
                     """,
-                    [event['team_href']]
+                    [event["team_href"]],
                 )
-                event['team_name'] = str(db.fetchone()).strip("(',)")
+                event["team_name"] = str(db.fetchone()).strip("(',)")
         return event
 
     def create_shift_swap_event(self, shift_swap_event: ShiftSwapEventIn, user):
@@ -248,7 +247,7 @@ class EventQueries:
                         shift_swap_event.availability_start,
                         shift_swap_event.availability_end,
                         user["id"],
-                        shift_swap_event.team_href
+                        shift_swap_event.team_href,
                     ],
                 )
                 event = self.to_dict(db.fetchall(), db.description)
@@ -260,9 +259,9 @@ class EventQueries:
                     FROM teams_vo
                     WHERE team_href = %s
                     """,
-                    [event['team_href']]
+                    [event["team_href"]],
                 )
-                event['team_name'] = str(db.fetchone()).strip("(',)")
+                event["team_name"] = str(db.fetchone()).strip("(',)")
         return event
 
     def delete_cover_event(self, id):
@@ -273,7 +272,7 @@ class EventQueries:
                     DELETE FROM cover_events
                     WHERE id = %s
                     """,
-                    [id]
+                    [id],
                 )
 
     def delete_shift_swap_event(self, id):
@@ -284,17 +283,13 @@ class EventQueries:
                     DELETE FROM shift_swap_events
                     WHERE id = %s
                     """,
-                    [id]
+                    [id],
                 )
 
     def update_cover_event(self, id, data: CoverEventUpdateIn):
         with pool.connection() as conn:
             with conn.cursor() as db:
-                params = [
-                    data.availability_start,
-                    data.availability_end,
-                    id
-                ]
+                params = [data.availability_start, data.availability_end, id]
                 result = db.execute(
                     """
                     UPDATE cover_events
@@ -303,10 +298,10 @@ class EventQueries:
                     WHERE id = %s
                     RETURNING id, availability_start, availability_end, user_id, team_href
                     """,
-                    params
+                    params,
                 )
 
-                event =  self.to_dict(db.fetchall(), db.description)
+                event = self.to_dict(db.fetchall(), db.description)
 
         with pool.connection() as conn:
             with conn.cursor() as db:
@@ -316,9 +311,9 @@ class EventQueries:
                     FROM teams_vo
                     WHERE team_href = %s
                     """,
-                    [event['team_href']]
+                    [event["team_href"]],
                 )
-                event['team_name'] = str(db.fetchone()).strip("(',)")
+                event["team_name"] = str(db.fetchone()).strip("(',)")
         return event
 
     def update_shift_swap_event(self, id, data):
@@ -329,7 +324,7 @@ class EventQueries:
                     data.shift_end,
                     data.availability_start,
                     data.availability_end,
-                    id
+                    id,
                 ]
                 result = db.execute(
                     """
@@ -341,10 +336,10 @@ class EventQueries:
                     WHERE id = %s
                     RETURNING id, shift_start, shift_end, availability_start, availability_end, user_id, team_href
                     """,
-                    params
+                    params,
                 )
 
-                event =  self.to_dict(db.fetchall(), db.description)
+                event = self.to_dict(db.fetchall(), db.description)
 
         with pool.connection() as conn:
             with conn.cursor() as db:
@@ -354,9 +349,9 @@ class EventQueries:
                     FROM teams_vo
                     WHERE team_href = %s
                     """,
-                    [event['team_href']]
+                    [event["team_href"]],
                 )
-                event['team_name'] = str(db.fetchone()).strip("(',)")
+                event["team_name"] = str(db.fetchone()).strip("(',)")
         return event
 
     def get_event_types(self):
@@ -391,16 +386,14 @@ class EventQueries:
         except Exception as e:
             return {"message": str(e)}
 
-
-
-    def to_dict(self,rows,description):
-            lst = []
-            columns = [desc[0] for desc in description]
-            for row in rows:
-                item = {}
-                for i in range(len(row)):
-                    item[columns[i]]=row[i]
-                lst.append(item)
-            if len(lst) == 1:
-                lst = lst[0]
-            return lst
+    def to_dict(self, rows, description):
+        lst = []
+        columns = [desc[0] for desc in description]
+        for row in rows:
+            item = {}
+            for i in range(len(row)):
+                item[columns[i]] = row[i]
+            lst.append(item)
+        if len(lst) == 1:
+            lst = lst[0]
+        return lst

@@ -1,12 +1,9 @@
-from typing import List, Union
-from models import Error
-from models import ShiftSwapEventOut
 from queries.pool import pool
-from datetime import datetime
+
 
 
 class NotificationRepository:
-    def get_notifications_by_user(self,user):
+    def get_notifications_by_user(self, user):
         with pool.connection() as conn:
             with conn.cursor() as db:
                 db.execute(
@@ -15,9 +12,9 @@ class NotificationRepository:
                     FROM notifications
                     WHERE user_id = %s
                     """,
-                    [user['id']]
+                    [user["id"]],
                 )
-                notifications = self.to_dict(db.fetchall(),db.description)
+                notifications = self.to_dict(db.fetchall(), db.description)
         if type(notifications) != list:
             temp = []
             temp.append(notifications)
@@ -33,10 +30,10 @@ class NotificationRepository:
                     FROM notifications
                     WHERE id = %s
                     """,
-                    [id]
+                    [id],
                 )
-                validation = self.to_dict(db.fetchall(),db.description)
-        if validation['user_id'] == uid:
+                validation = self.to_dict(db.fetchall(), db.description)
+        if validation["user_id"] == uid:
             with pool.connection() as conn:
                 with conn.cursor() as db:
                     db.execute(
@@ -45,7 +42,7 @@ class NotificationRepository:
                         SET seen = true
                         WHERE id = %s
                         """,
-                        [id]
+                        [id],
                     )
             return True
         else:
@@ -60,10 +57,10 @@ class NotificationRepository:
                     FROM notifications
                     WHERE id = %s
                     """,
-                    [id]
+                    [id],
                 )
-                validation = self.to_dict(db.fetchall(),db.description)
-        if validation['user_id'] == uid:
+                validation = self.to_dict(db.fetchall(), db.description)
+        if validation["user_id"] == uid:
             with pool.connection() as conn:
                 with conn.cursor() as db:
                     db.execute(
@@ -71,20 +68,19 @@ class NotificationRepository:
                         DELETE FROM notifications
                         WHERE id = %s
                         """,
-                        [id]
+                        [id],
                     )
             return True
-        else: 
+        else:
             return False
 
-
-    def to_dict(self,rows,description):
+    def to_dict(self, rows, description):
         lst = []
         columns = [desc[0] for desc in description]
         for row in rows:
             item = {}
             for i in range(len(row)):
-                item[columns[i]]=row[i]
+                item[columns[i]] = row[i]
             lst.append(item)
         if len(lst) == 1:
             lst = lst[0]
