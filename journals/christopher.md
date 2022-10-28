@@ -86,3 +86,5 @@ I worked on handling team dashboard and all the create forms for team, members, 
 Worked on the profile page and forms are working from a front end perspective, but members and roles endpoints displaying a 405 error (Method not allowed). It appears to not want to accept the data that is being sent. Will continue tomorrow. Onwards. 
 
 ## Octover 28, 2022
+
+Wow, I'm amazed how many bugs we fixed today especially being the last day of the project... I worked on all the forms with Louise and Josh to grind these bugs out and we did it! I'm so proud of us. Especially given out situation of having only three person project team! I also added a Carousel feature to showcase images of our project to new users who haven't signed up yet! Talk about meeting deadlines and meeting them at the very moment. My brain is fried.......I hope we pass. 
