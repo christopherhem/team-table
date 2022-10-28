@@ -10,13 +10,11 @@ export default function TeamFormModal({ setIsOpenTeam }) {
   const [description, setDescription] = useState('');
   const [createTeam, result] = useCreateTeamMutation();
 
-
-
   async function handleSubmit(e) {
     e.preventDefault();
     setIsOpenTeam(false);
     createTeam({ name, type, description });
-    console.log(result)
+    console.log("RESULT:", result)
   }
 
   return (
@@ -31,14 +29,16 @@ export default function TeamFormModal({ setIsOpenTeam }) {
             <RiCloseLine style={{ marginBottom: "-3px" }} />
           </button>
           <form className={styles.modalContent} onSubmit={(e) => handleSubmit(e)}>
-            <h6>Enter team name</h6>
             <div className="mb-3">
-              <input onChange={e => setTeamName(e.target.value)} value={name} className="form-select" type="text" name="name" id="name">
+              <h6>Enter team name</h6>
+              <input onChange={e => setTeamName(e.target.value)} value={name} type="text" name="name" id="name">
               </input>
-              <input onChange={e => setTeamType(e.target.value)} value={name} className="form-select" type="text" name="type" id="type">
+              <h6>Enter type</h6>
+              <input onChange={e => setTeamType(e.target.value)} value={type} type="number" name="type" id="type">
               </input>
-              <input onChange={e => setDescription(e.target.value)} value={name} className="form-select" type="text" name="description" id="description">
-              </input>
+              <h6>Enter description</h6>
+              <textarea onChange={e => setDescription(e.target.value)} value={description} type="text" name="description" id="description">
+              </textarea>
             </div>
             <div className={styles.modalActions}>
               <div className={styles.actionsContainer}>
@@ -59,5 +59,3 @@ export default function TeamFormModal({ setIsOpenTeam }) {
     </>
   );
 };
-
-

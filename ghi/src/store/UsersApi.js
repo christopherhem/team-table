@@ -26,9 +26,25 @@ export const usersApi = createApi({
             }),
             invalidatesTags: ['User'],
         }),
+        updateUsers: builder.mutation({
+            query: ({id, ...data}) => ({
+                url: `/api/users/${id}`,
+                method: 'put',
+                body: data,
+                credentials: 'include'
+            }),
+            invalidatesTags: ['User']
+        }),
         getUsers: builder.query({
             query: () => 'api/users',
             providesTags: ['User'],
+        }),
+        getUser: builder.query({
+            query: id => ({
+                url: `api/users/${id}`,
+                credentials: 'include',
+                providesTags: ['User'],
+            }),
         }),
         createToken: builder.mutation({
             query: data =>
@@ -218,8 +234,11 @@ export const {
     useGetUserShiftSwapEventsQuery,
     useGetShiftSwapEventQuery,
     useGetUsersQuery,
+    useGetUserQuery,
     useCreateUsersMutation,
+    useUpdateUsersMutation,
     useCreateTokenMutation,
     useSignOutMutation,
     useSignInMutation,
-    useGetTokenQuery, } = usersApi;
+    useGetTokenQuery 
+} = usersApi;

@@ -5,9 +5,8 @@ import { useLocation } from "react-router-dom";
 import { useState } from "react";
 import DateObject from "react-date-object";
 import TeamFormModal from "./TeamFormModal";
-// import RoleFormModal from "./RoleFormModal";
-// import MemberFormModal from "./MemberFormModal";
-
+import RoleFormModal from "./RoleFormModal";
+import MemberFormModal from "./MemberFormModal";
 import styles from "../../components/dashboard/Home.module.css"
 import { FlexContainer } from "../navbar/NavbarElements";
 
@@ -46,8 +45,8 @@ export function TeamDashboard() {
             <div className={styles.item1}>
               <FlexContainer>
                 <button className={styles.primaryBtn} onClick={() => setIsOpenTeam(true)}>Create Team</button>{isOpenTeam && <TeamFormModal setIsOpenTeam={setIsOpenTeam} />}
-                {/* <button className={styles.primaryBtn} onClick={() => setIsOpenMember(true)}>Create Member</button>{isOpenMember && <MemberFormModal setIsOpenMember={setIsOpenMember} />}
-                <button className={styles.primaryBtn} onClick={() => setIsOpenRole(true)}>Create Role</button>{isOpenRole && <RoleFormModal setIsOpenRole={setIsOpenRole} />} */}
+                <button className={styles.primaryBtn} onClick={() => setIsOpenMember(true)}>Create Member</button>{isOpenMember && <MemberFormModal setIsOpenMember={setIsOpenMember} />}
+                <button className={styles.primaryBtn} onClick={() => setIsOpenRole(true)}>Create Role</button>{isOpenRole && <RoleFormModal setIsOpenRole={setIsOpenRole} />}
               </FlexContainer>
 
               <div className={styles.item2}>

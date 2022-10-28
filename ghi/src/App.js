@@ -3,6 +3,7 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { TeamDashboard } from './components/teams/team_dash.js';
 import { useGetTokenQuery } from './store/UsersApi.js';
 import { FaBars } from 'react-icons/fa';
+import Profile from './components/users/profile.js';
 import SignIn from './components/users/signin.js';
 import SignUp from './components/users/signup.js';
 import Landing from './pages/landing';
@@ -44,7 +45,7 @@ function App() {
             <Routes>
               <Route forceRefresh={true} path='/' element={<UserHome />} />
               <Route path='team' element={<TeamDashboard />} />
-  
+              <Route path='profile' element={<Profile />} />
             </Routes>
           </main>
         </div>
