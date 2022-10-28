@@ -19,7 +19,7 @@ export const teamsApi = createApi({
             return headers;
         }
     }),
-    tagTypes:['Team','Token','Roles','Members','Permissions','TeamEvents','TeamTypes','EventTypes', 'ValidSwapList'],
+    tagTypes:['ValidCoverSwaps', 'Team','Token','Roles','Members','Permissions','TeamEvents','TeamTypes','EventTypes', 'ValidSwapList'],
     endpoints: builder=>({
         createTeam: builder.mutation({
             query: data => ({
@@ -176,48 +176,16 @@ export const teamsApi = createApi({
         }),
         getValidCoverSwaps: builder.query({
             query:(id) =>({
-                url:
-            })
+                url: "/api/swapbycover/{event_id}",
+                credentials: 'include'
+            }),
+            providesTags: ['ValidCoverSwaps']
         })
-        /* TEMPLATES
-        get : builder.query({
-            query:()=>({
-                url: ``,
-                credentials: 'include'
-            }),
-            providesTags: ['']
-        }),
-        create : builder.mutation({
-            query: (data)=>({
-                url: ``,
-                body: data,
-                method: "POST",
-                credentials: 'include'
-            }),
-            invalidatesTags: ['']
-        }),
-        update : builder.mutation({
-            query: (data)=>({
-                url: ``,
-                body: data,
-                method: "PUT",
-                credentials: 'include'
-            }),
-            invalidatesTags: ['']
-        }),
-        delete : builder.mutation({
-            query: ()=>({
-                url: ``,
-                method: 'DELETE',
-                credentials: 'include'
-            }),
-            invalidatesTags : ['']
-        }),
-        */
     }),
 
 });
 export const {
+    useGetValidCoverSwapsQuery,
     useGetValidSwapsQuery,
     useCreateMemberMutation,
     useCreateRoleMutation,
