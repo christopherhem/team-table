@@ -1,5 +1,5 @@
 steps = [
-     [
+    [
         """
         CREATE TABLE member_sub_urls(
             id SERIAL PRIMARY KEY NOT NULL,
@@ -8,14 +8,14 @@ steps = [
         """,
         """
         DROP TABLE member_sub_urls;
-        """
-     ],
-     [
+        """,
+    ],
+    [
         """
         INSERT INTO member_sub_urls (url)
         VALUES ('http://monoservice:8000/api/main/teams/members/')
         """,
         """
-        """
-     ]
+        """,
+    ],
 ]
