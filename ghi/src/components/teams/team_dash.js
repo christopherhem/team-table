@@ -8,7 +8,7 @@ import TeamFormModal from "./TeamFormModal";
 import RoleFormModal from "./RoleFormModal";
 import MemberFormModal from "./MemberFormModal";
 import styles from "../../components/dashboard/Home.module.css"
-import { FlexContainer } from "../navbar/NavbarElements";
+import { FlexContainer, NavLogo } from "../navbar/NavbarElements";
 
 export function TeamDashboard() {
   const [isOpenTeam, setIsOpenTeam] = useState(false)
@@ -50,7 +50,7 @@ export function TeamDashboard() {
               </FlexContainer>
 
               <div className={styles.item2}>
-                <TableLogo tag="h5" color="#6C63FF">Members ({membersData.length})</TableLogo>
+                <NavLogo tag="h5" color="#6C63FF">Members</NavLogo>
                 <Table className="border table-striped no-wrap mt-3 align-middle col-6" response border>
                   <thead>
                     <tr>

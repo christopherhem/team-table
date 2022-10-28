@@ -111,13 +111,13 @@ const HomeSidebar = ({
             icon={<FaPeopleArrows />}
           >
             { teamData.length >= 1 ?
-              teamData.map((teams) => {
+              teamData.map((teams, index) => {
                 const url = new URL(teams.team_href)
                 const splitPaths = url.pathname.split('/')
                 const teamId = splitPaths[splitPaths.length - 1]
                 const teamName = teams.name
                 return (
-                  <MenuItem>
+                  <MenuItem key={index}>
                   <Link to="/team" state={{ id: teamId }}>{teamName}</Link>
                   </MenuItem>
                 )
