@@ -15,3 +15,47 @@ The user dashboard displays the users posted shift swap requests and cover avail
 
 ## Team Dashboard
 The team dashboard displays the information for an individual team, including all the requested swaps on the team, members, and roles. This allows users to view a team dashboard and see shifts they might be interested in picking up, they can then post an availability during that time and request the swap. 
+
+## Setup
+  - clone the repository
+  - You will need a pg-admin and a postgres-data volume, 
+    - docker volume create pg-admin
+    - docker volume create postgres-data
+  - docker-compose build
+  - docker-compose up
+  - website hosted locally on localhost:3000
+
+## Tests
+  - unit tests can be run in docker console for monoservice or teams service using the following commands
+    - pip install pytest
+    - pytest
+  - pipeline currently only has one stage; Test, which successfully runs the tests on gitlab
+    - you are welcome to make a comment somewhere in the code, save, add, commit, and push to test this functionality
+  - tests are located in the 'test' folders in both the monoservice and the teams service.
+## MVP
+  - Front page
+    - Signup page on nav bar
+    - Login Page on nav bar
+  -User dashboard redirect on login
+    -user dashboard displays all user's events and notifications
+    -user can carry out shift swaps and shift covers on dashboard
+    -user can create shift swap and shift cover events on dashboard
+    -user can mark notifications as seen (green checkmark)
+    -side navigation bar lists users teams in a drop down menu
+  -team dashboard
+    -team dashboard displays buttons to invite team members and add roles to the team
+    -displays team members
+    -displays all team swap and cover events for the team
+    -user can navigate back to dashboard by clicking "my home" on the side navbar
+  - Please Note:
+    - We are still working on and adding to this project and many pieces of code we still have intentions of using are currently commented out for the sake of grading. We apologize for the mess but hope you understand.
+
+## Stretch
+  -button to pick up a shift on team dashboard - automatically covers the event for the other user and sends correct notifications
+  -Permissions functionality (ability to add members restricted by "can_invite", and the ability to require approval for shift swaps "can_approve")
+  -number of teams/events displays correctly on side nav bar
+  -deploy to heroku
+  -Different team types for social use rather than just shift management
+  -mobile app to interact with backend
+  -true shift management functionality
+
