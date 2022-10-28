@@ -31,17 +31,14 @@ class MemberRepository:
                         [tid]
                     )
                     role_dics = self.to_dict(result.fetchall(),result.description)
-                    print(role_dics)
             if type(role_dics) != list:
                 temp =[]
                 temp.append(role_dics)
                 role_dics = temp
             role_ids = []
             for dic in role_dics:
-                print(dic)
                 role_ids.append(dic['id'])
 
-            members = []
             for rid in role_ids:
                 with pool.connection() as conn:
                     with conn.cursor() as db:
@@ -53,7 +50,7 @@ class MemberRepository:
                             """,
                             [rid]
                         )
-                        members.append(self.to_dict(result.fetchall(),result.description))
+                        members = self.to_dict(result.fetchall(),result.description)
             if type(members)!=list:
                 temp = []
                 temp.append(members)

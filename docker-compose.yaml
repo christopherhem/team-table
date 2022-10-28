@@ -41,7 +41,7 @@ services:
     depends_on:
       - postgres
     environment:
-      DATABASE_URL: postgresql://teams:password@postgres/teams
+      DATABASE_URL: ${TEAM_DATABASE_URL}
       WAIT_HOSTS: postgres:5432
       PGDATABASE: teams
       SIGNING_KEY: teamtable

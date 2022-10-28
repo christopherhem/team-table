@@ -38,7 +38,6 @@ class PayLevelOut(BaseModel):
 
 class TeamIn(BaseModel):
     name : str
-    type : int
     description : Optional[str]
 
 class TeamOut(BaseModel):
