@@ -1,4 +1,4 @@
-// Create Event Form Modal 
+// Create Event Form Modal
 import React, { useState } from 'react'
 import { useLocation } from 'react-router-dom';
 import styles from "../events/Modal.module.css"
@@ -11,8 +11,7 @@ export default function MemberFormModal({ setIsOpenMember }) {
   const location = useLocation()
   const { id } = location.state
   const [createMember, result] = useCreateMemberMutation();
-  const {data, error, isLoading} = useGetRolesQuery(id)
-  console.log("Data:", data)
+  const { data, error, isLoading } = useGetRolesQuery(id)
 
   if (isLoading) {
     return (
@@ -24,8 +23,6 @@ export default function MemberFormModal({ setIsOpenMember }) {
     e.preventDefault();
     setIsOpenMember(false);
     createMember({ member_username, role })
-    console.log("Member:", member_username)
-    console.log("Role:", role)
   }
 
   return (
@@ -46,15 +43,15 @@ export default function MemberFormModal({ setIsOpenMember }) {
               </input>
               <h6>Enter Role</h6>
               <div className="mb-3">
-              <select onChange={e => setRole(e.target.value)} value={role} className="form-select" name="role" id="role">
-                <option value="">Select a Team</option>
-                {data.map((roles) => {
-                  return (
-                    <option key={roles.id} value={roles.id}>{roles.name}</option>
-                  );
-                })}
-              </select>
-            </div>
+                <select onChange={e => setRole(e.target.value)} value={role} className="form-select" name="role" id="role">
+                  <option value="">Select a Role</option>
+                  {data.map((roles) => {
+                    return (
+                      <option key={roles.id} value={roles.id}>{roles.name}</option>
+                    );
+                  })}
+                </select>
+              </div>
             </div>
             <div className={styles.modalActions}>
               <div className={styles.actionsContainer}>
@@ -75,5 +72,3 @@ export default function MemberFormModal({ setIsOpenMember }) {
     </>
   );
 };
-
-

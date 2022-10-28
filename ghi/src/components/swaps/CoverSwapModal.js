@@ -2,18 +2,8 @@
 import React, { useState, useEffect } from 'react'
 import styles from '../events/Modal.module.css'
 import { RiCloseLine } from "react-icons/ri"
-import { usePerformCoverSwapMutation, useGetAllCoverEventsQuery} from '../../store/UsersApi';
-import { useGetValidCoverSwapsQuery} from '../../store/TeamsApi';
-import {
-  Container,
-  FormWrap,
-  Icon,
-  FormContent,
-  Form,
-  FormH1,
-  FormButton,
-  CreateInput
-} from '../users/SignUpElements.js';
+import { usePerformCoverSwapMutation } from '../../store/UsersApi';
+import { useGetValidCoverSwapsQuery } from '../../store/TeamsApi';
 import DateObject from "react-date-object";
 
 
@@ -21,7 +11,7 @@ export default function CoverSwap({ handleClose, i }) {
   const [valid_swap, setValidSwap] = useState(null);
   const [shiftSwapEvents, setShiftSwapEvents] = useState(null);
   const [coverEvents, setCoverEvents] = useState([])
-  const {data: validData, isLoading: isLoadingCoverSwaps} = useGetValidCoverSwapsQuery(i);
+  const { data: validData, isLoading: isLoadingCoverSwaps } = useGetValidCoverSwapsQuery(i);
   const [performCoverSwap, result] = usePerformCoverSwapMutation();
 
 
@@ -30,7 +20,6 @@ export default function CoverSwap({ handleClose, i }) {
     const response = await fetch(url)
     if (response.ok) {
       const theJson = await response.json()
-      console.log(theJson)
       setCoverEvents(theJson)
     }
   }
@@ -40,7 +29,6 @@ export default function CoverSwap({ handleClose, i }) {
     const response = await fetch(url)
     if (response.ok) {
       const ssData = await response.json()
-      console.log(ssData)
       setShiftSwapEvents(ssData)
     }
   }
@@ -52,18 +40,15 @@ export default function CoverSwap({ handleClose, i }) {
     let obj = {}
     obj['cover'] = u_event[0]
     obj['swap'] = s_event[0]
-    console.log(obj)
     performCoverSwap(obj);
-
-
-    // handleClose();
+    handleClose();
   }
   useEffect(() => {
     fetchCoverEvents();
     fetchShiftSwapEvents();
   }, [])
 
-  if (isLoadingCoverSwaps ) {
+  if (isLoadingCoverSwaps) {
     return (
       <progress className="progress is-primary" max="100"></progress>
     );
@@ -76,7 +61,7 @@ export default function CoverSwap({ handleClose, i }) {
       <div className={styles.centered}>
         <div className={styles.modal}>
           <div className={styles.modalHeader}>
-            <h2 className={styles.heading}>Create a cover event</h2>
+            <h2 className={styles.heading}>Cover a Shift</h2>
           </div>
           <button className={styles.closeBtn} onClick={() => handleClose()}>
             <RiCloseLine style={{ marginBottom: "-3px" }} />
@@ -84,7 +69,7 @@ export default function CoverSwap({ handleClose, i }) {
           <form className={styles.modalContent} onSubmit={(e) => handleSubmit(e)}>
             <div className="mb-3">
               <select onChange={e => setValidSwap(e.target.value)} value={valid_swap} className="form-select" name="valid_swap" id="valid_swap">
-                <option value="">Select a Team</option>
+                <option value="">Select a Swap Event</option>
                 {validData.map((obj) => {
                   const date1 = new Date(obj.shift_start)
                   const date2 = new Date(obj.shift_end)

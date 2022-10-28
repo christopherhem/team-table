@@ -17,9 +17,7 @@ import {
   FaAngleDoubleLeft,
   FaAngleDoubleRight,
   FaPeopleArrows,
-  FaCalendarDay,
   FaHome,
-  FaPencilAlt,
   FaSignOutAlt
 } from 'react-icons/fa';
 import { useSignOutMutation } from '../../store/UsersApi';
@@ -54,14 +52,14 @@ const HomeSidebar = ({
   handleCollapsedChange
 }) => {
   const [isOpenTeam, setIsOpenTeam] = useState(false)
-  const { data: teamData, error: teamError, isLoading: isLoadingTeam } = useGetUsersTeamsQuery();
+  const { data: teamData, isLoading: isLoadingTeam } = useGetUsersTeamsQuery();
+
   let teamNumber = 0
   if (teamData != null) {
     teamNumber = teamData.length
   } else {
     teamNumber = 0
   }
-  
 
   if (isLoadingTeam) {
     return (
@@ -102,7 +100,6 @@ const HomeSidebar = ({
           )}
         </Menu>
       </SidebarHeader>
-      {/* Content */}
       <SidebarContent>
         <Menu iconShape="circle">
           <MenuItem
@@ -117,7 +114,7 @@ const HomeSidebar = ({
             title={'Teams'}
             icon={<FaPeopleArrows />}
           >
-            { teamData.length >= 1 ?
+            {teamData.length >= 1 ?
               teamData.map((teams, index) => {
                 const url = new URL(teams.team_href)
                 const splitPaths = url.pathname.split('/')
@@ -125,55 +122,17 @@ const HomeSidebar = ({
                 const teamName = teams.name
                 return (
                   <MenuItem key={index}>
-                  <Link to="/team" state={{ id: teamId }}>{teamName}</Link>
+                    <Link to="/team" state={{ id: teamId }}>{teamName}</Link>
                   </MenuItem>
                 )
-              }):
+              }) :
               <div>
                 <button className={styles.primaryBtn} onClick={() => setIsOpenTeam(true)}>Create Team</button>{isOpenTeam && <TeamFormModal setIsOpenTeam={setIsOpenTeam} />}
               </div>
-              }
+            }
           </SubMenu>
-          {/* <MenuItem
-            icon={<FaPeopleArrows />}
-            suffix={<span className="badge red">NEW</span>}
-          >
-            Teams
-            <NavLink to="/team" />
-          </MenuItem> */}
-          {/* <MenuItem icon={<FaGem />}>Components </MenuItem> */}
-          {/* <MenuItem icon={<FaCalendarDay />}>
-            My Events <Link to="/events" />
-          </MenuItem>
-          <SubMenu
-            suffix={<span className="badge yellow">3</span>}
-            title={'Create Event'}
-            icon={<FaPencilAlt />}
-          >
-            <MenuItem>Cover</MenuItem>
-            <MenuItem>Swap</MenuItem>
-            <MenuItem>Availability</MenuItem>
-          </SubMenu> */}
-          {/* <SubMenu
-            prefix={<span className="badge gray">3</span>}
-            title={'With Prefix'}
-            icon={<FaHeart />}
-          >
-            <MenuItem>Submenu 1</MenuItem>
-            <MenuItem>Submenu 2</MenuItem>
-            <MenuItem>Submenu 3</MenuItem>
-          </SubMenu>
-          <SubMenu title={'Multi Level'} icon={<FaList />}>
-            <MenuItem>Submenu 1 </MenuItem>
-            <MenuItem>Submenu 2 </MenuItem>
-            <SubMenu title={'Submenu 3'}>
-              <MenuItem>Submenu 3.1 </MenuItem>
-              <MenuItem>Submenu 3.2 </MenuItem>
-            </SubMenu> */}
-          {/* </SubMenu> */}
         </Menu>
       </SidebarContent>
-      {/* Footer */}
       <SidebarFooter style={{ textAlign: 'center' }}>
         <div className="sidebar-btn-wrapper" style={{ padding: '16px' }}>
           <Link

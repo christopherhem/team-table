@@ -15,27 +15,27 @@ import {
 } from './SignInElements';
 
 function SignIn() {
-    const navigate = useNavigate();
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
-    const [signIn, result] = useSignInMutation();
+  const navigate = useNavigate();
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [signIn, result] = useSignInMutation();
 
-    async function handleSubmit(e) {
-      e.preventDefault();
-      signIn(
-        {email, password}
-      )
-    }
-    if (result.isSuccess) {
-      console.log("Login Successful")
-      navigate("/");
-      localStorage.setItem('email', JSON.stringify(email));
-      localStorage.setItem('token', JSON.stringify(result.data.access_token));
-    } else if (result.isError) {
-      console.log("Error Login")
+  async function handleSubmit(e) {
+    e.preventDefault();
+    signIn(
+      { email, password }
+    )
+  }
+  if (result.isSuccess) {
+    console.log("Login Successful")
+    navigate("/");
+    localStorage.setItem('email', JSON.stringify(email));
+    localStorage.setItem('token', JSON.stringify(result.data.access_token));
+  } else if (result.isError) {
+    console.log("Error Login")
 
-    }
-  
+  }
+
   return (
     <>
       <Container>
@@ -58,4 +58,3 @@ function SignIn() {
 };
 
 export default SignIn;
-

@@ -220,10 +220,9 @@ export const usersApi = createApi({
             providesTags: ['UserNotifications']
         }),
         UpdateNotification: builder.mutation({
-            query: (data) => ({
-                url: "/api/notifications/",
+            query: (id) => ({
+                url: `/api/notifications/${id}`,
                 method: "put",
-                body: data,
                 credentials: 'include'
             }),
             invalidatesTags: ['UserNotifications']

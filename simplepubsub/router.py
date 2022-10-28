@@ -2,21 +2,10 @@ import json
 import requests
 from fastapi import APIRouter, Depends, Response, Request
 from models import *
-from typing import Union, List
+from typing import Union
 from queries import TeamSubQueries, MainSubQueries, MemberSubQueries
 
 router = APIRouter()
-
-
-"""
-* request
-    set request json as variable
-    get list of subs from table
-    for sub in list
-        send * request with json as body
-
-"""
-
 
 @router.post("/api/seps/subscribe/", response_model=Union[SubUrlOut, Error])
 def add_team(sub: SubUrlIn, response: Response, repo: TeamSubQueries = Depends()):
@@ -102,8 +91,7 @@ def publish_post(
             urls.append(sub["url"])
         for url in urls:
             body = json.dumps(dict(body))
-            requests.post(url, data=body, headers=headers)
-            print(body)
+            requests.post(url, data = body, headers = headers)
         return True
     except Exception as e:
         return {"message": str(e)}

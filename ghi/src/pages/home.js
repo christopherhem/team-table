@@ -8,7 +8,8 @@ import CoverEventFormModal from '../components/events/CoverEventFormModal';
 import SwapEventFormModal from '../components/events/SwapEventFormModal';
 import UpdateCoverFormModal from '../components/events/updateCoverModal';
 import styles from "../components/dashboard/Home.module.css"
-import { useGetTokenQuery,
+import {
+    useGetTokenQuery,
     useGetUserCoverEventsQuery,
     useGetUserShiftSwapEventsQuery,
     useDeleteCoverEventMutation,
@@ -17,11 +18,9 @@ import { useGetTokenQuery,
     useUpdateNotificationMutation,
 } from '../store/UsersApi';
 import UpdateShiftFormModal from '../components/events/updateSwapModal';
-import { FaBars, FaTrash, FaCheck } from 'react-icons/fa';
+import { FaTrash, FaCheck } from 'react-icons/fa';
 import Swap from '../components/swaps/ShiftSwapModal';
 import CoverSwap from '../components/swaps/CoverSwapModal';
-
-
 import './styles.scss';
 
 function UserHome() {
@@ -33,15 +32,13 @@ function UserHome() {
     const [isOpenUpdateCover, setIsOpenUpdateCover] = useState(false);
     const [isOpenCover, setIsOpenCover] = useState(false);
     const [isOpenShift, setIsOpenShift] = useState(false);
-    const [seenNote, setSeenNote] = useState(false)
-    const [updateNotification, setupdateNotification] = useUpdateNotificationMutation();
-    const [isOpen, setIsOpen] = useState(false);
-    const [deleteCover, coverResult] = useDeleteCoverEventMutation();
-    const [deleteShift, shiftResult] = useDeleteShiftSwapEventMutation();
+    const [updateNotification] = useUpdateNotificationMutation();
+    const [deleteCover] = useDeleteCoverEventMutation();
+    const [deleteShift] = useDeleteShiftSwapEventMutation();
     const { data: userData, isLoading: isLoadingUser } = useGetTokenQuery();
     const { data: eventData, isLoading: isLoadingEvent } = useGetUserCoverEventsQuery();
     const { data: shiftData, isLoading: isLoadingShift } = useGetUserShiftSwapEventsQuery();
-    const { data: notificationData, isLoading: isLoadingNotifications} = useGetUserNotificationsQuery();
+    const { data: notificationData, isLoading: isLoadingNotifications } = useGetUserNotificationsQuery();
 
 
     if (isLoadingEvent || isLoadingShift || isLoadingUser || isLoadingNotifications) {
@@ -53,39 +50,30 @@ function UserHome() {
     const unseenNotifications = notificationData.filter((notification) => notification.seen === false)
     const user = userData.user.first_name
 
-    const toggle = () => {
-        setIsOpen(!isOpen)
-    }
-
-
     return (
         <>
-            <h1 className="">
-                Hello, {user}!
-            </h1>
+            <h1>Hello, {user}!</h1>
             <div>
                 <Card>
-
                     <CardBody>
                         <TableLogo tag="h5" color="#6C63FF">Notifications</TableLogo>
                         <Table className="border table-striped no-wrap mt-3 align-middle col-6" response border>
-                        <thead>
-                            <tr>
-                            <th>Your Notifications</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {
-                                unseenNotifications.map((item) => {
-                                    if (item.seen === false) {
-                                    return (
-                                    <tr key={item.id}>
-                                        <td>{item.message}</td>
-                                        <td><button className={styles.seenBtn} onClick={() => setSeenNote(true)}><FaCheck /></button></td>
-                                    </tr>
-                                )}})
-                            }
-                        </tbody>
+                            <thead>
+                                <tr>
+                                    <th>Your Notifications</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {
+                                    unseenNotifications.map((item) => {
+                                        return (
+                                            <tr key={item.id}>
+                                                <td>{item.message}</td>
+                                                <td><button className={styles.seenBtn} onClick={() => updateNotification(item.id)}><FaCheck /></button></td>
+                                            </tr>
+                                        )})
+                                }
+                            </tbody>
                         </Table>
                         <TableLogo tag="h5" color="#6C63FF">Your Cover Events</TableLogo>
                         <Table className="border table-striped no-wrap mt-3 align-middle" response border>
@@ -109,22 +97,28 @@ function UserHome() {
                                         let end = new DateObject(cover.availability_end)
                                         let start_date = start.format("ddd DD MMM YYYY")
                                         let end_date = end.format("ddd DD MMM YYYY")
-                                        const id = cover.id
+
                                         return (
                                             <tr key={cover.id}>
                                                 <td>
-                                                <button className={styles.primaryBtn} onClick={() => {
-                                                    setCoverId(cover.id)
-                                                    setIsOpenCoverSwap(true)
-                                                }}>Cover a Shift</button>{isOpenCoverSwap && coverId ? <CoverSwap i={coverId} handleClose={() => {
-                                                    setIsOpenCoverSwap(false)
-                                                    setCoverId(null)
-                                                   }} />: null}
+                                                    <button className={styles.primaryBtn} onClick={() => {
+                                                        setCoverId(cover.id)
+                                                        setIsOpenCoverSwap(true)
+                                                    }}>Cover a Shift</button>{isOpenCoverSwap && coverId ? <CoverSwap i={coverId} handleClose={() => {
+                                                        setIsOpenCoverSwap(false)
+                                                        setCoverId(null)
+                                                    }} /> : null}
                                                 </td>
                                                 <td>
-                                                    <button className={styles.editBtn} onClick={() => setIsOpenUpdateCover(true)}>Edit</button>{isOpenUpdateCover && <UpdateCoverFormModal setIsOpenUpdateCover={setIsOpenUpdateCover} id={id} />}
+                                                    <button className={styles.editBtn} onClick={() => {
+                                                        setCoverId(cover.id)
+                                                        setIsOpenUpdateCover(true)
+                                                    }}>Edit</button>{isOpenUpdateCover && coverId ? <UpdateCoverFormModal id={coverId} handleClose={() => {
+                                                        setIsOpenUpdateCover(false)
+                                                        setCoverId(null)
+                                                    }} /> : null}
                                                 </td>
-                                                <td><button className={styles.deleteBtn} onClick={() => deleteCover(id)}><FaTrash /></button></td>
+                                                <td><button className={styles.deleteBtn} onClick={() => deleteCover(coverId)}><FaTrash /></button></td>
                                                 <td>{start_date}</td>
                                                 <td>{end_date}</td>
                                                 <Link to="/team" state={{ id: teamId }}>{cover.team_name}</Link>
@@ -168,16 +162,19 @@ function UserHome() {
                                                 <button className={styles.primaryBtn} onClick={() => {
                                                     setShiftId(shift.id)
                                                     setIsOpenSwap(true)
-                                                } }>Swap Shifts</button>{isOpenSwap && shiftId ? <Swap i={shiftId} handleClose={() => {
+                                                }}>Swap Shifts</button>{isOpenSwap && shiftId ? <Swap i={shiftId} handleClose={() => {
                                                     setIsOpenSwap(false)
                                                     setShiftId(null)
-                                                   }} />: null}
+                                                }} /> : null}
                                             </td>
                                             <td>
                                                 <button className={styles.editBtn} onClick={() => {
                                                     setShiftId(shift.id)
                                                     setIsOpenUpdateShift(true)
-                                                    }}>Edit</button>{isOpenUpdateShift && shiftId ? <UpdateShiftFormModal setIsOpenUpdateShift={setIsOpenUpdateShift} i={shiftId} />: null}
+                                                }}>Edit</button>{isOpenUpdateShift && shiftId ? <UpdateShiftFormModal id={shiftId} handleClose={() => {
+                                                    setIsOpenUpdateShift(false)
+                                                    setShiftId(null)
+                                                }} /> : null}
                                             </td>
                                             <td><button className={styles.deleteBtn} onClick={() => deleteShift(shift.id)}><FaTrash /></button></td>
                                             <td>{shift_start}</td>
@@ -194,7 +191,6 @@ function UserHome() {
                     </CardBody>
                 </Card>
             </div>
-
         </>
     );
 }

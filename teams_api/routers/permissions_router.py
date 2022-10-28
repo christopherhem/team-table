@@ -7,6 +7,7 @@ router = APIRouter()
 
 # These paths are not currently used by the website but will be later
 
+
 @router.post(
     "/api/teams/{team_id}/roles/{role_id}/permissions",
     response_model=Union[PermissionsOut, Error],

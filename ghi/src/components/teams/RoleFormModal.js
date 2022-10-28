@@ -1,4 +1,3 @@
-// Create Role Form Modal 
 import React, { useState } from 'react'
 import { useLocation } from 'react-router-dom';
 import styles from "../events/Modal.module.css"
@@ -19,14 +18,7 @@ export default function RoleFormModal({ setIsOpenRole }) {
     const team = parseInt(id)
     const can_invite = Boolean(invite)
     const can_approve = Boolean(approve)
-    // let data = {}
-    // data['"name"'] = name
-    // data['"team"'] = team
-    // data['"can_invite"'] = Boolean(can_invite)
-    // data['"can_approve"'] = Boolean(can_approve) 
-    // console.log(data)
-    // console.log(team)
-    createRole({name, team, can_invite, can_approve});
+    createRole({ name, team, can_invite, can_approve });
   }
 
   return (
@@ -45,12 +37,12 @@ export default function RoleFormModal({ setIsOpenRole }) {
             <input type="text" id="name" value={name} onChange={e => setName(e.target.value)} />
             <hr></hr>
             <div className="checkbox-wrapper">
-            <h6>Privileges</h6>
+              <h6>Privileges</h6>
               <label> Can Invite</label>
-                <input onChange={e => setInvite(e.target.value)} value={true} type="checkbox" checked={invite} />
+              <input onChange={e => setInvite(e.target.value)} value={true} type="checkbox" checked={invite} />
               <br></br>
               <label> Can Approve</label>
-                <input onChange={e => setApprove(e.target.value)} value={true} type="checkbox" checked={approve} />
+              <input onChange={e => setApprove(e.target.value)} value={true} type="checkbox" checked={approve} />
             </div>
             <div className={styles.modalActions}>
               <div className={styles.actionsContainer}>
