@@ -110,23 +110,18 @@ const HomeSidebar = ({
             title={'Teams'}
             icon={<FaPeopleArrows />}
           >
-            { teamData.length > 1 ?
-              teamData.map((teams) => {
+            { teamData.length >= 1 ?
+              teamData.map((teams, index) => {
                 const url = new URL(teams.team_href)
                 const splitPaths = url.pathname.split('/')
                 const teamId = splitPaths[splitPaths.length - 1]
                 const teamName = teams.name
                 return (
-                  <MenuItem>
+                  <MenuItem key={index}>
                   <Link to="/team" state={{ id: teamId }}>{teamName}</Link>
                   </MenuItem>
                 )
-              }): teamData.length === 1 ?
-
-              (<MenuItem>
-                <Link to="/team" state={{ id: new URL(teamData.team_href).pathname.split('/')[-2] }}>{teamData.name}</Link>
-              </MenuItem>)
-              :
+              }):
               <div>
                 <button className={styles.primaryBtn} onClick={() => setIsOpenTeam(true)}>Create Team</button>{isOpenTeam && <TeamFormModal setIsOpenTeam={setIsOpenTeam} />}
               </div>

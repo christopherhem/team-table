@@ -5,9 +5,8 @@ from queries.roles_queries import RolesQueries
 
 router = APIRouter()
 
-@router.post("/api/teams/{team_id}/roles", response_model=Union[RolesOut, Error])
+@router.post("/api/teams/roles", response_model=Union[RolesOut, Error])
 def add_role(
-    team_id: int,
     role: RolesIn,
     q: RolesQueries = Depends(),
 ):
