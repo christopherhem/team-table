@@ -8,7 +8,7 @@ from routers import (
     teams_router,
     team_type_router,
     u_event_vo_router,
-    swap_router
+    swap_router,
 )
 
 from fastapi.middleware.cors import CORSMiddleware

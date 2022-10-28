@@ -3,10 +3,11 @@ from queries.pool import pool
 from models import (
     Error,
     EventTypeOut,
-    )
+)
+
 
 class EventTypeRepository:
-    def get_all(self)->Union[List[EventTypeOut], Error]:
+    def get_all(self) -> Union[List[EventTypeOut], Error]:
         try:
             with pool.connection() as conn:
                 with conn.cursor() as db:
@@ -18,32 +19,33 @@ class EventTypeRepository:
                     )
                     return self.to_dict(result.fetchall(), result.description)
         except Exception as e:
-            return{"message" : str(e)}
+            return {"message": str(e)}
 
-    def get_event_type(self, id)->Union[Error, EventTypeOut]:
+    def get_event_type(self, id) -> Union[Error, EventTypeOut]:
         try:
             with pool.connection() as conn:
                 with conn.cursor() as db:
                     result = db.execute(
-
                         """
                         SELECT id, name, table_name
                         FROM event_types
                         WHERE id=%s;
                         """,
-                        [id]
+                        [id],
                     )
                     return self.to_dict(result.fetchall(), result.description)
         except:
-            return{"message" : "Error in team_type_queries TeamRepository.get_team_type"}
+            return {
+                "message": "Error in team_type_queries TeamRepository.get_team_type"
+            }
 
-    def to_dict(self,rows,description):
+    def to_dict(self, rows, description):
         lst = []
         columns = [desc[0] for desc in description]
         for row in rows:
             item = {}
             for i in range(len(row)):
-                item[columns[i]]=row[i]
+                item[columns[i]] = row[i]
             lst.append(item)
         if len(lst) == 1:
             lst = lst[0]

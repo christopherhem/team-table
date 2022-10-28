@@ -1,13 +1,12 @@
-from typing import List, Union
-from models import Error, SwapEventVoOut, EventVoIn, CoverEventVoOut
+from models import EventVoIn
 from queries.pool import pool
-import requests
+
 
 class EventVoRepository:
-    def create_swap_event(self, event:EventVoIn, uid):
+    def create_swap_event(self, event: EventVoIn, uid):
 
         href = f"http://monoservice:8000/api/table/events/{event.id}"
-        team = event.team_href.split('/')[-1]
+        team = event.team_href.split("/")[-1]
         with pool.connection() as conn:
             with conn.cursor() as db:
 
@@ -43,19 +42,19 @@ class EventVoRepository:
                         event.shift_end,
                         event.availability_start,
                         event.availability_end,
-                        event.id
-                    ]
+                        event.id,
+                    ],
                 )
-                return self.to_dict(result.fetchall(),result.description)
+                return self.to_dict(result.fetchall(), result.description)
 
-    def delete_swap_event(self,event):
+    def delete_swap_event(self, event):
         with pool.connection() as conn:
             with conn.cursor() as db:
                 db.execute(
                     """
                     DELETE FROM shift_swap_event_vos WHERE mono_id = %s
                     """,
-                    [event.id]
+                    [event.id],
                 )
         return True
 
@@ -77,16 +76,14 @@ class EventVoRepository:
                     FROM shift_swap_event_vos
                     WHERE id = %s;
                     """,
-                    [id]
+                    [id],
                 )
-                return self.to_dict(result.fetchall(),result.description)
+                return self.to_dict(result.fetchall(), result.description)
 
-
-
-    def create_cover_event(self, event:EventVoIn, uid):
+    def create_cover_event(self, event: EventVoIn, uid):
 
         href = f"http://monoservice:8000/api/table/events/{event.id}"
-        team = event.team_href.split('/')[-1]
+        team = event.team_href.split("/")[-1]
         with pool.connection() as conn:
             with conn.cursor() as db:
 
@@ -116,19 +113,19 @@ class EventVoRepository:
                         team,
                         event.availability_start,
                         event.availability_end,
-                        event.id
-                    ]
+                        event.id,
+                    ],
                 )
-                return self.to_dict(result.fetchall(),result.description)
+                return self.to_dict(result.fetchall(), result.description)
 
-    def delete_cover_event(self,event):
+    def delete_cover_event(self, event):
         with pool.connection() as conn:
             with conn.cursor() as db:
                 db.execute(
                     """
                     DELETE FROM cover_event_vos WHERE mono_id = %s
                     """,
-                    [event.id]
+                    [event.id],
                 )
         return True
 
@@ -148,11 +145,11 @@ class EventVoRepository:
                     FROM cover_event_vos
                     WHERE id = %s;
                     """,
-                    [id]
+                    [id],
                 )
-            return self.to_dict(result.fetchall(),result.description)
+            return self.to_dict(result.fetchall(), result.description)
 
-    def get_events(self,tid):
+    def get_events(self, tid):
         events = {}
         with pool.connection() as conn:
             with conn.cursor() as db:
@@ -163,14 +160,14 @@ class EventVoRepository:
                     FROM shift_swap_event_vos
                     WHERE team = %s
                     """,
-                    [tid]
+                    [tid],
                 )
-                swap_events = self.to_dict(result.fetchall(),result.description)
+                swap_events = self.to_dict(result.fetchall(), result.description)
                 if type(swap_events) != list:
                     temp = []
                     temp.append(swap_events)
                     swap_events = temp
-                events['swap_events'] = swap_events
+                events["swap_events"] = swap_events
 
         with pool.connection() as conn:
             with conn.cursor() as db:
@@ -181,23 +178,23 @@ class EventVoRepository:
                     FROM cover_event_vos
                     WHERE team = %s
                     """,
-                    [tid]
+                    [tid],
                 )
-                cover_events = self.to_dict(result.fetchall(),result.description)
+                cover_events = self.to_dict(result.fetchall(), result.description)
                 if type(cover_events) != list:
-                    temp =[]
+                    temp = []
                     temp.append(cover_events)
                     cover_events = temp
-                events['cover_events']= cover_events
+                events["cover_events"] = cover_events
         return events
 
-    def to_dict(self,rows,description):
+    def to_dict(self, rows, description):
         lst = []
         columns = [desc[0] for desc in description]
         for row in rows:
             item = {}
             for i in range(len(row)):
-                item[columns[i]]=row[i]
+                item[columns[i]] = row[i]
             lst.append(item)
         if len(lst) == 1:
             lst = lst[0]

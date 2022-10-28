@@ -1,7 +1,11 @@
 from pydantic import BaseModel
-from typing import  List, Optional, Union
+from typing import List, Optional, Union
 from queries.pool import pool
 from models import User, UserIn, UserOut,  Error
+<<<<<<< HEAD
+=======
+
+>>>>>>> main
 
 class UserQueries:
     def get_all(self) -> Union[Error, List[User]]:
@@ -22,10 +26,7 @@ class UserQueries:
                         ORDER BY username;
                         """
                     )
-                    return [
-                        self.record_to_user_out(record)
-                        for record in result
-                    ]
+                    return [self.record_to_user_out(record) for record in result]
         except Exception as e:
             print(e)
             return {"message": "Could not get all users"}
@@ -46,7 +47,7 @@ class UserQueries:
                     FROM users
                     WHERE id = %s
                     """,
-                    [user_id]
+                    [user_id],
                 )
                 record = result.fetchone()
                 if record is None:
@@ -69,7 +70,7 @@ class UserQueries:
                     FROM users
                     WHERE email = %s
                     """,
-                    [email]
+                    [email],
                 )
                 # We're only trying to get one
                 record = result.fetchone()
@@ -102,9 +103,8 @@ class UserQueries:
                         user.last_name,
                         user.email,
                         user.phone_number,
-                        user.profile_picture_href
-
-                    ]
+                        user.profile_picture_href,
+                    ],
                 )
                 id = result.fetchone()[0]
                 return User(
@@ -149,8 +149,8 @@ class UserQueries:
                             user.email,
                             user.phone_number,
                             user.profile_picture_href,
-                            user_id
-                        ]
+                            user_id,
+                        ],
                     )
                     return self.record_to_user_out_safe(db.fetchone())
         except Exception as e:
@@ -166,7 +166,7 @@ class UserQueries:
                         DELETE FROM users
                         WHERE id = %s
                         """,
-                        [user_id]
+                        [user_id],
                     )
                     return True
         except Exception as e:

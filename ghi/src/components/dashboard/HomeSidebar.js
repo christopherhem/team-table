@@ -17,9 +17,7 @@ import {
   FaAngleDoubleLeft,
   FaAngleDoubleRight,
   FaPeopleArrows,
-  FaCalendarDay,
   FaHome,
-  FaPencilAlt,
   FaSignOutAlt
 } from 'react-icons/fa';
 import { useSignOutMutation } from '../../store/UsersApi';
@@ -55,6 +53,7 @@ const HomeSidebar = ({
 }) => {
   const [isOpenTeam, setIsOpenTeam] = useState(false)
   const { data: teamData, isLoading: isLoadingTeam } = useGetUsersTeamsQuery();
+
   let teamNumber = 0
   if (teamData != null) {
     teamNumber = teamData.length

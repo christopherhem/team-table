@@ -1,11 +1,11 @@
-from typing import List, Optional, Union
+from typing import List, Union
 from queries.pool import pool
 from models import *
+
 
 class PermissionsQueries:
     def create(self, perm: PermissionsIn) -> Union[PermissionsOut, Error]:
         try:
-            print(perm)
             with pool.connection() as conn:
                 with conn.cursor() as db:
                     result = db.execute(
@@ -24,10 +24,10 @@ class PermissionsQueries:
                             perm.role,
                             perm.approve_swaps,
                             perm.invite_members,
-                            perm.add_roles
-                        ]
+                            perm.add_roles,
+                        ],
                     )
-                    return self.to_dict(result.fetchall(),result.description)
+                    return self.to_dict(result.fetchall(), result.description)
         except Exception:
             return {"message": "Unable to create permission"}
 
@@ -59,7 +59,7 @@ class PermissionsQueries:
         except Exception:
             return {"message": "Could not get all permissions"}
 
-    def get_one(self, id)-> Union[Error, PermissionsOut]:
+    def get_one(self, id) -> Union[Error, PermissionsOut]:
         try:
             with pool.connection() as conn:
                 with conn.cursor() as db:
@@ -77,21 +77,19 @@ class PermissionsQueries:
                             ON (role=r.id)
                         ORDER BY p.id
                         WHERE id=%s;
-                        """
-                        [id]
+                        """[
+                            id
+                        ]
                     )
                     row = result.fetchone()
                     return self.perm_record_to_dict(row, result.description)
         except:
-            return{"message" : "Error in permissions PermissionsQueries.get_one"}
+            return {"message": "Error in permissions PermissionsQueries.get_one"}
 
     def update(self, id, data):
         with pool.connection() as conn:
             with conn.cursor() as db:
-                params = [
-                    data.name,
-                    id
-                ]
+                params = [data.name, id]
                 result = db.execute(
                     """
                     UPDATE permissions
@@ -117,16 +115,16 @@ class PermissionsQueries:
                     DELETE FROM permissions
                     WHERE id = %s
                     """,
-                    [id]
+                    [id],
                 )
 
-    def to_dict(self,rows,description):
+    def to_dict(self, rows, description):
         lst = []
         columns = [desc[0] for desc in description]
         for row in rows:
             item = {}
             for i in range(len(row)):
-                item[columns[i]]=row[i] 
+                item[columns[i]] = row[i]
             lst.append(item)
         if len(lst) == 1:
             lst = lst[0]

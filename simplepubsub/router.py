@@ -7,9 +7,6 @@ from queries import TeamSubQueries, MainSubQueries, MemberSubQueries
 
 router = APIRouter()
 
-
-
-
 @router.post("/api/seps/subscribe/", response_model=Union[SubUrlOut, Error])
 def add_team(sub: SubUrlIn, response: Response, repo: TeamSubQueries = Depends()):
     return repo.add_sub(sub)
