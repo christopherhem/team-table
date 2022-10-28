@@ -1,3 +1,22 @@
+## 10/28/2022
+
+* got the cover swaps working and formatted the js files and python files
+
+Everything is done! Pass me please!
+
+
+## 10/27/2022
+
+* finally got the swap functionality working!!
+
+I finally got it workig at around 8:00 tonight. Now I have to do the same thing for cover swaps tomorrow but that should go well since I know how to get it working now
+
+## 10/26/2022
+
+* today I worked on trying to get the swap functionality working on the frontend
+
+Today felt like a huge bust. I have been trying to get the swap functionality working but I am hitting a blocker with so many things to get it running. just a rough day.
+
 ## 10/25/2022
 
 * today I worked ont he edit and delete functionality for the events and got the team dashboard almost finished
