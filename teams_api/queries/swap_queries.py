@@ -200,6 +200,44 @@ class SwapRepository:
                     if u_event['availability_start'] <= event['shift_start'] and u_event['availability_end']>=event['shift_end']:
                         valid_swap_list.append(event)
         return valid_swap_list
+
+    def get_swaps_for_single_cover(self, user, event_id):
+        with pool.connection() as conn:
+            with conn.cursor() as db:
+                db.execute(
+                    """
+                    SELECT id, event_href, owner, team, availability_start, availability_end, mono_id
+                    FROM cover_event
+                    WHERE mono_id = %s
+                    """,
+                    [event_id]
+                )
+                u_event = self.to_dict(db.fetchall(), db.description)
+
+        with pool.connection() as conn:
+            with conn.cursor() as db:
+                db.execute(
+                        """
+                        SELECT id, event_href, owner, team, shift_start, shift_end, availability_start, availability_end, mono_id
+                        FROM shift_swap_event_vos
+                        WHERE team = %s AND owner != %s
+                        """,
+                        [
+                            u_event['team'],
+                            user['account']['username']
+                        ]
+                )
+                team_events = self.to_dict(db.fetchall(),db.description)
+            if type(team_events) != list:
+                temp = []
+                temp.append(team_events)
+                team_events = temp
+            valid_swap_list = []
+            for event in team_events:
+                #the less than/= values here may need to be swapped
+                if u_event['availability_start'] <= event['shift_start'] and u_event['availability_end']>=event['shift_end']:
+                    valid_swap_list.append(event)
+        return valid_swap_list
     def to_dict(self,rows,description):
         lst = []
         columns = [desc[0] for desc in description]
