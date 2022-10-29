@@ -2,10 +2,7 @@ from pydantic import BaseModel
 from typing import List, Optional, Union
 from queries.pool import pool
 from models import User, UserIn, UserOut,  Error
-<<<<<<< HEAD
-=======
 
->>>>>>> main
 
 class UserQueries:
     def get_all(self) -> Union[Error, List[User]]:

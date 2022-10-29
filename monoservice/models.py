@@ -92,16 +92,8 @@ class TeamVoOut(BaseModel):
 class TeamVoIn(BaseModel):
     id: int
     name: str
-<<<<<<< HEAD
-    description: Optional[str]
-    # {"id": 11, "name": "team16", "type": 1, "description": "yes", "pay_level": 1}
-
-=======
     description : Optional[str]
-<<<<<<< HEAD
-=======
->>>>>>> 6c37336 (cleaned up monoservice and pubsub import and prints)
->>>>>>> main
+
 
 class Error(BaseModel):
     message: str
