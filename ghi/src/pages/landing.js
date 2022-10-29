@@ -37,13 +37,13 @@ const imageData = [
     label: "Swap Event",
     alt: "image4",
     url:
-      "https://i.imgur.com/m73gSAv.png"
+      "https://i.imgur.com/7FDGBbc.png"
   },
   {
     label: "Cover Event",
     alt: "image4",
     url:
-      "https://i.imgur.com/m73gSAv.png"
+      "https://i.imgur.com/jkAPYyw.png"
   }
 ];
 
@@ -74,19 +74,20 @@ const Landing = () => {
         <InfoSection {...infoOne} />
         <InfoSection {...infoTwo} />
         <InfoSection {...infoThree} />
+        <center><h1>Application Preview</h1></center>
+        <div className="App">
+          <Carousel
+            showArrows={true}
+            autoPlay={true}
+            infiniteLoop={true}
+            selectedItem={imageData[currentIndex]}
+            onChange={handleChange}
+            className="carousel-container"
+          >
+            {renderSlides}
+          </Carousel>
+        </div>
       </FlexInfoContainer>
-      <div className="App">
-      <Carousel
-        showArrows={true}
-        autoPlay={true}
-        infiniteLoop={true}
-        selectedItem={imageData[currentIndex]}
-        onChange={handleChange}
-        className="carousel-container"
-      >
-        {renderSlides}
-      </Carousel>
-    </div>
     </>
   )
 }

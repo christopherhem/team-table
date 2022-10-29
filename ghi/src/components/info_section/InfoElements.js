@@ -2,7 +2,7 @@ import styled from 'styled-components'
 
 export const InfoContainer = styled.div`
     color: #fff;
-    padding: 200px 0;
+    padding: 100px 0;
 
     background: ${({ lightBg }) => (lightBg ? '#f9f9f9' : '6C63FF')}
     ;
@@ -62,6 +62,16 @@ export const TopLine = styled.p`
     margin-bottom: 16px;
 `;
 
+export const BottomLine = styled.p`
+    color: #010606;
+    font-size: 8px;
+    line-height: 16px;
+    font-weight: 700;
+    letter-spacing: 1.4px;
+    text-transform: uppercase;
+    margin-bottom: 16px;
+`;
+
 export const Heading = styled.h1`
     margin-bottom: 24px;
     font-size: 48px;
@@ -99,6 +109,6 @@ export const Img = styled.img`
 `;
 
 export const FlexInfoContainer = styled.div`
-    padding-bottom: 1000px;
+    padding-bottom: 10px;
 
 `;
