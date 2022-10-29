@@ -5,11 +5,6 @@ from models import (
     ShiftSwapEventIn,
 )
 
-<<<<<<< HEAD
-=======
-
->>>>>>> main
-
 class EventQueries:
     def get_cover_event_table(self):
         with pool.connection() as conn:

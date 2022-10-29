@@ -1,9 +1,6 @@
 from queries.pool import pool
 
-<<<<<<< HEAD
-=======
 
->>>>>>> main
 
 class SwapRepository:
     def perform_swap(self, events):

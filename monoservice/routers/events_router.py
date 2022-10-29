@@ -151,36 +151,23 @@ def update_shift_swap_event(
 
 
 @router.delete("/api/table/cover_events/{id}", response_model=bool)
-<<<<<<< HEAD
-def delete_cover_event(id: int, repo: EventQueries = Depends()):
-    record = repo.delete_cover_event(id)
-=======
+
 def delete_cover_event(
     id: int,
     repo: EventQueries = Depends()
 ):
     repo.delete_cover_event(id)
-<<<<<<< HEAD
-=======
->>>>>>> 6c37336 (cleaned up monoservice and pubsub import and prints)
->>>>>>> main
     return True
 
 
 @router.delete("/api/table/shift_swap_events/{id}", response_model=bool)
-<<<<<<< HEAD
 def delete_cover_event(id: int, repo: EventQueries = Depends()):
     record = repo.delete_shift_swap_event(id)
-=======
 def delete_cover_event(
     id: int,
     repo: EventQueries = Depends()
 ):
     repo.delete_shift_swap_event(id)
-<<<<<<< HEAD
-=======
->>>>>>> 6c37336 (cleaned up monoservice and pubsub import and prints)
->>>>>>> main
     return True
 
 
