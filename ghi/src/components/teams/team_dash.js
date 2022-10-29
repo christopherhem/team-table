@@ -63,7 +63,6 @@ export function TeamDashboard() {
               <Table className="border table-striped no-wrap mt-3 align-middle col-6" response border>
                 <thead>
                   <tr>
-                    <th>Owner</th>
                     <th>Availability Start</th>
                     <th>Availability End</th>
                   </tr>
@@ -78,7 +77,6 @@ export function TeamDashboard() {
                         let end_date = end.format("ddd DD MMM YYYY")
                         return (
                           <tr key={cover.id}>
-                            <td>{cover.owner}</td>
                             <td>{start_date}</td>
                             <td>{end_date}</td>
                           </tr>
@@ -92,7 +90,6 @@ export function TeamDashboard() {
               <Table className="border table-striped no-wrap mt-3 align-middle col-6" response border>
                 <thead>
                   <tr>
-                    <th>Owner</th>
                     <th>Shift Start</th>
                     <th>Shift End</th>
                     <th>Availability Start</th>
@@ -112,7 +109,6 @@ export function TeamDashboard() {
                       let end_date = end.format("ddd DD MMM YYYY")
                       return (
                         <tr key={swap.id}>
-                          <td>{swap.owner}</td>
                           <td>{shift_start}</td>
                           <td>{shift_end}</td>
                           <td>{start_date}</td>
