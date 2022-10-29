@@ -7,7 +7,6 @@ import { FlexInfoContainer } from '../components/info_section/InfoElements'
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 import { Carousel } from "react-responsive-carousel";
 
-
 import "./carousel.css";
 
 const imageData = [
