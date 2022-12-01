@@ -1,6 +1,18 @@
 # TeamTable
 
-# Module3 Project Gamma
+<p align="center">
+	<img alt="Team Table logo" src="https://i.imgur.com/9v1W8Ct.png">
+</p>
+
+## Sample Images 
+
+![Landing Page](https://i.imgur.com/1EgoyEA.png)
+![User Dashboard Page](https://i.imgur.com/liZ7s5p.png)
+![Team Dashboard Page](https://i.imgur.com/hsEJAwF.png)
+![Create Swap Event](https://i.imgur.com/m73gSAv.png)
+![Create Cover Event](https://i.imgur.com/CoEUobA.png)
+
+# Module 3 Project Gamma
 
 # Authors
   - Louise Vermaelen
